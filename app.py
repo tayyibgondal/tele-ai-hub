@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -84,23 +84,33 @@ def logout():
 @login_required
 def chat():
     models = ["gpt2", "distilbert-base-uncased"]  # You can add more models here
-    selected_model = "gpt2"  # Default model
-    model_loaded = False
+    selected_model = session.get('selected_model', "gpt2")  # Use session to remember the model
+    model_loaded = session.get('model_loaded', False)
+    conversation_history = session.get('conversation_history', [])
 
     if request.method == "POST":
         action = request.form.get('action')
+
         if action == "load_model":
             selected_model = request.form['model']
             model_loaded = load_model(selected_model)
+            session['selected_model'] = selected_model
+            session['model_loaded'] = model_loaded
+
         elif action == "chat":
             user_input = request.form['message']
-            if selected_model in models_cache:
+            if model_loaded:
                 response = chat_with_model(selected_model, user_input)
+                conversation_history.append({"user": user_input, "model": response})
+                session['conversation_history'] = conversation_history
             else:
                 response = "Model not loaded yet. Please load the model first."
-            return render_template("chat.html", response=response, models=models, selected_model=selected_model, model_loaded=model_loaded)
 
-    return render_template("chat.html", models=models, selected_model=selected_model, model_loaded=model_loaded)
+        return render_template("chat.html", response=response, models=models, selected_model=selected_model,
+                               model_loaded=model_loaded, conversation_history=conversation_history)
+
+    return render_template("chat.html", models=models, selected_model=selected_model, model_loaded=model_loaded,
+                           conversation_history=conversation_history)
 
 
 def load_model(model_name):
