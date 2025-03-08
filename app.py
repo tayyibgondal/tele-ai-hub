@@ -4,6 +4,11 @@ from flask_login import UserMixin, LoginManager, login_user, login_required, log
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
 from config import Config
+import requests  # To interact with Hugging Face's API
+from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM  # For local inference
+from dotenv import load_dotenv
+
+load_dotenv()  # load .env
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -12,7 +17,10 @@ db.init_app(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
+# Model Storage
+models_cache = {}
 
+# Login Manager Setup
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -70,6 +78,55 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+@app.route("/chat", methods=["GET", "POST"])
+@login_required
+def chat():
+    models = ["gpt2", "distilbert-base-uncased"]  # You can add more models here
+    selected_model = "gpt2"  # Default model
+    model_loaded = False
+
+    if request.method == "POST":
+        action = request.form.get('action')
+        if action == "load_model":
+            selected_model = request.form['model']
+            model_loaded = load_model(selected_model)
+        elif action == "chat":
+            user_input = request.form['message']
+            if selected_model in models_cache:
+                response = chat_with_model(selected_model, user_input)
+            else:
+                response = "Model not loaded yet. Please load the model first."
+            return render_template("chat.html", response=response, models=models, selected_model=selected_model, model_loaded=model_loaded)
+
+    return render_template("chat.html", models=models, selected_model=selected_model, model_loaded=model_loaded)
+
+
+def load_model(model_name):
+    """
+    Load the model into the server and store it in cache for reuse.
+    """
+    if model_name not in models_cache:
+        model = AutoModelForCausalLM.from_pretrained(model_name)
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        generator = pipeline("text-generation", model=model, tokenizer=tokenizer)
+        models_cache[model_name] = generator
+        return True
+    return False
+
+
+def chat_with_model(model_name, user_input):
+    """
+    Chat with the loaded model.
+    """
+    if model_name in models_cache:
+        generator = models_cache[model_name]
+        result = generator(user_input, max_length=50, num_return_sequences=1)
+        return result[0]['generated_text']
+    else:
+        return "Error: Model not loaded."
+
 
 with app.app_context():
     db.create_all()
