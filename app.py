@@ -88,6 +88,10 @@ def chat():
     model_loaded = session.get('model_loaded', False)
     conversation_history = session.get('conversation_history', [])
 
+    # Clear conversation history on app startup (when the chat route is accessed)
+    if 'conversation_history' not in session:
+        session['conversation_history'] = []  # Initialize conversation history if not set
+
     response = None
 
     if request.method == "POST":
