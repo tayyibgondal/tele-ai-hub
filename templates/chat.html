@@ -47,11 +47,5 @@
             <button type="submit" name="action" value="chat">Send</button>
         </form>
     {% endif %}
-
-    <!-- Display response if present -->
-    {% if response %}
-        <h3>Response from {{ selected_model }}:</h3>
-        <p>{{ response }}</p>
-    {% endif %}
 </body>
 </html>
