@@ -8,6 +8,13 @@
 <body>
     <h2>Welcome, {{ current_user.username }}!</h2>
     <p>You are logged in.</p>
+    
+    <!-- Button to navigate to chat page -->
+    <a href="{{ url_for('chat') }}">
+        <button>Go to Chat</button>
+    </a>
+    
+    <br><br>
     <a href="{{ url_for('logout') }}">Logout</a>
 </body>
 </html>
