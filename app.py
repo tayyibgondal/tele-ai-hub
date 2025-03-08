@@ -88,6 +88,8 @@ def chat():
     model_loaded = session.get('model_loaded', False)
     conversation_history = session.get('conversation_history', [])
 
+    response = None
+
     if request.method == "POST":
         action = request.form.get('action')
 
