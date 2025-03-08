@@ -1,3 +1,4 @@
 telecom_env/
 instance/
 site.db
+.env
