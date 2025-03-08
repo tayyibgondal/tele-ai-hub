@@ -27,6 +27,17 @@
         <p>Please load a model before chatting.</p>
     {% endif %}
 
+    <!-- Display the conversation history -->
+    {% if conversation_history %}
+        <h3>Conversation History:</h3>
+        <ul>
+            {% for message in conversation_history %}
+                <li><strong>You:</strong> {{ message.user }}</li>
+                <li><strong>Model:</strong> {{ message.model }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <!-- Conditionally render chat form only if model is loaded -->
     {% if model_loaded %}
         <form method="POST">
