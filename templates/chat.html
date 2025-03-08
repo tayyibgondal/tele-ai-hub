@@ -16,7 +16,9 @@
                 <option value="{{ model }}" {% if model == selected_model %} selected {% endif %}>{{ model }}</option>
             {% endfor %}
         </select>
-        <button type="submit" name="action" value="load_model">Load Model</button>
+        <!-- Action for loading the model -->
+        <input type="hidden" name="action" value="load_model">
+        <button type="submit">Load Model</button>
     </form>
 
     <!-- Show a message about loading status -->

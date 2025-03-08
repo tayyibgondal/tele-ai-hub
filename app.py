@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
 from config import Config
 import requests  # To interact with Hugging Face's API
-from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM, AutoModelForSeq2SeqLM, AutoModel  # For local inference
+from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM  # For local inference
 from dotenv import load_dotenv
 
 load_dotenv()  # load .env
@@ -83,34 +83,39 @@ def logout():
 @app.route("/chat", methods=["GET", "POST"])
 @login_required
 def chat():
-    models = ["gpt2", "distilbert-base-uncased", "tayyibsupercool/Llama_3.1_8b-resource_allocation-energy_efficiecy_instruct_10k"]  # Add your models here
-    selected_model = session.get('selected_model', "gpt2")  # Use session to remember the model
+    models = ["gpt2"]  # You can add more models here
+    selected_model = session.get('selected_model', None)  # Use session to remember the model
     model_loaded = session.get('model_loaded', False)
     conversation_history = session.get('conversation_history', [])
-
-    # Clear conversation history on app startup (when the chat route is accessed)
-    if 'conversation_history' not in session:
-        session['conversation_history'] = []  # Initialize conversation history if not set
-
     response = None
 
     if request.method == "POST":
         action = request.form.get('action')
+        print(f"Action: {action}")  # Debug: log the action
 
         if action == "load_model":
-            selected_model = request.form['model']
-            model_loaded = load_model(selected_model)
-            session['selected_model'] = selected_model
-            session['model_loaded'] = model_loaded
+            new_selected_model = request.form['model']
+            if (new_selected_model != selected_model) or not (new_selected_model in models_cache):
+                model_loaded = load_model(new_selected_model)
+                session['selected_model'] = new_selected_model
+                session['model_loaded'] = model_loaded
+                session['conversation_history'] = []  # Clear conversation history if a new model is loaded
+                conversation_history = []  # Reset local conversation history immediately
+            else:
+                session['conversation_history'] = []  # Clear only if the same model is loaded
+                conversation_history = []  # Reset local conversation history
 
         elif action == "chat":
             user_input = request.form['message']
             if model_loaded:
+                print(models_cache)
                 response = chat_with_model(selected_model, user_input)
                 conversation_history.append({"user": user_input, "model": response})
                 session['conversation_history'] = conversation_history
             else:
                 response = "Model not loaded yet. Please load the model first."
+
+        print(f"Model loaded: {model_loaded}")  # Debug: log model loading status
 
         return render_template("chat.html", response=response, models=models, selected_model=selected_model,
                                model_loaded=model_loaded, conversation_history=conversation_history)
@@ -122,31 +127,13 @@ def chat():
 def load_model(model_name):
     """
     Load the model into the server and store it in cache for reuse.
-    Dynamically create the correct pipeline based on the model type.
     """
     if model_name not in models_cache:
-        # Check if the model is a Causal Language Model or a Seq2Seq Model
-        try:
-            model = AutoModel.from_pretrained(model_name)
-            tokenizer = AutoTokenizer.from_pretrained(model_name)
-
-            # Dynamically create the appropriate pipeline based on model type
-            if isinstance(model, AutoModelForCausalLM):
-                # If the model is a Causal LM, use the 'text-generation' pipeline
-                generator = pipeline("text-generation", model=model, tokenizer=tokenizer)
-            elif isinstance(model, AutoModelForSeq2SeqLM):
-                # If the model is a Seq2Seq, use the 'text2text-generation' pipeline
-                generator = pipeline("text2text-generation", model=model, tokenizer=tokenizer)
-            else:
-                # Handle other types of models here if needed
-                raise ValueError("Unsupported model type for generation")
-
-            models_cache[model_name] = generator
-            return True
-        except Exception as e:
-            print(f"Error loading model: {e}")
-            return False
-
+        model = AutoModelForCausalLM.from_pretrained(model_name)
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        generator = pipeline("text-generation", model=model, tokenizer=tokenizer)
+        models_cache[model_name] = generator
+        return True
     return False
 
 
@@ -166,4 +153,4 @@ with app.app_context():
     db.create_all()
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=8000, debug=True)
