@@ -54,5 +54,7 @@ Make the necessary changes or add your new code to that branch.
 ### 6. Commit and Push the Changes to remote
 Once you've made your changes, commit and push changes to the new branch, and update remote.
 
+**Note**: Please make sure to update requirements.txt before you push code!
+
 ### 7. Create a Pull Request
 After pushing your branch, go to the repository on GitHub and create a pull request (PR) for your changes. This will allow for review and merging of your changes into the main branch.
