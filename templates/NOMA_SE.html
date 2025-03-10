@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOMA SE Dataset Generation</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h2 {
+            color: #444;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .slider-value {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .radio-group {
+            margin: 10px 0;
+        }
+        .radio-group label {
+            display: inline-block;
+            margin-right: 15px;
+            font-weight: normal;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 4px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h2>Welcome, {{ current_user.username }}!</h2>
+    <p>You are logged in.</p>
+    <a href="{{ url_for('logout') }}">Logout</a>
+
+    <h1>NOMA SE Dataset Generation</h1>
+    <form action="{{ url_for('NOMA_SE') }}" method="POST">
+        <!-- Rows of Data (Slider) -->
+        <label for="rows_of_data">Rows of Data:</label>
+        <input type="range" id="rows_of_data" name="rows_of_data" min="1" max="1000" step="9" value="10" required>
+        <span class="slider-value" id="rows_of_data_value">10</span>
+        <br>
+
+        <!-- Temperature (Slider) -->
+        <label for="temperature">Temperature:</label>
+        <input type="range" id="temperature" name="temperature" min="100" max="500" step="100" value="300" required>
+        <span class="slider-value" id="temperature_value">300</span>
+        <br>
+
+        <!-- Bandwidth (Input Field) -->
+        <label for="bandwidth">Bandwidth:</label>
+        <input type="number" id="bandwidth" name="bandwidth" value="1e7" required>
+        <br>
+
+        <!-- Simulation Area Size (Slider) -->
+        <label for="simulation_area_size">Simulation Area Size:</label>
+        <input type="range" id="simulation_area_size" name="simulation_area_size" min="60" max="100" step="9" value="60" required>
+        <span class="slider-value" id="simulation_area_size_value">60</span>
+        <br> 
+
+        <!-- Number of Antennas (Radio Buttons) -->
+        <label>Number of Antennas:</label>
+        <div class="radio-group">
+            <input type="radio" id="n_antennas_1" name="n_antennas" value="1" required>
+            <label for="n_antennas_1">1</label>
+            <input type="radio" id="n_antennas_2" name="n_antennas" value="2">
+            <label for="n_antennas_2">2</label>
+            <input type="radio" id="n_antennas_3" name="n_antennas" value="3">
+            <label for="n_antennas_3">3</label>
+        </div>
+        <br>
+
+         <!-- Number of Channel Realizations (mc) -->
+         <label>Number of Channel Realizations:</label>
+         <div class="radio-group">
+             <input type="radio" id="mc_1" name="mc" value="1" required>
+             <label for="mc_1">1</label>
+             <input type="radio" id="mc_2" name="mc" value="2">
+             <label for="mc_2">2</label>
+             <input type="radio" id="mc_3" name="mc" value="3">
+             <label for="mc_3">3</label>
+         </div>
+         <br>
+
+        <!-- Submit Button -->
+        <button type="submit">Run</button>
+    </form>
+
+    {% if result %}
+    <div class="result">
+        <h2>Result:</h2>
+        <p>{{ result }}</p>
+    </div>
+    {% endif %}
+
+    <script>
+        // JavaScript to update slider values in real-time
+        const rowsOfDataSlider = document.getElementById('rows_of_data');
+        const rowsOfDataValue = document.getElementById('rows_of_data_value');
+        rowsOfDataSlider.oninput = function() {
+            rowsOfDataValue.textContent = this.value;
+        };
+
+        const temperatureSlider = document.getElementById('temperature');
+        const temperatureValue = document.getElementById('temperature_value');
+        temperatureSlider.oninput = function() {
+            temperatureValue.textContent = this.value;
+        };
+
+        const simulationAreaSizeSlider = document.getElementById('simulation_area_size');
+        const simulationAreaSizeValue = document.getElementById('simulation_area_size_value');
+        simulationAreaSizeSlider.oninput = function() {
+            simulationAreaSizeValue.textContent = this.value;
+        };
+    </script>
+</body>
+</html>

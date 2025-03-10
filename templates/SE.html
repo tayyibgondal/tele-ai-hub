@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SE Dataset Generation</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #444;
+            text-align: center;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .slider-value {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .radio-group {
+            margin: 10px 0;
+        }
+        .radio-group label {
+            display: inline-block;
+            margin-right: 15px;
+            font-weight: normal;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 4px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>SE Dataset Generation</h1>
+    <form action="{{ url_for('SE') }}" method="POST">
+        <!-- Number of Rows (Slider) -->
+        <label for="Num_sample">Number of Rows (1 to 100):</label>
+        <input type="range" id="Num_sample" name="Num_sample" min="1" max="100" step="1" value="10" required>
+        <span class="slider-value" id="Num_sample_value">10</span>
+        <br>
+
+        <!-- Size Area (Slider) -->
+        <label for="Size_area">Size Area (30 to 100, step 10):</label>
+        <input type="range" id="Size_area" name="Size_area" min="30" max="100" step="10" value="30" required>
+        <span class="slider-value" id="Size_area_value">30</span>
+        <br>
+
+        <!-- Number of Users (Radio Buttons) -->
+        <label>Number of Users:</label>
+        <div class="radio-group">
+            <input type="radio" id="Num_user_2" name="Num_user" value="2" required>
+            <label for="Num_user_2">2</label>
+            <input type="radio" id="Num_user_3" name="Num_user" value="3">
+            <label for="Num_user_3">3</label>
+        </div>
+        <br>
+
+        <!-- Number of Channels (Radio Buttons) -->
+        <label>Number of Channels:</label>
+        <div class="radio-group">
+            <input type="radio" id="Num_channel_1" name="Num_channel" value="1" required>
+            <label for="Num_channel_1">1</label>
+            <input type="radio" id="Num_channel_2" name="Num_channel" value="2">
+            <label for="Num_channel_2">2</label>
+            <input type="radio" id="Num_channel_3" name="Num_channel" value="3">
+            <label for="Num_channel_3">3</label>
+        </div>
+        <br>
+
+        <!-- Submit Button -->
+        <button type="submit">Generate Dataset</button>
+    </form>
+
+    <!-- Display Results -->
+    {% if result %}
+    <div class="result">
+        <h2>Result:</h2>
+        <pre>{{ result }}</pre>
+    </div>
+    {% endif %}
+
+    <script>
+        // JavaScript to update slider values in real-time
+        const numSampleSlider = document.getElementById('Num_sample');
+        const numSampleValue = document.getElementById('Num_sample_value');
+        numSampleSlider.oninput = function() {
+            numSampleValue.textContent = this.value;
+        };
+
+        const sizeAreaSlider = document.getElementById('Size_area');
+        const sizeAreaValue = document.getElementById('Size_area_value');
+        sizeAreaSlider.oninput = function() {
+            sizeAreaValue.textContent = this.value;
+        };
+    </script>
+</body>
+</html>
