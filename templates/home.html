@@ -10,18 +10,9 @@
     <h2>Welcome, {{ current_user.username }}!</h2>
     <p>You are logged in.</p>
 
-    <!-- Button to navigate to different chat options -->
-    <a href="{{ url_for('chat_hf') }}">
-        <button>Go to Chat (Hugging Face tuned models - future proof)</button>
-    </a>
-    <a href="{{ url_for('chat_ollama') }}">
-        <button>Thinking telecom agents (Ollama)</button>
-    </a>
-    <a href="{{ url_for('chat_gradio') }}">
-        <button>Go to Chat (Resource allocation helpers)</button>
-    </a>
-    <a href="{{ url_for('chat_openai') }}">
-        <button>Go to Chat (OpenAI)</button>
+    <!-- Single button leading to Telecom Chat Agents page -->
+    <a href="{{ url_for('telecom_agents') }}">
+        <button>Go to Telecom Chat Agents</button>
     </a>
 
     <br><br>
