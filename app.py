@@ -44,25 +44,6 @@ def load_user(user_id):
 def home():
     return render_template('home.html')
 
-# @app.route("/noma_ee_dataset_generation", methods=['GET', 'POST'])
-# # @login_required 
-# def NOMA_EE():
-#     if request.method == 'POST':
-#         # Get user inputs from the form
-#         rows_of_data = request.form['rows_of_data']
-#         temperature = request.form['temperature']
-#         bandwidth = request.form['bandwidth']
-#         simulation_area_size = request.form['simulation_area_size']
-#         n_antennas = request.form['n_antennas']
-#         mc = request.form['mc']
-
-#         # Call the function from your notebook
-#         result = noma_ee_dataset_generation.main(rows_of_data, temperature, bandwidth, simulation_area_size, n_antennas, mc)
-
-#         # Pass the result to the template
-#         return render_template('NOMA_EE.html', result=result)
-#     return render_template('NOMA_EE.html')
-
 @app.route("/noma_ee_dataset_generation", methods=['GET', 'POST'])
 # @login_required
 def NOMA_EE():
@@ -93,26 +74,6 @@ def NOMA_EE():
 @app.route('/NOMA_EE_dataset.json')
 def serve_json_NOMA_EE():
     return send_from_directory('static', 'NOMA_EE_dataset.json')
-
-
-# @app.route("/noma_se_dataset_generation", methods=['GET', 'POST'])
-# # @login_required 
-# def NOMA_SE():
-#     if request.method == 'POST':
-#         # Get user inputs from the form
-#         rows_of_data = request.form['rows_of_data']
-#         temperature = request.form['temperature']
-#         bandwidth = request.form['bandwidth']
-#         simulation_area_size = request.form['simulation_area_size']
-#         n_antennas = request.form['n_antennas']
-#         mc = request.form['mc']
-
-#         # Call the function from your notebook
-#         result = noma_se_dataset_generation.main(rows_of_data, temperature, bandwidth, simulation_area_size, n_antennas, mc)
-
-#         # Pass the result to the template
-#         return render_template('NOMA_SE.html', result=result)
-#     return render_template('NOMA_SE.html')
 
 @app.route("/noma_se_dataset_generation", methods=['GET', 'POST'])
 # @login_required
