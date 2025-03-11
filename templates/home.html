@@ -5,6 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <style>
+        /* General Styling */ 
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h2 {
+            color: #444;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+        .button-container a {
+            text-decoration: none;
+        }
+        .button-container button {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <h2>Welcome, {{ current_user.username }}!</h2>
@@ -17,5 +54,21 @@
 
     <br><br>
     <a href="{{ url_for('logout') }}">Logout</a>
+
+    <h1>Home</h1>
+    <div class="button-container">
+        <a href="{{ url_for('NOMA_EE') }}">
+            <button>NOMA EE Dataset Generation</button>
+        </a>
+        <a href="{{ url_for('NOMA_SE') }}">
+            <button>NOMA SE Dataset Generation</button>
+        </a>
+        <a href="{{ url_for('EE') }}">
+            <button>EE Dataset Generation</button>
+        </a>
+        <a href="{{ url_for('SE') }}">
+            <button>SE Dataset Generation</button>
+        </a>
+    </div>
 </body>
 </html>
