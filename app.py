@@ -1,10 +1,24 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
+from flask import Flask, render_template, redirect, url_for, request, flash, session
+from flask_login import (
+    LoginManager,
+    login_user,
+    login_required,
+    logout_user,
+    current_user
+)
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
 from config import Config
+from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
+from dotenv import load_dotenv
+from llm_providers import get_llm_instance
 
+# Environment-based config for Ollama & OpenAI 
+load_dotenv()  # Load .env if present
+
+# -----------------------------
+#   FLASK APP SETUP
+# -----------------------------
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
@@ -12,15 +26,28 @@ db.init_app(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
+# Hugging Face model cache
+models_cache = {}
+# Example Ollama model cache (if you want caching)
+ollama_models_cache = {}
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+# -----------------------------
+#   ROUTES
+# -----------------------------
 @app.route("/")
 @login_required
 def home():
+    """
+    Replaces the single "Go to Chat" button with three separate buttons:
+    - Chat Hugging Face
+    - Chat Ollama
+    - Chat Gradio
+    """
     return render_template("home.html")
 
 
@@ -69,10 +96,206 @@ def register():
 @login_required
 def logout():
     logout_user()
+    session.clear()
     return redirect(url_for('login'))
 
+@app.route("/telecom_agents")
+@login_required
+def telecom_agents():
+    return render_template("telecom_agents.html")
+
+# -----------------------------
+#   Chat with Hugging Face
+# -----------------------------
+@app.route("/chat_hf", methods=["GET", "POST"])
+@login_required
+def chat_hf():
+    """
+    Replicates your current Hugging Face chat logic.
+    """
+    models = ["gpt2"]  # Extend as desired
+    selected_model = session.get('selected_model_hf', None)
+    model_loaded = session.get('model_loaded_hf', False)
+    conversation_history = session.get('conversation_history_hf', [])
+    response = None
+
+    if request.method == "POST":
+        action = request.form.get('action')
+
+        if action == "load_model":
+            new_selected_model = request.form['model']
+            # If user picks a new model or it's not in cache, load it
+            if (new_selected_model != selected_model) or (new_selected_model not in models_cache):
+                loaded = load_hf_model(new_selected_model)
+                session['selected_model_hf'] = new_selected_model
+                session['model_loaded_hf'] = loaded
+                session['conversation_history_hf'] = []
+                selected_model = new_selected_model
+                model_loaded = loaded
+                conversation_history = []
+            else:
+                # If user re-selects the same model, just clear conversation
+                session['conversation_history_hf'] = []
+                conversation_history = []
+
+        elif action == "chat":
+            user_input = request.form['message']
+            if model_loaded:
+                response = chat_with_hf_model(selected_model, user_input)
+                conversation_history.append({"user": user_input, "model": response})
+                session['conversation_history_hf'] = conversation_history
+            else:
+                response = "Model not loaded yet. Please load the model first."
+
+        return render_template(
+            "chat_hf.html",
+            response=response,
+            models=models,
+            selected_model=selected_model,
+            model_loaded=model_loaded,
+            conversation_history=conversation_history
+        )
+
+    # GET request
+    return render_template(
+        "chat_hf.html",
+        models=models,
+        selected_model=selected_model,
+        model_loaded=model_loaded,
+        conversation_history=conversation_history
+    )
+
+
+def load_hf_model(model_name):
+    """
+    Load a Hugging Face model and store in models_cache.
+    """
+    if model_name not in models_cache:
+        model = AutoModelForCausalLM.from_pretrained(model_name)
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        generator = pipeline("text-generation", model=model, tokenizer=tokenizer)
+        models_cache[model_name] = generator
+        return True
+    return True  # It's already loaded
+
+
+def chat_with_hf_model(model_name, user_input):
+    """
+    Use the loaded Hugging Face pipeline to generate text.
+    """
+    if model_name in models_cache:
+        generator = models_cache[model_name]
+        result = generator(user_input, max_length=50, num_return_sequences=1)
+        return result[0]['generated_text']
+    else:
+        return "Error: Model not loaded."
+
+
+# -----------------------------
+#   Chat with Ollama (No Load)
+# -----------------------------
+@app.route("/chat_ollama", methods=["GET", "POST"])
+@login_required
+def chat_ollama():
+    """
+    No separate 'load' step needed. 
+    Optionally let user select from a list of local models, 
+    or just use a single default. 
+    """
+    ollama_models = ["deepseek-r1:7b"]
+    selected_model = session.get('selected_model_ollama', ollama_models[0])  
+    conversation_history = session.get('conversation_history_ollama', [])
+
+    response_text = None
+    if request.method == "POST":
+        # On POST, user might pick a model from dropdown (optional)
+        user_input = request.form.get('message', '')
+        model_choice = request.form.get('model', selected_model)
+
+        # Save model choice in the session
+        session['selected_model_ollama'] = model_choice
+        selected_model = model_choice
+
+        # Invoke the Ollama LLM with user's input
+        ollama_llm = get_llm_instance(selected_model, service='ollama')
+        system_prompt = "Imagine you are a specialist in telecommunications, wireless communications, NOMA and resource allocation. Answer the following user querry: \n\n" 
+        user_input = system_prompt + user_input
+        response_text = ollama_llm.invoke(user_input)
+
+        # Store conversation
+        conversation_history.append({"user": user_input, "model": response_text})
+        session['conversation_history_ollama'] = conversation_history
+
+    return render_template(
+        "chat_ollama.html",
+        response=response_text,
+        models=ollama_models,
+        selected_model=selected_model,
+        conversation_history=conversation_history
+    )
+
+# -----------------------------
+#   Chat with OpenAI (No Load)
+# -----------------------------
+@app.route("/chat_openai", methods=["GET", "POST"])
+@login_required
+def chat_openai():
+    """
+    No separate 'load' step needed. 
+    Optionally let user select from a list of OpenAI models,
+    or just use a single default.
+    """
+    openai_models = ["gpt-3.5-turbo", "gpt-4o", "gpt-4.5-preview"]
+    selected_model = session.get('selected_model_openai', openai_models[0])
+    conversation_history = session.get('conversation_history_openai', [])
+
+    response_text = None
+    if request.method == "POST":
+        user_input = request.form.get('message', '')
+        model_choice = request.form.get('model', selected_model)
+
+        # Save model choice to session
+        session['selected_model_openai'] = model_choice
+        selected_model = model_choice
+
+        # Call the OpenAILLM from llm_providers
+        openai_llm = get_llm_instance(selected_model, service='openai')
+        system_prompt = "Imagine you are a specialist in telecommunications, wireless communications, NOMA and resource allocation. Answer the following user querry: \n\n" 
+        user_input = system_prompt + user_input
+        response_text = openai_llm.invoke(user_input)
+
+        conversation_history.append({"user": user_input, "model": response_text})
+        session['conversation_history_openai'] = conversation_history
+
+    return render_template(
+        "chat_openai.html",
+        response=response_text,
+        models=openai_models,
+        selected_model=selected_model,
+        conversation_history=conversation_history
+    )
+
+# -----------------------------
+#   Chat with Gradio (No Load)
+# -----------------------------
+@app.route("/chat_gradio", methods=["GET"])
+@login_required
+def chat_gradio():
+    """
+    Just links to external Gradio apps. No 'load' logic needed.
+    """
+    return render_template("chat_gradio.html")
+
+
+# -----------------------------
+#   Create DB tables if needed
+# -----------------------------
 with app.app_context():
     db.create_all()
 
+
+# -----------------------------
+#   Run the app
+# -----------------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=8001, debug=True)

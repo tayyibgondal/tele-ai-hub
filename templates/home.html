@@ -1,3 +1,4 @@
+<!-- templates/home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,13 @@
 <body>
     <h2>Welcome, {{ current_user.username }}!</h2>
     <p>You are logged in.</p>
+
+    <!-- Single button leading to Telecom Chat Agents page -->
+    <a href="{{ url_for('telecom_agents') }}">
+        <button>Go to Telecom Chat Agents</button>
+    </a>
+
+    <br><br>
     <a href="{{ url_for('logout') }}">Logout</a>
 </body>
 </html>
