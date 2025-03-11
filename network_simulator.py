@@ -276,4 +276,4 @@ def generate_data(Num_sample, Size_area, Num_user, Num_channel, mode="SE"):
     with open(filename, 'w') as json_file:
         json.dump(samples_data, json_file, indent=4)
 
-    return mode + " Dataset Generated Successfull!"
+    return samples_data

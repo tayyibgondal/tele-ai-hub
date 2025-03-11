@@ -1,0 +1,36 @@
+[
+    {
+        "sample index": 0,
+        "channel_arrays": [
+            [
+                [
+                    [
+                        3.2070807385139644e-05
+                    ]
+                ]
+            ],
+            [
+                [
+                    [
+                        6.468404580528088e-06
+                    ]
+                ]
+            ]
+        ],
+        "transmit_power (Watt)": 1.0,
+        "pa_factors_against_that_transmit_power": [
+            0.1
+        ],
+        "optimal_results": [
+            {
+                "alloc_UEn": 0.1,
+                "alloc_UEf": 0.9,
+                "operational_power": -10.0,
+                "energy_efficiency": NaN,
+                "normalized_energy_efficiency": NaN,
+                "channel_gain_f": 4.184025781739675e-11,
+                "channel_gain_n": 1.0285366863347275e-09
+            }
+        ]
+    }
+]

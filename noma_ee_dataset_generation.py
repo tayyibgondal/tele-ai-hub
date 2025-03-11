@@ -408,10 +408,13 @@ def main(rows_of_data, temperature, bandwidth, simulation_area_size, n_antennas,
         # Append this run's data to the list of all runs' data
         data.append(run_data)
 
-    # Write all runs' data to a single JSON file at the end of all simulations
-    write_json_file(data, 'NOMA_EE_dataset.json')
-    
-    return "The Dataset for Energy Efficiency for NOMA has been generated successfully!"
+        filename = "NOMA_EE_dataset.json"
+
+        # Save the data to a JSON file
+        with open(filename, 'w') as json_file:
+            json.dump(data, json_file, indent=4)
+
+        return data
 
 
 

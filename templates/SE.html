@@ -76,13 +76,13 @@
     <h1>SE Dataset Generation</h1>
     <form action="{{ url_for('SE') }}" method="POST">
         <!-- Number of Rows (Slider) -->
-        <label for="Num_sample">Number of Rows (1 to 100):</label>
-        <input type="range" id="Num_sample" name="Num_sample" min="1" max="100" step="1" value="10" required>
+        <label for="Num_sample">Number of Rows:</label>
+        <input type="range" id="Num_sample" name="Num_sample" min="1" max="10000" step="10" value="10" required>
         <span class="slider-value" id="Num_sample_value">10</span>
         <br>
 
         <!-- Size Area (Slider) -->
-        <label for="Size_area">Size Area (30 to 100, step 10):</label>
+        <label for="Size_area">Size Area:</label>
         <input type="range" id="Size_area" name="Size_area" min="30" max="100" step="10" value="30" required>
         <span class="slider-value" id="Size_area_value">30</span>
         <br>
@@ -113,13 +113,15 @@
         <button type="submit">Generate Dataset</button>
     </form>
 
-    <!-- Display Results -->
+    <button onclick="downloadFile()">Download</button>
+
+    <!-- Display Results
     {% if result %}
     <div class="result">
         <h2>Result:</h2>
         <pre>{{ result }}</pre>
     </div>
-    {% endif %}
+    {% endif %} -->
 
     <script>
         // JavaScript to update slider values in real-time
@@ -134,6 +136,18 @@
         sizeAreaSlider.oninput = function() {
             sizeAreaValue.textContent = this.value;
         };
+
+        function downloadFile() {
+            const filename = "SE_dataset.json";
+            const fileURL = "/" + filename; // Assuming the file is at the root
+
+            var link = document.createElement("a");
+            link.href = fileURL;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     </script>
 </body>
 </html>

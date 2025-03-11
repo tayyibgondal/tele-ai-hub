@@ -136,12 +136,7 @@
         <button type="submit">Run</button>
     </form>
 
-    {% if result %}
-    <div class="result">
-        <h2>Result:</h2>
-        <p>{{ result }}</p>
-    </div>
-    {% endif %}
+    <button onclick="downloadFile()">Download</button>
 
     <script>
         // JavaScript to update slider values in real-time
@@ -162,6 +157,18 @@
         simulationAreaSizeSlider.oninput = function() {
             simulationAreaSizeValue.textContent = this.value;
         };
+
+        function downloadFile() {
+            const filename = "NOMA_EE_dataset.json";
+            const fileURL = "/" + filename; // Assuming the file is at the root
+
+            var link = document.createElement("a");
+            link.href = fileURL;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     </script>
 </body>
 </html>
