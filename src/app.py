@@ -9,20 +9,16 @@ import noma_ee_dataset_generation, noma_se_dataset_generation, network_simulator
 import json
 from dotenv import load_dotenv
 from llm_providers import get_llm_instance
-
-# Environment-based config for Ollama & OpenAI 
-load_dotenv()  # Load .env if present
-
-# -----------------------------
-#   FLASK APP SETUP
-# -----------------------------
-
-
 import requests
 import threading
 from multiprocessing import Process
 
+# Environment-based config for Ollama & OpenAI 
+load_dotenv("../.env")  # Load .env if present
 
+# -----------------------------
+#   FLASK APP SETUP
+# -----------------------------
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
@@ -32,9 +28,8 @@ login_manager.login_view = 'login'
 
 # Hugging Face model cache
 models_cache = {}
-# Example Ollama model cache (if you want caching)
 ollama_models_cache = {}
-FINETUNING_COLAB_SERVER_URL = "https://7768-34-145-93-8.ngrok-free.app"  # replace with ngrok tunnel URL
+FINETUNING_COLAB_SERVER_URL = "https://7768-34-145-93-8.ngrok-free.app" 
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -393,8 +388,8 @@ def chat_ollama():
         # Invoke the Ollama LLM with user's input
         ollama_llm = get_llm_instance(selected_model, service='ollama')
         system_prompt = "Imagine you are a specialist in telecommunications, wireless communications, NOMA and resource allocation. Answer the following user querry: \n\n" 
-        user_input = system_prompt + user_input
-        response_text = ollama_llm.invoke(user_input)
+        prompt = system_prompt + user_input
+        response_text = ollama_llm.invoke(prompt)
 
         # Store conversation
         conversation_history.append({"user": user_input, "model": response_text})
@@ -435,8 +430,8 @@ def chat_openai():
         # Call the OpenAILLM from llm_providers
         openai_llm = get_llm_instance(selected_model, service='openai')
         system_prompt = "Imagine you are a specialist in telecommunications, wireless communications, NOMA and resource allocation. Answer the following user querry: \n\n" 
-        user_input = system_prompt + user_input
-        response_text = openai_llm.invoke(user_input)
+        prompt = system_prompt + user_input
+        response_text = openai_llm.invoke(prompt)
 
         conversation_history.append({"user": user_input, "model": response_text})
         session['conversation_history_openai'] = conversation_history
