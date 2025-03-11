@@ -45,7 +45,28 @@ Once the environment is activated, install the necessary dependencies from requi
 pip install -r requirements.txt
 ```
 
-### 4. Create a New Branch
+### 4. Add .env file in the project folder
+Inside the tele-ai-hub folder, create a .env file. You env file should contain the following variables:
+
+```bash
+HF_TOKEN=xxx
+SECRET_KEY=xxx
+OLLAMA_SERVER=xxx
+LLM_SERVICE=xxx
+OPENAI_API_KEY=xxx
+```
+
+### 5. Run the application
+Go to src directory using:
+```bash
+cd src
+```
+And then finally run the app using: 
+```bash
+python app.py
+```
+
+<!-- ### 4. Create a New Branch
 Before making any changes, create a new branch.
 
 ### 5. Add Your Code
@@ -57,4 +78,4 @@ Once you've made your changes, commit and push changes to the new branch, and up
 **Note**: Please make sure to update requirements.txt before you push code!
 
 ### 7. Create a Pull Request
-After pushing your branch, go to the repository on GitHub and create a pull request (PR) for your changes. This will allow for review and merging of your changes into the main branch.
+After pushing your branch, go to the repository on GitHub and create a pull request (PR) for your changes. This will allow for review and merging of your changes into the main branch. -->
