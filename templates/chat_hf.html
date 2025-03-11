@@ -1,0 +1,52 @@
+<!-- templates/chat_hf.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Hugging Face</title>
+</head>
+<body>
+    <h1>Chat with Hugging Face Model</h1>
+
+    <!-- Form to load model -->
+    <form method="POST">
+        <label for="model">Choose a Model:</label>
+        <select name="model" id="model">
+            {% for model in models %}
+                <option value="{{ model }}" {% if model == selected_model %} selected {% endif %}>{{ model }}</option>
+            {% endfor %}
+        </select>
+        <input type="hidden" name="action" value="load_model">
+        <button type="submit">Load Model</button>
+    </form>
+
+    {% if model_loaded %}
+        <h2>Model Loaded: {{ selected_model }}</h2>
+    {% else %}
+        <h2>No Model Loaded</h2>
+        <p>Please load a model before chatting.</p>
+    {% endif %}
+
+    <!-- Display the conversation history -->
+    {% if conversation_history %}
+        <h3>Conversation History:</h3>
+        <ul>
+            {% for message in conversation_history %}
+                <li><strong>You:</strong> {{ message.user }}</li>
+                <li><strong>Model:</strong> {{ message.model }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Chat input if model is loaded -->
+    {% if model_loaded %}
+        <form method="POST">
+            <label for="message">Your Message:</label><br>
+            <textarea name="message" id="message" rows="5" cols="50"></textarea>
+            <br>
+            <button type="submit" name="action" value="chat">Send</button>
+        </form>
+    {% endif %}
+</body>
+</html>
