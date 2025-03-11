@@ -18,6 +18,10 @@ load_dotenv()  # Load .env if present
 # -----------------------------
 
 
+import requests
+import threading
+from multiprocessing import Process
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -30,22 +34,22 @@ login_manager.login_view = 'login'
 models_cache = {}
 # Example Ollama model cache (if you want caching)
 ollama_models_cache = {}
+FINETUNING_COLAB_SERVER_URL = "https://7768-34-145-93-8.ngrok-free.app"  # replace with ngrok tunnel URL
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
 # -----------------------------
 #   ROUTES
 # -----------------------------
 @app.route("/")
-# @login_required
+@login_required
 def home():
     return render_template('home.html')
 
 @app.route("/noma_ee_dataset_generation", methods=['GET', 'POST'])
-# @login_required
+@login_required
 def NOMA_EE():
     if request.method == 'POST':
         # Get user inputs from the form
@@ -76,7 +80,7 @@ def serve_json_NOMA_EE():
     return send_from_directory('static', 'NOMA_EE_dataset.json')
 
 @app.route("/noma_se_dataset_generation", methods=['GET', 'POST'])
-# @login_required
+@login_required
 def NOMA_SE():
     if request.method == 'POST':
         # Get user inputs from the form
@@ -107,7 +111,7 @@ def serve_json_NOMA_SE():
     return send_from_directory('static', 'NOMA_SE_dataset.json')
 
 @app.route("/ee_dataset_generation", methods=['GET', 'POST'])
-# @login_required
+@login_required
 def EE():
     if request.method == 'POST':
         # Get user inputs from the form
@@ -138,7 +142,7 @@ def serve_json_EE():
 
 
 @app.route("/se_dataset_generation", methods=['GET', 'POST'])
-# @login_required
+@login_required
 def SE():
     if request.method == 'POST':
         # Get user inputs from the form
@@ -167,6 +171,59 @@ def SE():
 def serve_json_SE():
     return send_from_directory('static', 'SE_dataset.json')
 
+@app.route('/finetune', methods=['GET', 'POST'])
+@login_required
+def finetune():
+    print("in finetune")
+    models = ["unsloth/Phi-3.5-mini-instruct", "unsloth/Meta-Llama-3.1-8B-Instruct-bnb-4bit", "unsloth/mistral-7b-v0.3-bnb-4bit", "unsloth/gemma-2-9b-bnb-4bit"]
+    batch_sizes = [4, 6, 8, 12]
+    learning_rates = ["1e-5", "2e-5", "5e-5"]
+    epochs = [1, 2, 3, 5]
+    grad_steps = [2, 4, 6, 8]
+    datasets = ["Energy Efficiency", "Spectral Efficiency"]
+    
+    if request.method == 'POST':
+        print("in post")
+        selected_model = request.form['model']
+        batch_size = request.form['batch_size']
+        learning_rate = request.form['learning_rate']
+        num_epochs = request.form['epochs']
+        grad_step = request.form['grad_step']
+        dataset = request.form['metric']
+        
+        # Send parameters to Google Colab API
+        payload = {
+            "model": selected_model,
+            "batch_size": batch_size,
+            "grad_steps": grad_step,
+            "learning_rate": learning_rate,
+            "epochs": num_epochs,
+            "dataset": dataset,
+            "user": current_user.username
+        }
+        print(payload)
+
+        response = requests.post(f"{FINETUNING_COLAB_SERVER_URL}/start_finetuning", json=payload, timeout=1200)
+
+        print("request sent")
+        # if not response:
+        #     print("no response")
+        if response.status_code == 200:
+            print(response)
+            try:
+                data = response.json()  # This is where the error occurs
+                print(f"Received JSON: {data}")
+                message = data.get("message")
+
+            except requests.exceptions.JSONDecodeError:
+                print("Error: Response is not valid JSON!")
+                message = None
+            return render_template("finetuning_complete.html", completion_message=message)
+        else:
+            return f"Error in finetuning. Please try again. Response code: {response.status_code}"
+
+    return render_template('finetune.html', models=models, batch_sizes=batch_sizes, learning_rates=learning_rates, epochs=epochs, grad_steps=grad_steps, datasets=datasets)
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -186,7 +243,6 @@ def login():
             flash("Login failed. Check your email and/or password", "danger")
 
     return render_template("login.html")
-
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -215,6 +271,7 @@ def logout():
     logout_user()
     session.clear()
     return redirect(url_for('login'))
+
 
 @app.route("/telecom_agents")
 @login_required
