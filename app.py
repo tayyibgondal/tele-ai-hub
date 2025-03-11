@@ -99,6 +99,10 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
+@app.route("/telecom_agents")
+@login_required
+def telecom_agents():
+    return render_template("telecom_agents.html")
 
 # -----------------------------
 #   Chat with Hugging Face
