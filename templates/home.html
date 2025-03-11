@@ -1,3 +1,4 @@
+<!-- templates/home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,12 +9,21 @@
 <body>
     <h2>Welcome, {{ current_user.username }}!</h2>
     <p>You are logged in.</p>
-    
-    <!-- Button to navigate to chat page -->
-    <a href="{{ url_for('chat') }}">
-        <button>Go to Chat</button>
+
+    <!-- Button to navigate to different chat options -->
+    <a href="{{ url_for('chat_hf') }}">
+        <button>Go to Chat (Hugging Face tuned models - future proof)</button>
     </a>
-    
+    <a href="{{ url_for('chat_ollama') }}">
+        <button>Thinking telecom agents (Ollama)</button>
+    </a>
+    <a href="{{ url_for('chat_gradio') }}">
+        <button>Go to Chat (Resource allocation helpers)</button>
+    </a>
+    <a href="{{ url_for('chat_openai') }}">
+        <button>Go to Chat (OpenAI)</button>
+    </a>
+
     <br><br>
     <a href="{{ url_for('logout') }}">Logout</a>
 </body>
