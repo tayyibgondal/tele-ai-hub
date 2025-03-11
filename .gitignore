@@ -2,3 +2,4 @@ telecom_env/
 instance/
 site.db
 .env
+__pycache__/
