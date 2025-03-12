@@ -1,19 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat with Gradio</title>
+    
+    <!-- Add Inter font from Google Fonts -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"> -->
 </head>
 <body>
-    <h1>Gradio Apps</h1>
-    <p>Select a Gradio app to open (no model loading):</p>
-    <ul>
-        <!-- Example links -->
-        <li><a href="https://my-gradio-app1.example.com" target="_blank">Resource allocation D2D Llama Agent</a></li>
-        <li><a href="https://my-gradio-app2.example.com" target="_blank">Resource allocation D2D Phi Agent</a></li>
-        <li><a href="https://my-gradio-app2.example.com" target="_blank">Resource allocation D2D Code-Llama Agent (provides best optimization)</a></li>
-    </ul>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <h2>Gradio Apps</h2>
+        <a href="{{ url_for('home') }}">
+            <button class="back-button">Back to Home</button>
+        </a>
+    </div>
 
-    <p><a href="{{ url_for('home') }}">Back to Home</a></p>
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Gradio Apps</h1>
+        <p>Select a Gradio app to open (no model loading):</p>
+        <ul class="app-list">
+            <!-- Example links -->
+            <li><a href="https://my-gradio-app1.example.com" target="_blank">Resource allocation D2D Llama Agent</a></li>
+            <li><a href="https://my-gradio-app2.example.com" target="_blank">Resource allocation D2D Phi Agent</a></li>
+            <li><a href="https://my-gradio-app2.example.com" target="_blank">Resource allocation D2D Code-Llama Agent (provides best optimization)</a></li>
+        </ul>
+
+        <div class="back-link">
+            <a href="{{ url_for('home') }}">Back to Home</a>
+        </div>
+    </div>
 </body>
 </html>

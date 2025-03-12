@@ -12,7 +12,7 @@ def loc_init(Size_area, Dist_TX_RX, Num_D2D, Num_Ch):
     for i in range(Num_D2D):
         temp_chan = Feasible_Loc_Init(tx_loc[i, :], Size_area, Dist_TX_RX)
         rx_loc[i, :] = temp_chan
-
+ 
     tx_loc_CUE = Size_area * (np.random.rand(Num_Ch, 2) - 0.5)
     return rx_loc, tx_loc, tx_loc_CUE
 
@@ -248,10 +248,10 @@ def generate_data(Num_sample, Size_area, Num_user, Num_channel, mode="SE"):
     # Calculate optimal power settings
     SE_OPT, EE_OPT, CUE_vio_OPT, DUE_vio_OPT, INF_CHAN_MAT, PW_VEC, CHAN_VEC = optimal_power_w_chan(
         ch_mat, tx_max, noise, DUE_thr, I_thr, P_c, tx_power_set, opt=mode
-    )
+    ) 
 
     # Prepare data for JSON serialization
-    samples_data = []
+    samples_data = []  
     for i in range(PW_VEC.shape[0]):
         chan_revised = (np.log(ch_mat[i, 0, :, :]) - chan_avg) / chan_std * 100
 

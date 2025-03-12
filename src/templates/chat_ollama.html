@@ -3,38 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat with Ollama</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Chat with Ollama</h1>
+    <div class="top-bar">
+        <h2>Chat with Ollama</h2>
+        <button class="back-button">Back</button>
+    </div>
 
-    <!-- Single form to pick model (optional) and send message -->
-    <form method="POST">
-        <label for="model">Choose an Ollama Model:</label>
-        <select name="model" id="model">
-            {% for model in models %}
-                <option value="{{ model }}"
-                    {% if model == selected_model %}selected{% endif %}
-                >{{ model }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <label for="message">Your Message:</label><br>
-        <textarea name="message" rows="4" cols="50"></textarea>
-        <br><br>
-        <button type="submit">Send</button>
-    </form>
+    <div class="container">
+        <h1>Chat with Ollama</h1>
 
-    <!-- Display conversation -->
-    {% if conversation_history and conversation_history|length > 0 %}
-        <h3>Conversation History:</h3>
-        <ul>
-            {% for entry in conversation_history %}
-                <li><strong>You:</strong> {{ entry.user }}</li>
-                <li><strong>Model:</strong> {{ entry.model }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+        <!-- Single form to pick model (optional) and send message -->
+        <form class="auth-container" method="POST">
+            <label for="model">Choose an Ollama Model:</label>
+            <select name="model" id="model">
+                {% for model in models %}
+                    <option value="{{ model }}"
+                        {% if model == selected_model %}selected{% endif %}
+                    >{{ model }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <label for="message">Your Message:</label><br>
+            <textarea name="message" rows="4" cols="50"></textarea>
+            <br><br>
+            <button type="submit">Send</button>
+        </form>
 
-    <p><a href="{{ url_for('home') }}">Back to Home</a></p>
+        <!-- Display conversation -->
+        {% if conversation_history and conversation_history|length > 0 %}
+            <h3>Conversation History:</h3>
+            <ul class="app-list">
+                {% for entry in conversation_history %}
+                    <li><strong>You:</strong> {{ entry.user }}</li>
+                    <li><strong>Model:</strong> {{ entry.model }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <p class = "back-link"><a href="{{ url_for('home') }}">Back to Home</a></p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Chat App</p>
+    </footer>
 </body>
 </html>

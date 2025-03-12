@@ -1,10 +1,9 @@
-<!-- templates/home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Dataset Generation</title>
     <style>
         /* General Styling */
         body {
@@ -24,7 +23,7 @@
             background-color: #ffffff; /* White background */
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
             width: 100%;
-            padding: 15px 10px;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -50,8 +49,8 @@
             padding: 8px 15px;
             border: none;
             border-radius: 5px;
+            margin-right: 30px;
             font-size: 0.9rem;
-            margin-right: 20px;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
             white-space: nowrap; /* Prevent button text from wrapping */
@@ -69,22 +68,23 @@
         /* Main Content Styling */
         .container {
             text-align: center;
-            max-width: 400px;
+            max-width: 500px;
             width: 90%;
             margin-top: 80px; /* Space for the top bar */
         }
 
         h1 {
-            color: #1a3d61; /* Dark blue for main heading */
+            color: #2b3c4d; /* Dark blue for main heading */
             font-size: 3rem;
             margin-bottom: 30px;
+            animation: fadeIn 1s ease-in-out; /* Fade-in animation */
         }
 
         /* Button Styling */
         .button-container {
             display: flex;
             flex-direction: column;
-            gap: 35px; 
+            gap: 35px; /* Increased gap between buttons */
             align-items: center;
         }
 
@@ -105,6 +105,7 @@
             width: 100%;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            animation: slideIn 0.5s ease-in-out; /* Slide-in animation */
         }
 
         .button:hover {
@@ -117,6 +118,27 @@
             transform: translateY(0); /* Reset lift on click */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reset shadow on click */
         }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
     <!-- Add Inter font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -124,24 +146,27 @@
 <body>
     <!-- Top Bar -->
     <div class="top-bar">
-        <h2>Welcome, {{ current_user.username }}! You are logged in.</h2>
-        <a href="{{ url_for('logout') }}">
-            <button class="logout-button">Logout</button>
+        <h2>Dataset Generation</h2>
+        <a href="{{ url_for('home') }}">
+            <button class="logout-button">Back to Home</button>
         </a>
     </div>
 
     <!-- Main Content -->
     <div class="container">
-        <h1> Home Page</h1>
+        <h1>Dataset Generation</h1>
         <div class="button-container">
-            <a href="{{ url_for('telecom_agents') }}">
-                <div class="button">Go to Telecom Chat Agents</div>
+            <a href="{{ url_for('NOMA_EE') }}">
+                <div class="button">NOMA EE Dataset Generation</div>
             </a>
-            <a href="{{ url_for('finetune') }}">
-                <div class="button">Finetune an LLM</div>
+            <a href="{{ url_for('NOMA_SE') }}">
+                <div class="button">NOMA SE Dataset Generation</div>
             </a>
-            <a href="{{ url_for('dataset_generation') }}">
-                <div class="button">Dataset Generation</div>
+            <a href="{{ url_for('EE') }}">
+                <div class="button">EE Dataset Generation</div>
+            </a>
+            <a href="{{ url_for('SE') }}">
+                <div class="button">SE Dataset Generation</div>
             </a>
         </div>
     </div>

@@ -1,0 +1,265 @@
+/* General Styling */
+body {
+    font-family: 'Inter', sans-serif; /* Modern sans-serif font */
+    background-color: #f0f2f5; /* Light gray background */
+    color: #333; /* Dark gray for text */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* Full viewport height */
+}
+
+/* Top Bar Styling */
+.top-bar {
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.top-bar h2 {
+    color: #2c3e50; /* Dark blue for text */
+    font-size: 1.2rem;
+    margin: 0;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis if text overflows */
+    max-width: 70%; /* Limit width to prevent overflow */
+}
+
+.top-bar .back-button {
+    background-color: #3498db; /* Bright blue for back button */
+    color: #fff; /* White text */
+    padding: 8px 15px;
+    margin-right: 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    white-space: nowrap; /* Prevent button text from wrapping */
+}
+
+.top-bar .back-button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+    transform: translateY(-1px); /* Slight lift on hover */
+}
+
+.top-bar .back-button:active {
+    transform: translateY(0); /* Reset lift on click */
+}
+
+/* Main Content Styling */
+.container {
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    margin-top: 80px; /* Space for the top bar */
+    padding: 20px;
+    background-color: #ffffff; /* White background for container */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+h1 {
+    color: #2c3e50; /* Dark blue for main heading */
+    font-size: 2rem;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in-out; /* Fade-in animation */
+}
+
+p {
+    font-size: 1.1rem;
+    color: #555; /* Medium gray for text */
+    margin-bottom: 30px;
+}
+
+/* List Styling */
+.app-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Spacing between list items */
+}
+
+.app-list li {
+    background-color: #ffffff; /* White background for list items */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.app-list li:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.app-list a {
+    text-decoration: none;
+    color: #3498db; /* Bright blue for links */
+    font-size: 1.1rem;
+    padding: 15px 20px;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.app-list a:hover {
+    color: #2980b9; /* Darker blue on hover */
+}
+
+/* Back Link Styling */
+.back-link {
+    margin-top: 30px;
+}
+
+.back-link a {
+    text-decoration: none;
+    color: #3498db; /* Bright blue for link */
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.back-link a:hover {
+    color: #2980b9; /* Darker blue on hover */
+}
+
+/* Login and Register Form Styling */
+.auth-container {
+    max-width: 400px;
+    width: 90%;
+    margin-top: 80px; /* Space for the top bar */
+    padding: 30px;
+    background-color: #ffffff; /* White background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center;
+}
+
+.auth-container h1 {
+    color: #2c3e50; /* Dark blue for heading */
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Spacing between form elements */
+}
+
+.auth-container input {
+    padding: 10px;
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.auth-container input:focus {
+    border-color: #3498db; /* Bright blue border on focus */
+    outline: none;
+}
+
+.auth-container button {
+    background-color: #3498db; /* Bright blue for button */
+    color: #fff; /* White text */
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.auth-container button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+    transform: translateY(-1px); /* Slight lift on hover */
+}
+
+.auth-container button:active {
+    transform: translateY(0); /* Reset lift on click */
+}
+
+.auth-container p {
+    font-size: 0.9rem;
+    color: #555; /* Medium gray for text */
+}
+
+.auth-container a {
+    color: #3498db; /* Bright blue for links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.auth-container a:hover {
+    color: #2980b9; /* Darker blue on hover */
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Additional Styling for Better Visuals */
+/* 
+/* Footer Styling */
+.footer {
+    margin-top: auto; /* Push footer to the bottom */
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #777; /* Light gray for footer text */
+    background-color: #ffffff; /* White background */
+    width: 100%;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow at the top */
+} */
+
+.footer a {
+    color: #3498db; /* Bright blue for links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #2980b9; /* Darker blue on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container, .auth-container {
+        width: 95%; /* Slightly wider on smaller screens */
+    }
+
+    h1 {
+        font-size: 1.8rem; /* Smaller heading on mobile */
+    }
+
+    p {
+        font-size: 1rem; /* Smaller text on mobile */
+    }
+
+    .top-bar h2 {
+        font-size: 1rem; /* Smaller top bar text on mobile */
+    }
+
+    .top-bar .back-button {
+        padding: 6px 12px; /* Smaller button on mobile */
+        font-size: 0.8rem;
+    }
+}

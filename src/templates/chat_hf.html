@@ -1,52 +1,67 @@
-<!-- templates/chat_hf.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat with Hugging Face</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Chat with Hugging Face Model</h1>
+    <div class="top-bar">
+        <h2>Chat with Hugging Face Model</h2>
+        <button class="back-button">Back</button>
+    </div>
 
-    <!-- Form to load model -->
-    <form method="POST">
-        <label for="model">Choose a Model:</label>
-        <select name="model" id="model">
-            {% for model in models %}
-                <option value="{{ model }}" {% if model == selected_model %} selected {% endif %}>{{ model }}</option>
-            {% endfor %}
-        </select>
-        <input type="hidden" name="action" value="load_model">
-        <button type="submit">Load Model</button>
-    </form>
+    <div class="container">
+        <h1>Hugging Face Chat</h1>
 
-    {% if model_loaded %}
-        <h2>Model Loaded: {{ selected_model }}</h2>
-    {% else %}
-        <h2>No Model Loaded</h2>
-        <p>Please load a model before chatting.</p>
-    {% endif %}
-
-    <!-- Display the conversation history -->
-    {% if conversation_history %}
-        <h3>Conversation History:</h3>
-        <ul>
-            {% for message in conversation_history %}
-                <li><strong>You:</strong> {{ message.user }}</li>
-                <li><strong>Model:</strong> {{ message.model }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
-    <!-- Chat input if model is loaded -->
-    {% if model_loaded %}
-        <form method="POST">
-            <label for="message">Your Message:</label><br>
-            <textarea name="message" id="message" rows="5" cols="50"></textarea>
-            <br>
-            <button type="submit" name="action" value="chat">Send</button>
+        <!-- Form to load model -->
+        <form class="model-form" method="POST">
+            <label for="model">Choose a Model:</label>
+            <select name="model" id="model">
+                {% for model in models %}
+                    <option value="{{ model }}" {% if model == selected_model %} selected {% endif %}>{{ model }}</option>
+                {% endfor %}
+            </select>
+            <input type="hidden" name="action" value="load_model">
+            <button type="submit">Load Model</button>
         </form>
-    {% endif %}
+
+        {% if model_loaded %}
+            <h2 class="model-loaded">Model Loaded: {{ selected_model }}</h2>
+        {% else %}
+            <h2 class="no-model">No Model Loaded</h2>
+            <p>Please load a model before chatting.</p>
+        {% endif %}
+
+        <!-- Display the conversation history -->
+        {% if conversation_history %}
+            <h3>Conversation History:</h3>
+            <ul class="conversation-history">
+                {% for message in conversation_history %}
+                    <li><strong>You:</strong> {{ message.user }}</li>
+                    <li><strong>Model:</strong> {{ message.model }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Chat input if model is loaded -->
+        {% if model_loaded %}
+            <form class="chat-form" method="POST">
+                <label for="message">Your Message:</label><br>
+                <textarea name="message" id="message" rows="5" cols="50"></textarea>
+                <br>
+                <button type="submit" name="action" value="chat">Send</button>
+            </form>
+        {% endif %}
+
+        <div class="back-link">
+            <a href="/">Back to Home</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Chat App</p>
+    </footer>
 </body>
 </html>

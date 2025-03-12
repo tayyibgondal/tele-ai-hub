@@ -2,30 +2,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telecom Chat Agents</title>
 </head>
 <body>
-    <h2>Choose a Chat Agent:</h2>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <h2>Telecom Chat Agents</h2>
+        <a href="{{ url_for('logout') }}">
+            <button class="back-button">Logout</button>
+        </a>
+    </div>
 
-    <a href="{{ url_for('chat_hf') }}">
-        <button>Future telecom specific agents</button>
-    </a>
-
-    <a href="{{ url_for('chat_ollama') }}">
-        <button>Thinking telecom agents (Ollama)</button>
-    </a>
-
-    <a href="{{ url_for('chat_gradio') }}">
-        <button>Resource allocation agents</button>
-    </a>
-
-    <a href="{{ url_for('chat_openai') }}">
-        <button>TelecomGPT</button>
-    </a>
-
-    <br><br>
-    <a href="{{ url_for('logout') }}">Logout</a>
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Choose a Chat Agent</h1>
+        <ul class="app-list">
+            <lia><a href="{{ url_for('chat_hf') }}">
+                Future Telecom Specific Agents 
+            </a></lia>
+            <lia></lia><a href="{{ url_for('chat_ollama') }}">
+                Thinking Telecom Agents (Ollama)
+            </a></lia>
+            <lia></lia><a href="{{ url_for('chat_gradio') }}">
+                Resource Allocation Agents
+            </a></lia>
+            <lia></lia><a href="{{ url_for('chat_openai') }}">
+                TelecomGPT
+            </a></lia>
+        </ul>
+    </div>
+<!-- 
 </body>
-</html>

@@ -3,76 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>Finetune an LLM</title>
 </head>
 <body>
-    <h2>Finetune an LLM for Optimal Resource Allocation</h2>
-    <form method="POST" action="{{ url_for('finetune') }}">
-        <label for="model">Select Model:</label>
-        <select name="model" id="model">
-            {% for model in models %}
-                <option value="{{ model }}">{{ model }}</option>
-            {% endfor %}
-        </select>
+    <div class="top-bar">
+        <h2>Finetune an LLM</h2>
+        <button class="back-button">Back</button>
+    </div>
+
+    <div class="container">
+        <h1>Finetune an LLM for Optimal Resource Allocation</h1>
+        <form class="auth-container" method="POST" action="{{ url_for('finetune') }}">
+            <label for="model">Select Model:</label>
+            <select name="model" id="model">
+                {% for model in models %}
+                    <option value="{{ model }}">{{ model }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            
+            <label for="batch_size">Batch Size:</label>
+            <select name="batch_size" id="batch_size">
+                {% for size in batch_sizes %}
+                    <option value="{{ size }}">{{ size }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            
+            <label for="grad_step">Gradient Accumulation Steps:</label>
+            <select name="grad_step" id="grad_step">
+                {% for step in grad_steps %}
+                    <option value="{{ step }}">{{ step }}</option>
+                {% endfor %}
+            </select>
+            <br>
+
+            <label for="metric">Dataset:</label>
+            <select name="metric" id="metric">
+                {% for metric in datasets %}
+                    <option value="{{ metric }}">{{ metric }}</option>
+                {% endfor %}
+            </select>
+            <br>
+
+             <label for="learning_rate">Learning Rate:</label>
+            <select name="learning_rate" id="learning_rate">
+                {% for lr in learning_rates %}
+                    <option value="{{ lr }}">{{ lr }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            
+            <label for="epochs">Number of Epochs:</label>
+            <select name="epochs" id="epochs">
+                {% for epoch in epochs %}
+                    <option value="{{ epoch }}">{{ epoch }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            
+            <button onclick="showConfirmation()" type="submit">Fine-tune</button>
+        </form>
+
         <br>
+
+        <div id="confirmationText" style="display: none;"></div>
         
-        <label for="batch_size">Batch Size:</label>
-        <select name="batch_size" id="batch_size">
-            {% for size in batch_sizes %}
-                <option value="{{ size }}">{{ size }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        
-        <label for="grad_step">Gradient Accumulation Steps:</label>
-        <select name="grad_step" id="grad_step">
-            {% for step in grad_steps %}
-                <option value="{{ step }}">{{ step }}</option>
-            {% endfor %}
-        </select>
         <br>
 
-        <label for="metric">Dataset:</label>
-        <select name="metric" id="metric">
-            {% for metric in datasets %}
-                <option value="{{ metric }}">{{ metric }}</option>
-            {% endfor %}
-        </select>
-        <br>
+        <p class="back-link"><a href="{{ url_for('home') }}">Back to Home</a></p>
+    </div>
 
-        <label for="learning_rate">Learning Rate:</label>
-        <select name="learning_rate" id="learning_rate">
-            {% for lr in learning_rates %}
-                <option value="{{ lr }}">{{ lr }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        
-        <label for="epochs">Number of Epochs:</label>
-        <select name="epochs" id="epochs">
-            {% for epoch in epochs %}
-                <option value="{{ epoch }}">{{ epoch }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        
-        <button onclick="showConfirmation()" type="submit">Fine-tune</button>
-    </form>
-
-    <br>
-
-    <div id="confirmationText" style="display: none;"></div>
-    
-    <br>
-
-    <a href="{{ url_for('home') }}">Back to Home</a>
+    <footer class="footer">
+        <p>&copy; 2024 Chat App</p>
+    </footer>
 
     <script>
         function showConfirmation() {
             var modelName = document.getElementById("model").value;
             var metric = document.getElementById("metric").value;
             var text = document.getElementById("confirmationText");
-            text.innerHTML = `Finetuning of <strong>${modelName}</strong> on <strong></strong>${metric} has begun and may take several minutes. You will be redirected to the next screen when finetuning is complete.`;
+            text.innerHTML = `Finetuning of <strong>${modelName}</strong> on <strong>${metric}</strong> has begun and may take several minutes. You will be redirected to the next screen when finetuning is complete.`;
             text.style.display = "block";  
 
             // Disable all dropdowns
@@ -87,4 +99,3 @@
 </body>
 
 </html>
-

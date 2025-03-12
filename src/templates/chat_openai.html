@@ -3,55 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat with OpenAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <!-- If the user selected "gpt-40" from the dropdown, show "Chat with TELECOM GPT" -->
-    {% if selected_model == "gpt-40" %}
-        <h1>Chat with TELECOM GPT</h1>
-    {% else %}
-        <h1>Chat with OpenAI</h1>
-    {% endif %}
+    <div class="top-bar">
+        <!-- Conditionally display the heading based on the selected model -->
+        {% if selected_model == "gpt-4.5-preview" %}
+            <h2>Chat with TELECOM GPT</h2>
+        {% else %}
+            <h2>Chat with OpenAI</h2>
+        {% endif %}
+        <button class="back-button">Back</button>
+    </div>
 
-    <!-- Single form to pick model (optional) and send message -->
-    <form method="POST">
-        <label for="model">Choose an OpenAI Model:</label>
-        <select name="model" id="model">
-            {% for model in models %}
-                <!-- 
-                  Use 'model' as the option's value so your backend 
-                  receives the real 'gpt-40', but display "TELECOM GPT"
-                  as the text if the model is exactly 'gpt-40'.
-                -->
-                <option value="{{ model }}" 
-                        {% if model == selected_model %}selected{% endif %}>
-                    {% if model == "gpt-4.5-preview" %}
-                        TELECOM GPT
-                    {% else %}
-                        {{ model }}
-                    {% endif %}
-                </option>
-            {% endfor %}
-        </select>
-        <br><br>
+    <div class="container">
+        <!-- Conditionally display the heading based on the selected model -->
+        {% if selected_model == "gpt-4.5-preview" %}
+            <h1>Chat with TELECOM GPT</h1>
+        {% else %}
+            <h1>Chat with OpenAI</h1>
+        {% endif %}
 
-        <label for="message">Your Message:</label><br>
-        <textarea name="message" rows="4" cols="50"></textarea>
-        <br><br>
+        <!-- Single form to pick model (optional) and send message -->
+        <form class="auth-container" method="POST">
+            <label for="model">Choose an OpenAI Model:</label>
+            <select name="model" id="model">
+                {% for model in models %}
+                    <!-- 
+                      Use 'model' as the option's value so your backend 
+                      receives the real 'gpt-4.5-preview', but display "TELECOM GPT"
+                      as the text if the model is exactly 'gpt-4.5-preview'.
+                    -->
+                    <option value="{{ model }}" 
+                            {% if model == selected_model %}selected{% endif %}>
+                        {% if model == "gpt-4.5-preview" %}
+                            TELECOM GPT
+                        {% else %}
+                            {{ model }}
+                        {% endif %}
+                    </option>
+                {% endfor %}
+            </select>
+            <br><br>
 
-        <button type="submit">Send</button>
-    </form>
+            <label for="message">Your Message:</label><br>
+            <textarea name="message" rows="4" cols="50"></textarea>
+            <br><br>
 
-    <!-- Display conversation -->
-    {% if conversation_history and conversation_history|length > 0 %}
-        <h3>Conversation History:</h3>
-        <ul>
-            {% for entry in conversation_history %}
-                <li><strong>You:</strong> {{ entry.user }}</li>
-                <li><strong>Model:</strong> {{ entry.model }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+            <button type="submit">Send</button>
+        </form>
 
-    <p><a href="{{ url_for('home') }}">Back to Home</a></p>
+        <!-- Display conversation -->
+        {% if conversation_history and conversation_history|length > 0 %}
+            <h3>Conversation History:</h3>
+            <ul class="app-list">
+                {% for entry in conversation_history %}
+                    <li><strong>You:</strong> {{ entry.user }}</li>
+                    <li><strong>Model:</strong> {{ entry.model }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <p class="back-link"><a href="{{ url_for('home') }}">Back to Home</a></p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Chat App</p>
+    </footer>
 </body>
 </html>

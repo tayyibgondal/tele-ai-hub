@@ -254,8 +254,8 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        flash("Your account has been created!", "success")
-        return redirect(url_for('login'))
+        flash("Your account has been created!", "success") 
+        return redirect(url_for('login'))   
 
     return render_template("register.html")
 
@@ -266,6 +266,11 @@ def logout():
     logout_user()
     session.clear()
     return redirect(url_for('login'))
+
+@app.route("/dataset_generation", methods=['GET'])
+@login_required
+def dataset_generation():
+    return render_template('dataset_generation.html')
 
 
 @app.route("/telecom_agents")
