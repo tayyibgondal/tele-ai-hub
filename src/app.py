@@ -62,7 +62,7 @@ def NOMA_EE():
         filename = "NOMA_EE_dataset.json"
         filepath = "static/" + filename  # Path to the static directory
         with open(filepath, 'w') as f:
-            json.dump(result, f) # Changed from jsonfiy to json.dump
+            json.dump(result, f, indent=4) # Changed from jsonfiy to json.dump
 
         # Pass the result to the template
         return render_template('NOMA_EE.html', result=result)
@@ -93,7 +93,7 @@ def NOMA_SE():
         filename = "NOMA_SE_dataset.json"
         filepath = "static/" + filename  # Path to the static directory
         with open(filepath, 'w') as f:
-            json.dump(result, f) # Changed from jsonfiy to json.dump
+            json.dump(result, f, indent=4) 
 
         # Pass the result to the template
         return render_template('NOMA_SE.html', result=result)

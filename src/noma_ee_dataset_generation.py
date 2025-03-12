@@ -26,40 +26,6 @@ import numpy as np
 from numba import jit
 from matplotlib import pyplot as plt
 
-"""#Setting Up Environment"""
-
-# Pt = np.linspace(-10, 30, 80)  # dBm
-# # Pt = np.array([25]) # dBm
-# Pt_lin = dbm2pow(Pt)  # Watt
-# bandwidth = 1e7  # Bandwidth in Hz
-# frequency = 2.4e9  # Carrier frequency
-# temperature = 300  # Kelvin # 300
-# mc = 1  # Number of channel realizations
-# simulation_area_size = 60  # Size of square area (units) # 60
-# max_distance_bs_ue = 30     # Maximum distance from BS to each UE (units) # 30
-# max_distance_ue_ue = 20      # Maximum distance between UEs (units) # 20
-# min_distance_ue_ue = 10       # Minimum distance between UEs # 10
-
-# P_c = 1     # circuit power dBm
-
-# allocation_factors = np.linspace(0.1, 0.3, 200) # All allocation factors for UEn and UEf
-
-# R_prime_n = 4.0e-11
-# R_prime_f = 4.0e-11
-
-# N0 = get_noise_power(temperature, bandwidth)  # dBm
-# N0_lin = dbm2pow(N0)  # Watt
-# print(N0_lin)
-
-# n_antennas = 2
-
-# fading_args = {"type": "rayleigh", "sigma": 1 / 2}
-# pathloss_args = {
-#     "type": "reference",
-#     "alpha": 3.5, #3.5
-#     "p0": 40, # 20
-#     "frequency": frequency,
-# }  # p0 is the reference power in dBm
 
 """#Network Setup"""
 
@@ -408,13 +374,7 @@ def main(rows_of_data, temperature, bandwidth, simulation_area_size, n_antennas,
         # Append this run's data to the list of all runs' data
         data.append(run_data)
 
-        filename = "NOMA_EE_dataset.json"
-
-        # Save the data to a JSON file
-        with open(filename, 'w') as json_file:
-            json.dump(data, json_file, indent=4)
-
-        return data
+    return data
 
 
 

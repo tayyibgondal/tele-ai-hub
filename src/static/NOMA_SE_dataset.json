@@ -5,14 +5,14 @@
             [
                 [
                     [
-                        7.281566325435172e-05
+                        2.5571537697238262e-05
                     ]
                 ]
             ],
             [
                 [
                     [
-                        1.3386573386758907e-05
+                        6.679482775349552e-06
                     ]
                 ]
             ]
@@ -26,10 +26,10 @@
                 "alloc_UEn": 0.1,
                 "alloc_UEf": 0.9,
                 "operational_power": -10.0,
-                "energy_efficiency": NaN,
-                "normalized_energy_efficiency": NaN,
-                "channel_gain_f": 1.7920034703908184e-10,
-                "channel_gain_n": 5.302120815171147e-09
+                "max_spectral_efficiency": 0.0,
+                "SE_difference": 0.0,
+                "optimal_gain_f": 4.461549014619135e-11,
+                "optimal_gain_n": 6.539035402012776e-10
             }
         ]
     },
@@ -39,14 +39,14 @@
             [
                 [
                     [
-                        5.489961858786434e-05
+                        6.132777840349138e-05
                     ]
                 ]
             ],
             [
                 [
                     [
-                        1.5393909469398425e-05
+                        7.910458739123028e-06
                     ]
                 ]
             ]
@@ -60,10 +60,10 @@
                 "alloc_UEn": 0.1,
                 "alloc_UEf": 0.9,
                 "operational_power": -10.0,
-                "energy_efficiency": NaN,
-                "normalized_energy_efficiency": NaN,
-                "channel_gain_f": 2.369724487520345e-10,
-                "channel_gain_n": 3.0139681210929798e-09
+                "max_spectral_efficiency": 0.0,
+                "SE_difference": 0.0,
+                "optimal_gain_f": 6.25753574633679e-11,
+                "optimal_gain_n": 3.761096403907744e-09
             }
         ]
     },
@@ -73,14 +73,14 @@
             [
                 [
                     [
-                        4.183010673493213e-05
+                        0.00012964789524105903
                     ]
                 ]
             ],
             [
                 [
                     [
-                        6.82528574149215e-06
+                        1.593733057589418e-05
                     ]
                 ]
             ]
@@ -94,10 +94,10 @@
                 "alloc_UEn": 0.1,
                 "alloc_UEf": 0.9,
                 "operational_power": -10.0,
-                "energy_efficiency": NaN,
-                "normalized_energy_efficiency": NaN,
-                "channel_gain_f": 4.658452545301605e-11,
-                "channel_gain_n": 1.7497578294558142e-09
+                "max_spectral_efficiency": 0.0,
+                "SE_difference": 0.0,
+                "optimal_gain_f": 2.539985058853315e-10,
+                "optimal_gain_n": 1.6808576740436616e-08
             }
         ]
     },
@@ -107,14 +107,14 @@
             [
                 [
                     [
-                        9.99592659198584e-05
+                        2.62387508034238e-05
                     ]
                 ]
             ],
             [
                 [
                     [
-                        8.580480336774839e-06
+                        6.596063395023166e-06
                     ]
                 ]
             ]
@@ -128,10 +128,10 @@
                 "alloc_UEn": 0.1,
                 "alloc_UEf": 0.9,
                 "operational_power": -10.0,
-                "energy_efficiency": NaN,
-                "normalized_energy_efficiency": NaN,
-                "channel_gain_f": 7.362464280977964e-11,
-                "channel_gain_n": 9.991854843236963e-09
+                "max_spectral_efficiency": 0.0,
+                "SE_difference": 0.0,
+                "optimal_gain_f": 4.350805231116454e-11,
+                "optimal_gain_n": 6.884720437241732e-10
             }
         ]
     },
@@ -141,14 +141,14 @@
             [
                 [
                     [
-                        3.600708975766158e-05
+                        2.7564692030254806e-05
                     ]
                 ]
             ],
             [
                 [
                     [
-                        6.677383049234334e-06
+                        7.002640087954285e-06
                     ]
                 ]
             ]
@@ -162,10 +162,10 @@
                 "alloc_UEn": 0.1,
                 "alloc_UEf": 0.9,
                 "operational_power": -10.0,
-                "energy_efficiency": NaN,
-                "normalized_energy_efficiency": NaN,
-                "channel_gain_f": 4.458744438620201e-11,
-                "channel_gain_n": 1.2965105128162974e-09
+                "max_spectral_efficiency": 0.0,
+                "SE_difference": 0.0,
+                "optimal_gain_f": 4.90369682014244e-11,
+                "optimal_gain_n": 7.598122467227928e-10
             }
         ]
     },
@@ -175,14 +175,14 @@
             [
                 [
                     [
-                        0.00010169355847783459
+                        0.00010258948925778552
                     ]
                 ]
             ],
             [
                 [
                     [
-                        1.700553050063596e-05
+                        1.655331012441692e-05
                     ]
                 ]
             ]
@@ -196,10 +196,10 @@
                 "alloc_UEn": 0.1,
                 "alloc_UEf": 0.9,
                 "operational_power": -10.0,
-                "energy_efficiency": NaN,
-                "normalized_energy_efficiency": NaN,
-                "channel_gain_f": 2.8918806760805996e-10,
-                "channel_gain_n": 1.0341579835884764e-08
+                "max_spectral_efficiency": 0.0,
+                "SE_difference": 0.0,
+                "optimal_gain_f": 2.7401207607512367e-10,
+                "optimal_gain_n": 1.0524603306173291e-08
             }
         ]
     },
@@ -209,14 +209,14 @@
             [
                 [
                     [
-                        0.00011146297219708321
+                        0.00010042860676156937
                     ]
                 ]
             ],
             [
                 [
                     [
-                        1.6879336945787344e-05
+                        1.3150558209131653e-05
                     ]
                 ]
             ]
@@ -230,10 +230,10 @@
                 "alloc_UEn": 0.1,
                 "alloc_UEf": 0.9,
                 "operational_power": -10.0,
-                "energy_efficiency": NaN,
-                "normalized_energy_efficiency": NaN,
-                "channel_gain_f": 2.8491201572942165e-10,
-                "channel_gain_n": 1.2423994171007745e-08
+                "max_spectral_efficiency": 0.0,
+                "SE_difference": 0.0,
+                "optimal_gain_f": 1.729371812117599e-10,
+                "optimal_gain_n": 1.0085905056069936e-08
             }
         ]
     },
@@ -243,14 +243,14 @@
             [
                 [
                     [
-                        2.1007995809194125e-05
+                        6.331942467194826e-05
                     ]
                 ]
             ],
             [
                 [
                     [
-                        6.888435780639096e-06
+                        7.422361503474354e-06
                     ]
                 ]
             ]
@@ -264,10 +264,10 @@
                 "alloc_UEn": 0.1,
                 "alloc_UEf": 0.9,
                 "operational_power": -10.0,
-                "energy_efficiency": NaN,
-                "normalized_energy_efficiency": NaN,
-                "channel_gain_f": 4.7450547503988953e-11,
-                "channel_gain_n": 4.413358879191179e-10
+                "max_spectral_efficiency": 0.0,
+                "SE_difference": 0.0,
+                "optimal_gain_f": 5.509145028825807e-11,
+                "optimal_gain_n": 4.00934954078653e-09
             }
         ]
     },
@@ -277,14 +277,14 @@
             [
                 [
                     [
-                        8.553582955806333e-05
+                        4.9653365366745255e-05
                     ]
                 ]
             ],
             [
                 [
                     [
-                        2.9124245769037155e-05
+                        7.233125506084508e-06
                     ]
                 ]
             ]
@@ -298,10 +298,10 @@
                 "alloc_UEn": 0.1,
                 "alloc_UEf": 0.9,
                 "operational_power": -10.0,
-                "energy_efficiency": NaN,
-                "normalized_energy_efficiency": NaN,
-                "channel_gain_f": 8.482216916152787e-10,
-                "channel_gain_n": 7.31637813818606e-09
+                "max_spectral_efficiency": 0.0,
+                "SE_difference": 0.0,
+                "optimal_gain_f": 5.2318104586770265e-11,
+                "optimal_gain_n": 2.4654566922434973e-09
             }
         ]
     },
@@ -311,14 +311,14 @@
             [
                 [
                     [
-                        3.220312643262181e-05
+                        0.00011182520246693523
                     ]
                 ]
             ],
             [
                 [
                     [
-                        6.7562311808674175e-06
+                        2.3010869733423107e-05
                     ]
                 ]
             ]
@@ -332,10 +332,10 @@
                 "alloc_UEn": 0.1,
                 "alloc_UEf": 0.9,
                 "operational_power": -10.0,
-                "energy_efficiency": NaN,
-                "normalized_energy_efficiency": NaN,
-                "channel_gain_f": 4.564665976932514e-11,
-                "channel_gain_n": 1.0370413520354253e-09
+                "max_spectral_efficiency": 0.0,
+                "SE_difference": 0.0,
+                "optimal_gain_f": 5.295001258885676e-10,
+                "optimal_gain_n": 1.2504875906771058e-08
             }
         ]
     }
