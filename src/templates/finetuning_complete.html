@@ -1,17 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>Finetuning Complete</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finetuning Complete</title>
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     
+    /* Body Styling */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f3f3;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    /* Container for Content */
+    .container {
+      background-color: #fff;
+      padding: 2rem 3rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+    }
+    
+    /* Heading Styling */
+    h1 {
+      color: #1a3d61;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    /* Completion Message Styling */
+    .message {
+      color: #2980b9;
+      font-size: 1.25rem;
+      margin-top: 1.5rem;
+      line-height: 1.5;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div class="container">
     <h1>Finetune an LLM for Optimal Resource Allocation</h1>
-
     {% if completion_message %}
+      <div class="message">
         <h1>{{ completion_message }}</h1>
+      </div>
     {% endif %}
+  </div>
 </body>
 </html>

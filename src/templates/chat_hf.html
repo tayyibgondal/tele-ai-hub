@@ -1,67 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with Hugging Face</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat with Hugging Face</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    /* Body Styling */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f3f3;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    
+    /* Top Bar */
+    .top-bar {
+      background-color: #2c3e50;
+      width: 100%;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    .top-bar h2 {
+      color: #fff;
+      font-weight: 500;
+      font-size: 1.3rem;
+      max-width: 70%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    /* Back Button */
+    .back-button {
+      background-color: #e74c3c;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    .back-button:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .back-button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    /* Main Container */
+    .container {
+      text-align: center;
+      max-width: 600px;
+      width: 90%;
+      margin-top: 90px; /* Space for fixed top bar */
+      padding: 2rem 1rem;
+    }
+    .container h1 {
+      color: #1a3d61;
+      font-size: 2.8rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    
+    /* Form Styling */
+    .model-form,
+    .chat-form {
+      background-color: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+    .model-form label,
+    .chat-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      color: #555;
+    }
+    .model-form select,
+    .chat-form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    .model-form button,
+    .chat-form button {
+      background-color: #2980b9;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      display: block;
+      width: 100%;
+    }
+    .model-form button:hover,
+    .chat-form button:hover {
+      background-color: #21618c;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .model-form button:active,
+    .chat-form button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    /* Model Loaded Status */
+    .model-loaded {
+      color: #1a3d61;
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+    .no-model {
+      color: #e74c3c;
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+    
+    /* Conversation History */
+    .conversation-history {
+      list-style: none;
+      margin-top: 1rem;
+      padding: 0;
+      text-align: left;
+    }
+    .conversation-history li {
+      background-color: #fff;
+      margin-bottom: 0.5rem;
+      padding: 0.75rem;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    .conversation-history li strong {
+      color: #1a3d61;
+    }
+    
+    /* Back Link */
+    .back-link a {
+      color: #2980b9;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .back-link a:hover {
+      color: #21618c;
+      text-decoration: underline;
+    }
+    
+    /* Footer */
+    .footer {
+      margin-top: auto;
+      padding: 1rem;
+      background-color: #2c3e50;
+      width: 100%;
+      text-align: center;
+    }
+    .footer p {
+      color: #fff;
+      font-size: 0.9rem;
+    }
+  </style>
+  
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="top-bar">
-        <h2>Chat with Hugging Face Model</h2>
-        <button class="back-button">Back</button>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <h2>Chat with Any Causal Autoregressive Hugging Face Model</h2>
+    <button class="back-button" onclick="window.history.back();">Back</button>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Hugging Face Chat</h1>
+    
+    <!-- Form to Load Model -->
+    <form class="model-form" method="POST">
+      <label for="model">Choose a Model:</label>
+      <select name="model" id="model">
+        {% for model in models %}
+          <option value="{{ model }}" {% if model == selected_model %} selected {% endif %}>{{ model }}</option>
+        {% endfor %}
+      </select>
+      <input type="hidden" name="action" value="load_model">
+      <button type="submit">Load Model</button>
+    </form>
+    
+    {% if model_loaded %}
+      <h2 class="model-loaded">Model Loaded: {{ selected_model }}</h2>
+    {% else %}
+      <h2 class="no-model">No Model Loaded</h2>
+      <p>Please load a model before chatting.</p>
+    {% endif %}
+    
+    <!-- Conversation History -->
+    {% if conversation_history %}
+      <h3>Conversation History:</h3>
+      <ul class="conversation-history">
+        {% for message in conversation_history %}
+          <li><strong>You:</strong> {{ message.user }}</li>
+          <li><strong>Model:</strong> {{ message.model }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    
+    <!-- Chat Input (if model is loaded) -->
+    {% if model_loaded %}
+      <form class="chat-form" method="POST">
+        <label for="message">Your Message:</label>
+        <textarea name="message" id="message" rows="5" cols="50"></textarea>
+        <button type="submit" name="action" value="chat">Send</button>
+      </form>
+    {% endif %}
+    
+    <div class="back-link">
+      <a href="/">Back to Home</a>
     </div>
-
-    <div class="container">
-        <h1>Hugging Face Chat</h1>
-
-        <!-- Form to load model -->
-        <form class="model-form" method="POST">
-            <label for="model">Choose a Model:</label>
-            <select name="model" id="model">
-                {% for model in models %}
-                    <option value="{{ model }}" {% if model == selected_model %} selected {% endif %}>{{ model }}</option>
-                {% endfor %}
-            </select>
-            <input type="hidden" name="action" value="load_model">
-            <button type="submit">Load Model</button>
-        </form>
-
-        {% if model_loaded %}
-            <h2 class="model-loaded">Model Loaded: {{ selected_model }}</h2>
-        {% else %}
-            <h2 class="no-model">No Model Loaded</h2>
-            <p>Please load a model before chatting.</p>
-        {% endif %}
-
-        <!-- Display the conversation history -->
-        {% if conversation_history %}
-            <h3>Conversation History:</h3>
-            <ul class="conversation-history">
-                {% for message in conversation_history %}
-                    <li><strong>You:</strong> {{ message.user }}</li>
-                    <li><strong>Model:</strong> {{ message.model }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-        <!-- Chat input if model is loaded -->
-        {% if model_loaded %}
-            <form class="chat-form" method="POST">
-                <label for="message">Your Message:</label><br>
-                <textarea name="message" id="message" rows="5" cols="50"></textarea>
-                <br>
-                <button type="submit" name="action" value="chat">Send</button>
-            </form>
-        {% endif %}
-
-        <div class="back-link">
-            <a href="/">Back to Home</a>
-        </div>
-    </div>
-
-    <footer class="footer">
-        <p>&copy; 2024 Chat App</p>
-    </footer>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2024 Chat App</p>
+  </footer>
 </body>
 </html>

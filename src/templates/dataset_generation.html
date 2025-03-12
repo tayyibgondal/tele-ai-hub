@@ -1,174 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dataset Generation</title>
-    <style>
-        /* General Styling */
-        body {
-            font-family: 'Inter', sans-serif; /* Modern sans-serif font */
-            background-color: #f0f2f5; /* Light gray background */
-            color: #333; /* Dark gray for text */
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh; /* Full viewport height */
-        }
-
-        /* Top Bar Styling */
-        .top-bar {
-            background-color: #ffffff; /* White background */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-            width: 100%;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-
-        .top-bar h2 {
-            color: #2c3e50; /* Dark blue for text */
-            font-size: 1.2rem;
-            margin: 0;
-            white-space: nowrap; /* Prevent text from wrapping */
-            overflow: hidden;
-            text-overflow: ellipsis; /* Add ellipsis if text overflows */
-            max-width: 70%; /* Limit width to prevent overflow */
-        }
-
-        .top-bar .logout-button {
-            background-color: #e74c3c; /* Red for logout button */
-            color: #fff; /* White text */
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            margin-right: 30px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            white-space: nowrap; /* Prevent button text from wrapping */
-        }
-
-        .top-bar .logout-button:hover {
-            background-color: #c0392b; /* Darker red on hover */
-            transform: translateY(-1px); /* Slight lift on hover */
-        }
-
-        .top-bar .logout-button:active {
-            transform: translateY(0); /* Reset lift on click */
-        }
-
-        /* Main Content Styling */
-        .container {
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            margin-top: 80px; /* Space for the top bar */
-        }
-
-        h1 {
-            color: #2b3c4d; /* Dark blue for main heading */
-            font-size: 3rem;
-            margin-bottom: 30px;
-            animation: fadeIn 1s ease-in-out; /* Fade-in animation */
-        }
-
-        /* Button Styling */
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            gap: 35px; /* Increased gap between buttons */
-            align-items: center;
-        }
-
-        .button-container a {
-            text-decoration: none;
-            width: 100%;
-        }
-
-        .button {
-            background-color: #3498db; /* Bright blue for buttons */
-            color: #fff; /* White text */
-            padding: 15px 25px; /* Larger padding for bigger buttons */
-            border: none;
-            border-radius: 8px; /* Rounded corners */
-            font-size: 1.1rem; /* Slightly larger font size */
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-            animation: slideIn 0.5s ease-in-out; /* Slide-in animation */
-        }
-
-        .button:hover {
-            background-color: #2980b9; /* Darker blue on hover */
-            transform: translateY(-2px); /* Slight lift on hover */
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
-        }
-
-        .button:active {
-            transform: translateY(0); /* Reset lift on click */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Reset shadow on click */
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-    </style>
-    <!-- Add Inter font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dataset Generation</title>
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    /* Body Styling */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding-top: 70px; /* to give space for top bar */
+    }
+    
+    /* Top Bar */
+    .top-bar {
+      background-color: #ffffff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+    .top-bar h2 {
+      color: #2c3e50;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 70%;
+    }
+    .top-bar .logout-button {
+      background-color: #e74c3c;
+      color: #fff;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .top-bar .logout-button:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+    }
+    .top-bar .logout-button:active {
+      transform: translateY(0);
+    }
+    
+    /* Main Container */
+    .container {
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      margin: 30px auto;
+      padding: 2rem 1rem;
+    }
+    .container h1 {
+      color: #2b3c4d;
+      font-size: 3rem;
+      margin-bottom: 30px;
+      animation: fadeIn 1s ease-in-out;
+      font-weight: 500;
+    }
+    
+    /* Button Container */
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .button-container a {
+      text-decoration: none;
+      width: 100%;
+    }
+    
+    /* Button Styling */
+    .button {
+      background-color: #3498db;
+      color: #fff;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      animation: slideIn 0.5s ease-in-out;
+    }
+    .button:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+    .button:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <h2>Dataset Generation</h2>
-        <a href="{{ url_for('home') }}">
-            <button class="logout-button">Back to Home</button>
-        </a>
-    </div>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <h2>Dataset Generation</h2>
+    <a href="{{ url_for('home') }}">
+      <button class="logout-button">Back to Home</button>
+    </a>
+  </div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <h1>Dataset Generation</h1>
-        <div class="button-container">
-            <a href="{{ url_for('NOMA_EE') }}">
-                <div class="button">NOMA EE Dataset Generation</div>
-            </a>
-            <a href="{{ url_for('NOMA_SE') }}">
-                <div class="button">NOMA SE Dataset Generation</div>
-            </a>
-            <a href="{{ url_for('EE') }}">
-                <div class="button">EE Dataset Generation</div>
-            </a>
-            <a href="{{ url_for('SE') }}">
-                <div class="button">SE Dataset Generation</div>
-            </a>
-        </div>
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Dataset Generation</h1>
+    <div class="button-container">
+      <a href="{{ url_for('NOMA_EE') }}">
+        <div class="button">NOMA EE Dataset Generation</div>
+      </a>
+      <a href="{{ url_for('NOMA_SE') }}">
+        <div class="button">NOMA SE Dataset Generation</div>
+      </a>
+      <a href="{{ url_for('EE') }}">
+        <div class="button">EE Dataset Generation</div>
+      </a>
+      <a href="{{ url_for('SE') }}">
+        <div class="button">SE Dataset Generation</div>
+      </a>
     </div>
+  </div>
 </body>
 </html>

@@ -1,74 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Chat with OpenAI</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat with OpenAI</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    /* Body Styling */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f3f3;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    
+    /* Top Bar */
+    .top-bar {
+      background-color: #2c3e50;
+      width: 100%;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    .top-bar h2 {
+      color: #fff;
+      font-weight: 500;
+      font-size: 1.3rem;
+      max-width: 70%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    /* Back Button */
+    .back-button {
+      background-color: #e74c3c;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    .back-button:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    .back-button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Main Container */
+    .container {
+      text-align: center;
+      max-width: 600px;
+      width: 90%;
+      margin-top: 90px; /* To leave room for fixed top bar */
+      padding: 2rem 1rem;
+    }
+    .container h1 {
+      color: #1a3d61;
+      font-size: 2.8rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    
+    /* Form Container */
+    .auth-container {
+      background-color: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+    .auth-container label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      color: #555;
+    }
+    .auth-container select,
+    .auth-container textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    .auth-container button {
+      background-color: #2980b9;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      display: block;
+      width: 100%;
+    }
+    .auth-container button:hover {
+      background-color: #21618c;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    .auth-container button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Conversation History */
+    .app-list {
+      list-style: none;
+      margin-top: 1rem;
+      padding: 0;
+      text-align: left;
+    }
+    .app-list li {
+      background-color: #fff;
+      margin-bottom: 0.5rem;
+      padding: 0.75rem;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    .app-list li strong {
+      color: #1a3d61;
+    }
+    
+    /* Back Link */
+    .back-link a {
+      color: #2980b9;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .back-link a:hover {
+      color: #21618c;
+      text-decoration: underline;
+    }
+    
+    /* Footer */
+    .footer {
+      margin-top: auto;
+      padding: 1rem;
+      background-color: #2c3e50;
+      width: 100%;
+      text-align: center;
+    }
+    .footer p {
+      color: #fff;
+      font-size: 0.9rem;
+    }
+  </style>
+  
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="top-bar">
-        <!-- Conditionally display the heading based on the selected model -->
-        {% if selected_model == "gpt-4.5-preview" %}
-            <h2>Chat with TELECOM GPT</h2>
-        {% else %}
-            <h2>Chat with OpenAI</h2>
-        {% endif %}
-        <button class="back-button">Back</button>
-    </div>
-
-    <div class="container">
-        <!-- Conditionally display the heading based on the selected model -->
-        {% if selected_model == "gpt-4.5-preview" %}
-            <h1>Chat with TELECOM GPT</h1>
-        {% else %}
-            <h1>Chat with OpenAI</h1>
-        {% endif %}
-
-        <!-- Single form to pick model (optional) and send message -->
-        <form class="auth-container" method="POST">
-            <label for="model">Choose an OpenAI Model:</label>
-            <select name="model" id="model">
-                {% for model in models %}
-                    <!-- 
-                      Use 'model' as the option's value so your backend 
-                      receives the real 'gpt-4.5-preview', but display "TELECOM GPT"
-                      as the text if the model is exactly 'gpt-4.5-preview'.
-                    -->
-                    <option value="{{ model }}" 
-                            {% if model == selected_model %}selected{% endif %}>
-                        {% if model == "gpt-4.5-preview" %}
-                            TELECOM GPT
-                        {% else %}
-                            {{ model }}
-                        {% endif %}
-                    </option>
-                {% endfor %}
-            </select>
-            <br><br>
-
-            <label for="message">Your Message:</label><br>
-            <textarea name="message" rows="4" cols="50"></textarea>
-            <br><br>
-
-            <button type="submit">Send</button>
-        </form>
-
-        <!-- Display conversation -->
-        {% if conversation_history and conversation_history|length > 0 %}
-            <h3>Conversation History:</h3>
-            <ul class="app-list">
-                {% for entry in conversation_history %}
-                    <li><strong>You:</strong> {{ entry.user }}</li>
-                    <li><strong>Model:</strong> {{ entry.model }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-        <p class="back-link"><a href="{{ url_for('home') }}">Back to Home</a></p>
-    </div>
-
-    <footer class="footer">
-        <p>&copy; 2024 Chat App</p>
-    </footer>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    {% if selected_model == "gpt-4.5-preview" %}
+      <h2>Chat with TELECOM GPT</h2>
+    {% else %}
+      <h2>Chat with OpenAI</h2>
+    {% endif %}
+    <button class="back-button" onclick="window.history.back();">Back</button>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="container">
+      <h1>Chat with TELECOM GPT and Sotas</h1>
+    
+    <!-- Chat Form -->
+    <form class="auth-container" method="POST">
+      <label for="model">Choose an OpenAI Model:</label>
+      <select name="model" id="model">
+        {% for model in models %}
+          <option value="{{ model }}" {% if model == selected_model %}selected{% endif %}>
+            {% if model == "gpt-4.5-preview" %}
+              TELECOM GPT
+            {% else %}
+              {{ model }}
+            {% endif %}
+          </option>
+        {% endfor %}
+      </select>
+      
+      <label for="message">Your Message:</label>
+      <textarea name="message" rows="4" cols="50"></textarea>
+      
+      <button type="submit">Send</button>
+    </form>
+    
+    <!-- Conversation History -->
+    {% if conversation_history and conversation_history|length > 0 %}
+      <h3>Conversation History:</h3>
+      <ul class="app-list">
+        {% for entry in conversation_history %}
+          <li><strong>You:</strong> {{ entry.user }}</li>
+          <li><strong>Model:</strong> {{ entry.model }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    
+    <p class="back-link"><a href="{{ url_for('home') }}">Back to Home</a></p>
+  </div>
+  
+  <footer class="footer">
+    <p>&copy; 2024 Chat App</p>
+  </footer>
 </body>
 </html>
