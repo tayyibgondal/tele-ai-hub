@@ -1,0 +1,422 @@
+{% extends "base.html" %}
+
+{% block title %}Account Settings | TeleAI Hub{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-gradient">
+    <div class="container">
+        <div class="hero-content text-center">
+            <h1>Account Settings</h1>
+            <p class="hero-subtitle">Manage your profile and security preferences</p>
+        </div>
+    </div>
+    <div class="hero-pattern"></div>
+</section>
+
+<!-- Settings Section -->
+<section class="section-padding">
+    <div class="container">
+        <div class="grid">
+            <!-- Settings Menu -->
+            <div class="col-12 col-md-4">
+                <div class="card settings-menu">
+                    <h3>Settings</h3>
+                    <ul class="settings-nav">
+                        <li><a href="#profile" class="active"><i class="fas fa-user"></i> Profile Information</a></li>
+                        <li><a href="#password"><i class="fas fa-key"></i> Change Password</a></li>
+                        <li><a href="#notifications"><i class="fas fa-bell"></i> Notifications</a></li>
+                        <li><a href="#privacy"><i class="fas fa-shield-alt"></i> Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Settings Forms -->
+            <div class="col-12 col-md-8">
+                <!-- Profile Settings -->
+                <div id="profile" class="card settings-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-user text-accent"></i> Profile Information
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{ url_for('settings') }}">
+                            <input type="hidden" name="action" value="update_profile">
+                            
+                            <div class="form-group">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" id="username" name="username" class="form-control" value="{{ current_user.username }}">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" id="email" name="email" class="form-control" value="{{ current_user.email }}">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="company" class="form-label">Company (Optional)</label>
+                                <input type="text" id="company" name="company" class="form-control" placeholder="Enter your company name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="position" class="form-label">Position (Optional)</label>
+                                <input type="text" id="position" name="position" class="form-control" placeholder="Enter your job title">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Password Settings -->
+                <div id="password" class="card settings-card mt-4">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-key text-accent"></i> Change Password
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{ url_for('settings') }}">
+                            <input type="hidden" name="action" value="change_password">
+                            
+                            <div class="form-group">
+                                <label for="current_password" class="form-label">Current Password</label>
+                                <input type="password" id="current_password" name="current_password" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="new_password" class="form-label">New Password</label>
+                                <input type="password" id="new_password" name="new_password" class="form-control" required>
+                                <span class="form-hint">Password must be at least 8 characters long and contain letters, numbers, and special characters.</span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirm_password" class="form-label">Confirm New Password</label>
+                                <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-key"></i> Update Password
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Notification Settings -->
+                <div id="notifications" class="card settings-card mt-4">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-bell text-accent"></i> Notification Preferences
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-4">Choose which notifications you'd like to receive</p>
+                        
+                        <div class="settings-toggle-group">
+                            <div class="settings-toggle">
+                                <label class="toggle-label">Email Notifications</label>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="settings-toggle">
+                                <label class="toggle-label">Product Updates</label>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="settings-toggle">
+                                <label class="toggle-label">Security Alerts</label>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="settings-toggle">
+                                <label class="toggle-label">Marketing Communications</label>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="btn btn-primary mt-4">
+                            <i class="fas fa-save"></i> Save Preferences
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Privacy Settings -->
+                <div id="privacy" class="card settings-card mt-4">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-shield-alt text-accent"></i> Privacy Settings
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-4">Manage your data and privacy preferences</p>
+                        
+                        <div class="settings-toggle-group">
+                            <div class="settings-toggle">
+                                <label class="toggle-label">Allow Data Analytics</label>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="settings-toggle">
+                                <label class="toggle-label">Show Profile to Other Users</label>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="settings-toggle">
+                                <label class="toggle-label">Two-Factor Authentication</label>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <button type="button" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Settings
+                            </button>
+                            
+                            <button type="button" class="btn btn-danger ml-2">
+                                <i class="fas fa-trash"></i> Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block head %}
+<style>
+    /* Hero Section */
+    .hero-section {
+        padding: 6rem 0 4rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .bg-gradient {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .hero-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(rgba(0, 212, 255, 0.1) 2px, transparent 2px);
+        background-size: 30px 30px;
+        opacity: 0.5;
+        z-index: 1;
+    }
+    
+    /* Settings Menu */
+    .settings-menu {
+        position: sticky;
+        top: 100px;
+    }
+    
+    .settings-nav {
+        list-style: none;
+        padding: 0;
+        margin: 1.5rem 0 0 0;
+    }
+    
+    .settings-nav li {
+        margin-bottom: 0.25rem;
+    }
+    
+    .settings-nav a {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        color: var(--text-secondary);
+        border-radius: var(--radius);
+        transition: var(--transition-fast);
+        font-weight: 500;
+        gap: 0.75rem;
+    }
+    
+    .settings-nav a i {
+        color: var(--accent);
+        font-size: 1.1rem;
+        width: 20px;
+        text-align: center;
+    }
+    
+    .settings-nav a:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-primary);
+    }
+    
+    .settings-nav a.active {
+        background: rgba(0, 212, 255, 0.1);
+        color: var(--accent);
+    }
+    
+    /* Settings Cards */
+    .settings-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: var(--space-md);
+        margin-bottom: var(--space-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Toggle Switches */
+    .settings-toggle-group {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+    
+    .settings-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .toggle-label {
+        margin: 0;
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+    
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+    }
+    
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.1);
+        transition: .4s;
+        border-radius: 12px;
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: var(--text-secondary);
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+        background-color: var(--accent);
+    }
+    
+    input:checked + .slider:before {
+        transform: translateX(26px);
+        background-color: white;
+    }
+    
+    /* Section Spacing */
+    .section-padding {
+        padding: 5rem 0;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .settings-menu {
+            position: relative;
+            top: 0;
+            margin-bottom: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle tab navigation
+        const settingsNavLinks = document.querySelectorAll('.settings-nav a');
+        const settingsSections = document.querySelectorAll('.settings-card');
+        
+        // Hide all sections except the first one on load
+        for (let i = 1; i < settingsSections.length; i++) {
+            settingsSections[i].style.display = 'none';
+        }
+        
+        settingsNavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                settingsNavLinks.forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Hide all settings sections
+                settingsSections.forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // Show the target section
+                const targetId = this.getAttribute('href').substring(1);
+                document.getElementById(targetId).style.display = 'block';
+            });
+        });
+    });
+</script>
+{% endblock %} 

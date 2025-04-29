@@ -1,162 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dataset Generation</title>
-  <style>
-    /* Global Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    /* Body Styling */
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f0f2f5;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding-top: 70px; /* to give space for top bar */
-    }
-    
-    /* Top Bar */
-    .top-bar {
-      background-color: #ffffff;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-    }
-    .top-bar h2 {
-      color: #2c3e50;
-      font-size: 1.2rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 70%;
-    }
-    .top-bar .logout-button {
-      background-color: #e74c3c;
-      color: #fff;
-      padding: 10px 18px;
-      border: none;
-      border-radius: 5px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-    .top-bar .logout-button:hover {
-      background-color: #c0392b;
-      transform: translateY(-2px);
-    }
-    .top-bar .logout-button:active {
-      transform: translateY(0);
-    }
-    
-    /* Main Container */
-    .container {
-      text-align: center;
-      max-width: 500px;
-      width: 90%;
-      margin: 30px auto;
-      padding: 2rem 1rem;
-    }
-    .container h1 {
-      color: #2b3c4d;
-      font-size: 3rem;
-      margin-bottom: 30px;
-      animation: fadeIn 1s ease-in-out;
-      font-weight: 500;
-    }
-    
-    /* Button Container */
-    .button-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-    }
-    
-    .button-container a {
-      text-decoration: none;
-      width: 100%;
-    }
-    
-    /* Button Styling */
-    .button {
-      background-color: #3498db;
-      color: #fff;
-      padding: 15px 25px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      animation: slideIn 0.5s ease-in-out;
-    }
-    .button:hover {
-      background-color: #2980b9;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    }
-    .button:active {
-      transform: translateY(0);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes slideIn {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-  </style>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-</head>
-<body>
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <h2>Dataset Generation</h2>
-    <a href="{{ url_for('home') }}">
-      <button class="logout-button">Back to Home</button>
-    </a>
-  </div>
+{% extends "base.html" %}
 
-  <!-- Main Content -->
-  <div class="container">
-    <h1>Dataset Generation</h1>
-    <div class="button-container">
-      <a href="{{ url_for('NOMA_EE') }}">
-        <div class="button">NOMA EE Dataset Generation</div>
-      </a>
-      <a href="{{ url_for('NOMA_SE') }}">
-        <div class="button">NOMA SE Dataset Generation</div>
-      </a>
-      <a href="{{ url_for('EE') }}">
-        <div class="button">EE Dataset Generation</div>
-      </a>
-      <a href="{{ url_for('SE') }}">
-        <div class="button">SE Dataset Generation</div>
-      </a>
+{% block title %}Dataset Generation | TeleAI Hub{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <h1>Telecommunications Datasets</h1>
+    <p class="mb-4">Generate synthetic datasets for telecommunications research and development</p>
+</div>
+
+<div class="grid">
+    <!-- NOMA Energy Efficiency Dataset -->
+    <div class="col-12 col-md-6 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-bolt text-accent"></i> NOMA Energy Efficiency
+                </h3>
+            </div>
+            <p>Generate Non-Orthogonal Multiple Access (NOMA) energy efficiency datasets with configurable parameters.</p>
+            <div class="mt-3">
+                <a href="{{ url_for('NOMA_EE') }}" class="btn btn-primary btn-block">
+                    <i class="fas fa-database"></i> Create NOMA EE Dataset
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
-</body>
-</html>
+    
+    <!-- NOMA Spectral Efficiency Dataset -->
+    <div class="col-12 col-md-6 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-broadcast-tower text-accent"></i> NOMA Spectral Efficiency
+                </h3>
+            </div>
+            <p>Generate Non-Orthogonal Multiple Access (NOMA) spectral efficiency datasets for optimization research.</p>
+            <div class="mt-3">
+                <a href="{{ url_for('NOMA_SE') }}" class="btn btn-primary btn-block">
+                    <i class="fas fa-database"></i> Create NOMA SE Dataset
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Energy Efficiency Dataset -->
+    <div class="col-12 col-md-6 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-leaf text-accent"></i> Energy Efficiency
+                </h3>
+            </div>
+            <p>Generate standard energy efficiency datasets for telecommunications network simulation.</p>
+            <div class="mt-3">
+                <a href="{{ url_for('EE') }}" class="btn btn-primary btn-block">
+                    <i class="fas fa-database"></i> Create EE Dataset
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Spectral Efficiency Dataset -->
+    <div class="col-12 col-md-6 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-wave-square text-accent"></i> Spectral Efficiency
+                </h3>
+            </div>
+            <p>Generate spectral efficiency datasets with customizable parameters for research purposes.</p>
+            <div class="mt-3">
+                <a href="{{ url_for('SE') }}" class="btn btn-primary btn-block">
+                    <i class="fas fa-database"></i> Create SE Dataset
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dataset Information -->
+<div class="card mt-4">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-info-circle text-accent"></i> About These Datasets
+        </h3>
+    </div>
+    <div class="p-3">
+        <p>Our dataset generators create synthetic telecommunications data that can be used for:</p>
+        
+        <div class="grid mt-3">
+            <div class="col-6 col-sm-12">
+                <div class="d-flex gap-2 mb-2">
+                    <i class="fas fa-check-circle text-accent mt-1"></i>
+                    <p class="text-muted">Training machine learning models for resource allocation</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-12">
+                <div class="d-flex gap-2 mb-2">
+                    <i class="fas fa-check-circle text-accent mt-1"></i>
+                    <p class="text-muted">Testing optimization algorithms for network efficiency</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-12">
+                <div class="d-flex gap-2 mb-2">
+                    <i class="fas fa-check-circle text-accent mt-1"></i>
+                    <p class="text-muted">Benchmarking NOMA vs. conventional access methods</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-12">
+                <div class="d-flex gap-2 mb-2">
+                    <i class="fas fa-check-circle text-accent mt-1"></i>
+                    <p class="text-muted">Simulating various network conditions and scenarios</p>
+                </div>
+            </div>
+        </div>
+        
+        <p class="mt-3">All datasets are generated based on realistic propagation models and can be customized with various parameters to match your research requirements.</p>
+    </div>
+</div>
+{% endblock %}

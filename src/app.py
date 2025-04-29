@@ -29,7 +29,7 @@ login_manager.login_view = 'login'
 # Hugging Face model cache
 models_cache = {}
 ollama_models_cache = {}
-FINETUNING_COLAB_SERVER_URL = "https://7768-34-145-93-8.ngrok-free.app" 
+FINETUNING_COLAB_SERVER_URL = "https://a2ec-34-87-172-108.ngrok-free.app" 
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -277,6 +277,193 @@ def dataset_generation():
 @login_required
 def telecom_agents():
     return render_template("telecom_agents.html")
+
+@app.route("/about")
+@login_required
+def about():
+    # Team members data
+    team = [
+        {
+            "name": "Tayyib Ul Hassan",
+            "position": "Chief Executive Officer",
+            "bio": "Former research scientist with over 15 years of experience in telecommunications and AI systems. Led multiple R&D teams developing cutting-edge wireless communication solutions.",
+            "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=687&ixlib=rb-4.0.3",
+            "linkedin": "https://linkedin.com/",
+            "twitter": "https://twitter.com/",
+            "github": "https://github.com/"
+        },
+        {
+            "name": "Attiya Waqar",
+            "position": "Chief Technology Officer",
+            "bio": "PhD in Wireless Communications with expertise in NOMA and resource allocation algorithms. Published over 30 research papers in top telecommunications journals.",
+            "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=688&ixlib=rb-4.0.3",
+            "linkedin": "https://linkedin.com/",
+            "twitter": "https://twitter.com/"
+        },
+        {
+            "name": "Aamina Binte Khurram",
+            "position": "Head of AI Research",
+            "bio": "Leading our research initiatives in applying machine learning to complex network optimization. Previously developed AI systems for predictive network maintenance.",
+            "image": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=687&ixlib=rb-4.0.3",
+            "linkedin": "https://linkedin.com/",
+            "github": "https://github.com/"
+        },
+        {
+            "name": "Zeeshan Ahmad",
+            "position": "Solution Architect",
+            "bio": "Telecom engineer with 8+ years experience in designing and implementing enterprise-scale telecommunication systems and network infrastructure.",
+            "image": "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&q=80&w=870&ixlib=rb-4.0.3",
+            "linkedin": "https://linkedin.com/",
+            "github": "https://github.com/"
+        },
+        {
+            "name": "Saira Khan",
+            "position": "Product Manager",
+            "bio": "Experienced in bringing AI products to market with a focus on telecommunications applications. Expert in translating technical capabilities into business value.",
+            "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=761&ixlib=rb-4.0.3",
+            "twitter": "https://twitter.com/"
+        },
+        {
+            "name": "Ibrahim Malik",
+            "position": "Data Science Lead",
+            "bio": "Specializes in applying deep learning to analyze and optimize complex network data for improved performance and reliability.",
+            "image": "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?auto=format&fit=crop&q=80&w=876&ixlib=rb-4.0.3",
+            "linkedin": "https://linkedin.com/",
+            "github": "https://github.com/"
+        }
+    ]
+    return render_template('about.html', team=team)
+
+@app.route("/contact", methods=["GET", "POST"])
+@login_required
+def contact():
+    if request.method == "POST":
+        # Get form data
+        name = request.form.get('name')
+        email = request.form.get('email')
+        subject = request.form.get('subject')
+        message = request.form.get('message')
+        
+        # Here you would typically send an email or store the contact request
+        # For now, we'll just flash a success message
+        flash(f"Thanks {name}! Your message has been received. We'll contact you shortly.", "success")
+        return redirect(url_for('contact'))
+        
+    return render_template('contact.html')
+
+@app.route("/settings", methods=["GET", "POST"])
+@login_required
+def settings():
+    if request.method == "POST":
+        action = request.form.get('action')
+        
+        if action == "update_profile":
+            # Update username
+            new_username = request.form.get('username')
+            if new_username and new_username != current_user.username:
+                # Check if username is already taken
+                existing_user = User.query.filter_by(username=new_username).first()
+                if existing_user and existing_user.id != current_user.id:
+                    flash("Username already taken. Please choose another one.", "danger")
+                else:
+                    current_user.username = new_username
+                    db.session.commit()
+                    flash("Profile updated successfully!", "success")
+            
+            # Update email
+            new_email = request.form.get('email')
+            if new_email and new_email != current_user.email:
+                # Check if email is already taken
+                existing_user = User.query.filter_by(email=new_email).first()
+                if existing_user and existing_user.id != current_user.id:
+                    flash("Email already taken. Please choose another one.", "danger")
+                else:
+                    current_user.email = new_email
+                    db.session.commit()
+                    flash("Profile updated successfully!", "success")
+        
+        elif action == "change_password":
+            current_password = request.form.get('current_password')
+            new_password = request.form.get('new_password')
+            confirm_password = request.form.get('confirm_password')
+            
+            # Verify current password
+            if not check_password_hash(current_user.password, current_password):
+                flash("Current password is incorrect.", "danger")
+            elif new_password != confirm_password:
+                flash("New passwords do not match.", "danger")
+            else:
+                current_user.password = generate_password_hash(new_password, method='pbkdf2:sha256')
+                db.session.commit()
+                flash("Password changed successfully!", "success")
+    
+    return render_template('settings.html')
+
+@app.route("/team")
+@login_required
+def team():
+    return redirect(url_for('about'))
+
+@app.route("/careers")
+@login_required
+def careers():
+    # Placeholder for a careers page - redirecting to contact for now
+    flash("We're always looking for talented individuals! Please contact us for current openings.", "info")
+    return redirect(url_for('contact'))
+
+@app.route("/partners")
+@login_required
+def partners():
+    # Placeholder for a partners page - redirecting to about for now
+    return redirect(url_for('about'))
+
+@app.route("/blog")
+@login_required
+def blog():
+    # Placeholder for a blog page - redirecting to home for now
+    flash("Our blog is coming soon! Check back later for updates.", "info")
+    return redirect(url_for('home'))
+
+@app.route("/case-studies")
+@login_required
+def case_studies():
+    # Placeholder for case studies - redirecting to home for now
+    flash("Case studies are coming soon! Check back later for updates.", "info")
+    return redirect(url_for('home'))
+
+@app.route("/documentation")
+@login_required
+def documentation():
+    # Placeholder for documentation - redirecting to dataset_generation for now
+    return redirect(url_for('dataset_generation'))
+
+@app.route("/research")
+@login_required
+def research():
+    # Placeholder for research papers - redirecting to dataset_generation for now
+    return redirect(url_for('dataset_generation'))
+
+@app.route("/webinars")
+@login_required
+def webinars():
+    # Placeholder for webinars - redirecting to home for now
+    flash("Webinars are coming soon! Check back later for updates.", "info")
+    return redirect(url_for('home'))
+
+@app.route("/privacy")
+def privacy():
+    # Placeholder for privacy policy - could create a real page later
+    return render_template('privacy.html')
+
+@app.route("/terms")
+def terms():
+    # Placeholder for terms of service - could create a real page later
+    return render_template('terms.html')
+
+@app.route("/sitemap")
+def sitemap():
+    # Use our new sitemap template
+    return render_template('sitemap.html')
 
 # -----------------------------
 #   Chat with Hugging Face
