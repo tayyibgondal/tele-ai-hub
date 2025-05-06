@@ -1,145 +1,159 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOMA SE Dataset Generation</title>
-    <style>
-        /* General Styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        h2 {
-            color: #444;
-        }
-        form {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            margin: 20px auto;
-        }
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-            color: #555;
-        }
-        input[type="range"] {
-            width: 100%;
-            margin: 10px 0;
-        }
-        input[type="number"] {
-            width: 100%;
-            padding: 8px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        .slider-value {
-            display: inline-block;
-            margin-left: 10px;
-            font-weight: bold;
-            color: #007bff;
-        }
-        .radio-group {
-            margin: 10px 0;
-        }
-        .radio-group label {
-            display: inline-block;
-            margin-right: 15px;
-            font-weight: normal;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 10px;
-            background: #e9ecef;
-            border-radius: 4px;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-    <h2>Welcome, {{ current_user.username }}!</h2>
-    <p>You are logged in.</p>
-    <a href="{{ url_for('logout') }}">Logout</a>
+{% extends "base.html" %}
 
-    <h1>NOMA SE Dataset Generation</h1>
-    <form action="{{ url_for('NOMA_SE') }}" method="POST">
-        <!-- Rows of Data (Slider) -->
-        <label for="rows_of_data">Rows of Data:</label>
-        <input type="range" id="rows_of_data" name="rows_of_data" min="1" max="100000" step="9" value="10" required>
-        <span class="slider-value" id="rows_of_data_value">10</span>
-        <br>
+{% block title %}NOMA SE Dataset Generation | TeleAI Hub{% endblock %}
 
-        <!-- Temperature (Slider) -->
-        <label for="temperature">Temperature:</label>
-        <input type="range" id="temperature" name="temperature" min="100" max="500" step="100" value="300" required>
-        <span class="slider-value" id="temperature_value">300</span>
-        <br>
-
-        <!-- Bandwidth (Input Field) -->
-        <label for="bandwidth">Bandwidth:</label>
-        <input type="number" id="bandwidth" name="bandwidth" value="1e7" required>
-        <br>
-
-        <!-- Simulation Area Size (Slider) -->
-        <label for="simulation_area_size">Simulation Area Size:</label>
-        <input type="range" id="simulation_area_size" name="simulation_area_size" min="60" max="100" step="9" value="60" required>
-        <span class="slider-value" id="simulation_area_size_value">60</span>
-        <br> 
-
-        <!-- Number of Antennas (Radio Buttons) -->
-        <label>Number of Antennas:</label>
-        <div class="radio-group">
-            <input type="radio" id="n_antennas_1" name="n_antennas" value="1" required>
-            <label for="n_antennas_1">1</label>
-            <input type="radio" id="n_antennas_2" name="n_antennas" value="2">
-            <label for="n_antennas_2">2</label>
-            <input type="radio" id="n_antennas_3" name="n_antennas" value="3">
-            <label for="n_antennas_3">3</label>
+{% block content %}
+<section class="hero-section bg-gradient">
+    <div class="container">
+        <div class="hero-content text-center">
+            <h1>NOMA SE Dataset Generation</h1>
+            <p class="hero-subtitle">Generate Non-Orthogonal Multiple Access (NOMA) spectral efficiency datasets</p>
         </div>
-        <br>
+    </div>
+    <div class="hero-pattern"></div>
+</section>
 
-         <!-- Number of Channel Realizations (mc) -->
-         <label>Number of Channel Realizations:</label>
-         <div class="radio-group">
-             <input type="radio" id="mc_1" name="mc" value="1" required>
-             <label for="mc_1">1</label>
-             <input type="radio" id="mc_2" name="mc" value="2">
-             <label for="mc_2">2</label>
-             <input type="radio" id="mc_3" name="mc" value="3">
-             <label for="mc_3">3</label>
-         </div>
-         <br>
+<section class="section-padding">
+    <div class="container">
+        <div class="grid">
+            <div class="col-12 col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-cogs text-accent"></i> Generation Parameters
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ url_for('NOMA_SE') }}" method="POST">
+                            <!-- Rows of Data (Slider) -->
+                            <div class="form-group">
+                                <label for="rows_of_data" class="form-label">Rows of Data:</label>
+                                <div class="slider-container">
+                                    <input type="range" id="rows_of_data" name="rows_of_data" min="1" max="100000" step="9" value="10" class="form-range" required>
+                                    <span class="slider-value" id="rows_of_data_value">10</span>
+                                </div>
+                            </div>
 
-        <!-- Submit Button -->
-        <button type="submit">Run</button>
-    </form>
+                            <!-- Temperature (Slider) -->
+                            <div class="form-group">
+                                <label for="temperature" class="form-label">Temperature:</label>
+                                <div class="slider-container">
+                                    <input type="range" id="temperature" name="temperature" min="100" max="500" step="100" value="300" class="form-range" required>
+                                    <span class="slider-value" id="temperature_value">300</span>
+                                </div>
+                            </div>
 
-    <button onclick="downloadFile()">Download</button>
+                            <!-- Bandwidth (Input Field) -->
+                            <div class="form-group">
+                                <label for="bandwidth" class="form-label">Bandwidth:</label>
+                                <input type="number" id="bandwidth" name="bandwidth" value="1e7" class="form-control" required>
+                            </div>
 
-    <script>
-        // JavaScript to update slider values in real-time
+                            <!-- Simulation Area Size (Slider) -->
+                            <div class="form-group">
+                                <label for="simulation_area_size" class="form-label">Simulation Area Size:</label>
+                                <div class="slider-container">
+                                    <input type="range" id="simulation_area_size" name="simulation_area_size" min="60" max="100" step="9" value="60" class="form-range" required>
+                                    <span class="slider-value" id="simulation_area_size_value">60</span>
+                                </div>
+                            </div>
+
+                            <!-- Number of Antennas (Radio Buttons) -->
+                            <div class="form-group">
+                                <label class="form-label">Number of Antennas:</label>
+                                <div class="radio-group">
+                                    <div class="radio-option">
+                                        <input type="radio" id="n_antennas_1" name="n_antennas" value="1" required>
+                                        <label for="n_antennas_1">1</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="n_antennas_2" name="n_antennas" value="2">
+                                        <label for="n_antennas_2">2</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="n_antennas_3" name="n_antennas" value="3">
+                                        <label for="n_antennas_3">3</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Number of Channel Realizations (mc) -->
+                            <div class="form-group">
+                                <label class="form-label">Number of Channel Realizations:</label>
+                                <div class="radio-group">
+                                    <div class="radio-option">
+                                        <input type="radio" id="mc_1" name="mc" value="1" required>
+                                        <label for="mc_1">1</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="mc_2" name="mc" value="2">
+                                        <label for="mc_2">2</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="mc_3" name="mc" value="3">
+                                        <label for="mc_3">3</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-play"></i> Generate Dataset
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-info-circle text-accent"></i> About NOMA SE Datasets
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <p>NOMA (Non-Orthogonal Multiple Access) Spectral Efficiency datasets are used to analyze and optimize the spectrum usage in next-generation telecommunications systems.</p>
+                        
+                        <h4 class="mt-4">Parameter Explanation:</h4>
+                        <ul class="feature-list">
+                            <li><strong>Rows of Data:</strong> The number of data points to generate.</li>
+                            <li><strong>Temperature:</strong> Environmental temperature affecting device performance.</li>
+                            <li><strong>Bandwidth:</strong> Available frequency bandwidth for communication.</li>
+                            <li><strong>Simulation Area Size:</strong> The physical area size being simulated.</li>
+                            <li><strong>Number of Antennas:</strong> Antenna configuration for MIMO systems.</li>
+                            <li><strong>Channel Realizations:</strong> Number of channel instances to simulate.</li>
+                        </ul>
+                        
+                        {% if result %}
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-download text-accent"></i> Dataset Generated
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Your dataset has been successfully generated!</p>
+                                <button onclick="downloadFile()" class="btn btn-accent">
+                                    <i class="fas fa-download"></i> Download JSON
+                                </button>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // JavaScript to update slider values in real-time
+    document.addEventListener('DOMContentLoaded', function() {
         const rowsOfDataSlider = document.getElementById('rows_of_data');
         const rowsOfDataValue = document.getElementById('rows_of_data_value');
         rowsOfDataSlider.oninput = function() {
@@ -157,18 +171,84 @@
         simulationAreaSizeSlider.oninput = function() {
             simulationAreaSizeValue.textContent = this.value;
         };
+    });
 
-        function downloadFile() {
-            const filename = "NOMA_SE_dataset.json";
-            const fileURL = "/" + filename; // Assuming the file is at the root
+    function downloadFile() {
+        const filename = "NOMA_SE_dataset.json";
+        const fileURL = "/NOMA_SE_dataset.json";
 
-            var link = document.createElement("a");
-            link.href = fileURL;
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    </script>
-</body>
-</html>
+        var link = document.createElement("a");
+        link.href = fileURL;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
+{% endblock %}
+
+{% block head %}
+<style>
+    /* Slider styles */
+    .slider-container {
+        position: relative;
+        margin-bottom: 1rem;
+    }
+    
+    .form-range {
+        width: 100%;
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.1);
+        outline: none;
+        -webkit-appearance: none;
+    }
+
+    .form-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        background: var(--accent);
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .slider-value {
+        display: inline-block;
+        margin-left: 10px;
+        color: var(--accent);
+        font-weight: 500;
+    }
+    
+    /* Radio button styles */
+    .radio-group {
+        display: flex;
+        gap: 1rem;
+        margin: 0.5rem 0 1.5rem;
+    }
+    
+    .radio-option {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .radio-option input[type="radio"] {
+        margin: 0;
+    }
+    
+    /* Form styles */
+    .form-actions {
+        margin-top: 2rem;
+    }
+    
+    /* Feature list */
+    .feature-list {
+        padding-left: 1.5rem;
+    }
+    
+    .feature-list li {
+        margin-bottom: 0.75rem;
+    }
+</style>
+{% endblock %}

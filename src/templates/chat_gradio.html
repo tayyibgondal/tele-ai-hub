@@ -1,37 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with Gradio</title>
-    
-    <!-- Add Inter font from Google Fonts -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"> -->
-</head>
-<body>
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <h2>Gradio Apps</h2>
-        <a href="{{ url_for('home') }}">
-            <button class="back-button">Back to Home</button>
-        </a>
+{% extends "base.html" %}
+
+{% block title %}Gradio Interface | TeleAI Hub{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <h1>Advanced Gradio Interfaces</h1>
+    <p class="mb-4">Connect to powerful Gradio-based interfaces for specialized telecommunications tasks</p>
+</div>
+
+<div class="card" style="max-width: 800px; margin: 0 auto;">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-rocket text-accent"></i> Available Gradio Apps
+        </h3>
     </div>
-
-    <!-- Main Content -->
-    <div class="container">
-        <h1>Gradio Apps</h1>
-        <p>Select a Gradio app to open (no model loading):</p>
-        <ul class="app-list">
-            <!-- Example links -->
-            <li><a href="https://my-gradio-app1.example.com" target="_blank">Resource allocation D2D Llama Agent</a></li>
-            <li><a href="https://my-gradio-app2.example.com" target="_blank">Resource allocation D2D Phi Agent</a></li>
-            <li><a href="https://my-gradio-app2.example.com" target="_blank">Resource allocation D2D Code-Llama Agent (provides best optimization)</a></li>
-        </ul>
-
-        <div class="back-link">
-            <a href="{{ url_for('home') }}">Back to Home</a>
+    <div class="p-3">
+        <div class="app-list">
+            <div class="app-item">
+                <div class="d-flex gap-3 align-center mb-3">
+                    <div class="app-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="app-info">
+                        <h4>Resource Allocation D2D Phi Agent</h4>
+                        <p class="text-muted">AI-powered optimization for Device-to-Device communication resource allocation</p>
+                        <a href="https://cae89483a5e589bcb2.gradio.live" target="_blank" class="btn btn-primary mt-2">
+                            <i class="fas fa-external-link-alt"></i> Open Interface
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="divider my-3"></div>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <span>More Gradio interfaces will be added soon. Check back later for updates.</span>
+            </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+
+<!-- Information Card -->
+<div class="card mt-4" style="max-width: 800px; margin: 0 auto;">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-info-circle text-accent"></i> About Gradio Interfaces
+        </h3>
+    </div>
+    <div class="p-3">
+        <p>Gradio provides interactive web interfaces for AI models with advanced capabilities:</p>
+        
+        <div class="grid mt-3">
+            <div class="col-6 col-sm-12">
+                <div class="d-flex gap-2 mb-2">
+                    <i class="fas fa-check-circle text-accent mt-1"></i>
+                    <p class="text-muted">Visualize telecommunications network optimization</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-12">
+                <div class="d-flex gap-2 mb-2">
+                    <i class="fas fa-check-circle text-accent mt-1"></i>
+                    <p class="text-muted">Upload and analyze network data in real-time</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-12">
+                <div class="d-flex gap-2 mb-2">
+                    <i class="fas fa-check-circle text-accent mt-1"></i>
+                    <p class="text-muted">Interactive chat with specialized telecom models</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-12">
+                <div class="d-flex gap-2 mb-2">
+                    <i class="fas fa-check-circle text-accent mt-1"></i>
+                    <p class="text-muted">Run complex telecommunications simulations easily</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block head %}
+<style>
+    .app-list {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .app-item {
+        transition: var(--transition);
+    }
+    
+    .app-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: rgba(0, 212, 255, 0.1);
+        color: var(--accent);
+        font-size: 1.5rem;
+    }
+    
+    .app-info {
+        flex: 1;
+    }
+    
+    .app-info h4 {
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+    }
+    
+    .divider {
+        height: 1px;
+        background-color: rgba(255, 255, 255, 0.1);
+        width: 100%;
+    }
+    
+    .my-3 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,509 @@
+{% extends "base.html" %}
+
+{% block title %}About Us | TeleAI Hub{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-gradient">
+    <div class="container">
+        <div class="hero-content text-center">
+            <h1>About TeleAI Hub</h1>
+            <p class="hero-subtitle">Pioneering AI Solutions in Telecommunications</p>
+        </div>
+    </div>
+    <div class="hero-pattern"></div>
+</section>
+
+<!-- About Section -->
+<section class="section-padding">
+    <div class="container">
+        <div class="grid">
+            <div class="col-12 col-md-6">
+                <h2 class="section-title">Our Mission</h2>
+                <p class="section-text">At TeleAI Hub, we're revolutionizing the telecommunications industry through cutting-edge AI solutions. Our mission is to empower telecom providers with intelligent analytics, predictive maintenance, and automated customer service to enhance operational efficiency and customer satisfaction.</p>
+                
+                <h2 class="section-title mt-5">Our Vision</h2>
+                <p class="section-text">We envision a future where telecommunications networks are self-healing, self-optimizing, and able to anticipate user needs before they arise. By bridging the gap between AI research and practical telecom applications, we're building that future today.</p>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <div class="about-image-wrapper">
+                    <img src="{{ url_for('static', filename='img/about-team.jpg') }}" alt="TeleAI Hub Team" class="about-image">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="section-alt section-padding">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Our Core Values</h2>
+        
+        <div class="grid">
+            <div class="col-12 col-md-4">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Innovation</h3>
+                    <p>We constantly push the boundaries of what's possible in AI and telecommunications, embracing new ideas and approaches.</p>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-4">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Collaboration</h3>
+                    <p>We believe in the power of partnership, working closely with our clients and within our team to achieve exceptional results.</p>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-4">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Integrity</h3>
+                    <p>We uphold the highest standards of transparency, data privacy, and ethical AI practices in everything we do.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="section-padding">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Meet Our Team</h2>
+        
+        <div class="d-flex flex-wrap justify-center gap-3">
+            {% for member in team %}
+            <div style="max-width: 350px; width: 100%;">
+                <div class="team-card">
+                    <div class="team-image-wrapper">
+                        <img src="{{ member.image }}" alt="{{ member.name }}" class="team-image">
+                    </div>
+                    <div class="team-info">
+                        <h3 class="team-name">{{ member.name }}</h3>
+                        <p class="team-position">{{ member.position }}</p>
+                        <p class="team-bio">{{ member.bio }}</p>
+                        <div class="team-social">
+                            {% if member.linkedin %}
+                            <a href="{{ member.linkedin }}" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            {% endif %}
+                            {% if member.twitter %}
+                            <a href="{{ member.twitter }}" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+                            {% endif %}
+                            {% if member.github %}
+                            <a href="{{ member.github }}" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- History Timeline -->
+<section class="section-alt section-padding">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Our Journey</h2>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">2018</div>
+                <div class="timeline-content">
+                    <h3>Humble Beginnings</h3>
+                    <p>Founded by a team of AI researchers and telecom engineers with a vision to transform the industry.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">2019</div>
+                <div class="timeline-content">
+                    <h3>First Major Breakthrough</h3>
+                    <p>Launched our predictive maintenance platform, reducing network downtime by 47% for our first enterprise client.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">2020</div>
+                <div class="timeline-content">
+                    <h3>Expansion Phase</h3>
+                    <p>Grew our team to 25 members and expanded operations to three countries.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">2021</div>
+                <div class="timeline-content">
+                    <h3>Innovation Award</h3>
+                    <p>Received the Global Telecom AI Innovation Award for our customer experience platform.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">2022</div>
+                <div class="timeline-content">
+                    <h3>Strategic Partnerships</h3>
+                    <p>Formed alliances with major telecom providers across Asia and Europe.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">2023</div>
+                <div class="timeline-content">
+                    <h3>The Present</h3>
+                    <p>Currently serving over 50 enterprise clients with a suite of AI-powered telecommunications solutions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section-padding contact-section">
+    <div class="container">
+        <div class="grid">
+            <div class="col-12 col-md-6">
+                <h2 class="section-title">Come Visit Us</h2>
+                <p class="address">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Sector H-12, NUST, Islamabad
+                </p>
+                <p class="phone">
+                    <i class="fas fa-phone"></i>
+                    +923414455966
+                </p>
+                <p class="email">
+                    <i class="fas fa-envelope"></i>
+                    info@teleaihub.com
+                </p>
+            </div>
+            
+            <div class="col-12 col-md-6">
+                <h2 class="section-title">Interested in working with us?</h2>
+                <p class="mb-4">Learn more about our career opportunities or partnerships.</p>
+                <div class="cta-buttons">
+                    <a href="{{ url_for('careers') }}" class="btn btn-primary">Join Our Team</a>
+                    <a href="{{ url_for('contact') }}" class="btn btn-outline">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block head %}
+<style>
+    /* Hero Section */
+    .hero-section {
+        padding: 6rem 0 4rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .bg-gradient {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .hero-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(rgba(0, 212, 255, 0.1) 2px, transparent 2px);
+        background-size: 30px 30px;
+        opacity: 0.5;
+        z-index: 1;
+    }
+    
+    /* Section Styles */
+    .section-padding {
+        padding: 5rem 0;
+    }
+    
+    .section-alt {
+        background-color: rgba(0, 212, 255, 0.05);
+    }
+    
+    .section-title {
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+    }
+    
+    .section-text {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: var(--text-primary);
+    }
+    
+    /* About Image */
+    .about-image-wrapper {
+        position: relative;
+        padding: 1rem;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    
+    .about-image {
+        width: 100%;
+        max-height: 500px;
+        border-radius: var(--radius);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        object-fit: cover;
+    }
+    
+    /* Value Cards */
+    .value-card {
+        background: rgba(255, 255, 255, 0.025);
+        border-radius: var(--radius);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        height: 100%;
+        transition: var(--transition);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .value-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .value-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: var(--dark);
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Team Cards */
+    .team-card {
+        background: rgba(255, 255, 255, 0.025);
+        border-radius: var(--radius);
+        overflow: hidden;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: var(--transition);
+        height: 100%;
+    }
+    
+    .team-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .team-image-wrapper {
+        overflow: hidden;
+        height: 350px;
+        background-color: #1a2430;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .team-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform 0.5s ease;
+    }
+    
+    .team-card:hover .team-image {
+        transform: scale(1.05);
+    }
+    
+    .team-info {
+        padding: 1.5rem;
+    }
+    
+    .team-name {
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+    }
+    
+    .team-position {
+        color: var(--accent);
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+    
+    .team-bio {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .team-social {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .social-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+        transition: var(--transition-fast);
+    }
+    
+    .social-link:hover {
+        background: var(--accent);
+        color: var(--dark);
+    }
+    
+    /* Timeline */
+    .timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 0;
+    }
+    
+    .timeline::after {
+        content: '';
+        position: absolute;
+        width: 2px;
+        background-color: rgba(255, 255, 255, 0.1);
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -1px;
+    }
+    
+    .timeline-item {
+        position: relative;
+        width: 50%;
+        padding: 0 40px 70px 0;
+        box-sizing: border-box;
+    }
+    
+    .timeline-item:nth-child(even) {
+        left: 50%;
+        padding: 0 0 70px 40px;
+    }
+    
+    .timeline-date {
+        position: absolute;
+        display: inline-block;
+        top: 0;
+        right: -25px;
+        background-color: var(--accent);
+        color: var(--dark);
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius);
+        font-weight: 600;
+        z-index: 1;
+    }
+    
+    .timeline-item:nth-child(even) .timeline-date {
+        left: -25px;
+        right: auto;
+    }
+    
+    .timeline-content {
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.025);
+        border-radius: var(--radius);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .timeline-content h3 {
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+    }
+    
+    /* Contact Section */
+    .contact-section .address,
+    .contact-section .phone,
+    .contact-section .email {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+    }
+    
+    .contact-section i {
+        color: var(--accent);
+        font-size: 1.2rem;
+        margin-right: 1rem;
+        width: 20px;
+    }
+    
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .btn-outline {
+        background: transparent;
+        border: 2px solid var(--accent);
+        color: var(--accent);
+    }
+    
+    .btn-outline:hover {
+        background: var(--accent);
+        color: var(--dark);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .timeline::after {
+            left: 40px;
+        }
+        
+        .timeline-item {
+            width: 100%;
+            padding-right: 0;
+            padding-left: 70px;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 0;
+            padding: 0 0 70px 70px;
+        }
+        
+        .timeline-date {
+            right: auto;
+            left: 15px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-date {
+            left: 15px;
+            right: auto;
+        }
+    }
+</style>
+{% endblock %} 

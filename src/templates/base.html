@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TeleAI Hub - Advanced AI solutions for telecommunications optimization and research">
+    <title>{% block title %}TeleAI Hub{% endblock %} | Enterprise AI Solutions</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Additional head content -->
+    {% block head %}{% endblock %}
+    
+    <style>
+        /* Header Styles */
+        .header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            background: rgba(10, 25, 41, 0.85);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-scrolled {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            background: rgba(10, 25, 41, 0.95);
+        }
+        
+        /* Navbar */
+        .navbar {
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-primary {
+            padding: 12px 0;
+        }
+        
+        /* Logo */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-img {
+            height: 36px;
+            width: auto;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+        
+        .tagline {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+        
+        /* Navigation */
+        .navbar-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 0.5rem;
+        }
+        
+        .nav-link {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 0.9rem;
+            color: var(--text-primary);
+            border-radius: var(--radius);
+            transition: var(--transition-fast);
+            font-weight: 500;
+        }
+        
+        .nav-link i {
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            color: var(--accent);
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .nav-link.active {
+            color: var(--accent);
+            background: rgba(0, 212, 255, 0.05);
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            display: none;
+            min-width: 220px;
+            padding: 0.5rem 0;
+            margin: 0.5rem 0 0;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .dropdown-menu-right {
+            left: auto;
+            right: 0;
+        }
+        
+        .dropdown.show .dropdown-menu {
+            display: block;
+            animation: fadeInUp 0.3s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            color: var(--text-primary);
+            transition: var(--transition-fast);
+            font-weight: 500;
+        }
+        
+        .dropdown-menu a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent);
+        }
+        
+        .dropdown-menu a i {
+            margin-right: 0.75rem;
+            width: 18px;
+            color: var(--accent);
+        }
+        
+        .dropdown-divider {
+            height: 1px;
+            margin: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* User Menu */
+        .user-menu-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .user-menu-toggle i:last-child {
+            font-size: 0.8rem;
+            margin-left: 0.25rem;
+        }
+        
+        /* Mobile Navigation */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10;
+        }
+        
+        .mobile-menu-toggle span {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+        
+        /* Contact Info Badge */
+        .contact-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: var(--radius);
+            padding: 10px 15px;
+            font-size: 0.8rem;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-badge:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .contact-badge a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .contact-badge i {
+            margin-right: 5px;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 992px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .navbar-menu {
+                position: fixed;
+                top: 0;
+                right: -300px;
+                width: 300px;
+                height: 100vh;
+                background: var(--bg-card);
+                padding: 6rem 1.5rem 2rem;
+                flex-direction: column;
+                z-index: 9;
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                box-shadow: -5px 0 30px rgba(0, 0, 0, 0.2);
+            }
+            
+            .menu-open .navbar-menu {
+                right: 0;
+            }
+            
+            .navbar-links {
+                flex-direction: column;
+                gap: 0;
+                margin-bottom: 2rem;
+            }
+            
+            .navbar-links li {
+                width: 100%;
+            }
+            
+            .nav-link {
+                padding: 1rem;
+                width: 100%;
+            }
+            
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                border: none;
+                background: transparent;
+                animation: none;
+            }
+            
+            .dropdown-menu a {
+                padding-left: 3rem;
+            }
+            
+            .navbar-auth {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .user-menu {
+                width: 100%;
+            }
+            
+            .user-menu-toggle {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .dropdown-menu-right {
+                left: 0;
+                right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!-- Main Navigation -->
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-primary d-flex justify-between align-center">
+                    <a href="{{ url_for('home') if current_user.is_authenticated else url_for('login') }}" class="navbar-brand">
+                        <div class="logo-container">
+                            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="TeleAI Hub Logo" class="logo-img">
+                            <div class="logo-text">
+                                Tele<span class="text-accent">AI</span> Hub
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    
+                    <div class="navbar-menu">
+                        <!-- Primary Navigation -->
+                        <ul class="navbar-links primary-links">
+                            <li><a href="{{ url_for('home') }}" class="nav-link {% if request.endpoint == 'home' %}active{% endif %}">
+                                <i class="fas fa-home"></i> Home
+                            </a></li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-cubes"></i> Solutions <i class="fas fa-chevron-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ url_for('telecom_agents') }}">AI Agents</a></li>
+                                    <li><a href="{{ url_for('dataset_generation') }}">Dataset Generation</a></li>
+                                    <li><a href="{{ url_for('finetune') }}">Model Finetuning</a></li>
+                                    <li><a href="#">NOMA Optimization</a></li>
+                                    <li><a href="#">Enterprise Integration</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{ url_for('about') }}" class="nav-link {% if request.endpoint == 'about' %}active{% endif %}">
+                                <i class="fas fa-info-circle"></i> About
+                            </a></li>
+                            <li><a href="{{ url_for('contact') }}" class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}">
+                                <i class="fas fa-envelope"></i> Contact
+                            </a></li>
+                        </ul>
+                        
+                        <!-- Secondary Navigation (Auth) -->
+                        <div class="navbar-auth">
+                            {% if current_user.is_authenticated %}
+                                <div class="user-menu dropdown">
+                                    <button class="btn btn-outline user-menu-toggle">
+                                        <i class="fas fa-user-circle"></i> {{ current_user.username }} <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="{{ url_for('settings') }}"><i class="fas fa-cog"></i> Settings</a></li>
+                                        <li><a href="#"><i class="fas fa-history"></i> Activity</a></li>
+                                        <li class="dropdown-divider"></li>
+                                        <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                    </ul>
+                                </div>
+                            {% else %}
+                                <a href="{{ url_for('login') }}" class="btn btn-outline">Login</a>
+                                <a href="{{ url_for('register') }}" class="btn btn-primary">Register</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contact Quick Badge -->
+    <div class="contact-badge">
+        <a href="{{ url_for('contact') }}"><i class="fas fa-phone"></i> +923414455966</a>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <i class="fas fa-info-circle"></i>
+                            {{ message }}
+                            <button type="button" class="alert-close" aria-label="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Primary Footer -->
+        <div class="footer-primary">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Company Info -->
+                    <div class="footer-col footer-about">
+                        <h3 class="footer-title">TeleAI Hub</h3>
+                        <p>Leading enterprise AI solutions for telecommunications optimization, powered by cutting-edge machine learning technology to solve complex network challenges.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    
+                    <!-- Solutions -->
+                    <div class="footer-col">
+                        <h4 class="footer-title">Solutions</h4>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('telecom_agents') }}">AI Agents</a></li>
+                            <li><a href="{{ url_for('dataset_generation') }}">Dataset Generation</a></li>
+                            <li><a href="{{ url_for('finetune') }}">Model Finetuning</a></li>
+                            <li><a href="#">NOMA Optimization</a></li>
+                            <li><a href="#">5G/6G Research</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Company -->
+                    <div class="footer-col">
+                        <h4 class="footer-title">Company</h4>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('about') }}">About Us</a></li>
+                            <li><a href="{{ url_for('team') }}">Our Team</a></li>
+                            <li><a href="{{ url_for('careers') }}">Careers</a></li>
+                            <li><a href="{{ url_for('partners') }}">Partners</a></li>
+                            <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Resources -->
+                    <div class="footer-col">
+                        <h4 class="footer-title">Resources</h4>
+                        <ul class="footer-links">
+                            <li><a href="{{ url_for('blog') }}">Blog</a></li>
+                            <li><a href="{{ url_for('case_studies') }}">Case Studies</a></li>
+                            <li><a href="{{ url_for('documentation') }}">Documentation</a></li>
+                            <li><a href="{{ url_for('research') }}">Research Papers</a></li>
+                            <li><a href="{{ url_for('webinars') }}">Webinars</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Contact -->
+                    <div class="footer-col">
+                        <h4 class="footer-title">Contact Us</h4>
+                        <ul class="footer-contact">
+                            <li><i class="fas fa-map-marker-alt"></i> Sector H-12, NUST, Islamabad</li>
+                            <li><i class="fas fa-phone"></i> +923414455966</li>
+                            <li><i class="fas fa-envelope"></i> info@teleaihub.com</li>
+                        </ul>
+                        <div class="newsletter">
+                            <h5>Subscribe to our newsletter</h5>
+                            <form class="d-flex">
+                                <input type="email" placeholder="Enter your email" class="form-control">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Secondary Footer -->
+        <div class="footer-secondary">
+            <div class="container d-flex justify-between align-center">
+                <div class="copyright">
+                    <p>&copy; <span id="current-year"></span> TeleAI Hub. All rights reserved.</p>
+                </div>
+                <div class="footer-secondary-links">
+                    <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+                    <a href="{{ url_for('terms') }}">Terms of Service</a>
+                    <a href="{{ url_for('sitemap') }}">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Add current year to footer
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Mobile menu toggle
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navbar = document.querySelector('.navbar');
+            
+            if(mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    navbar.classList.toggle('menu-open');
+                    this.classList.toggle('active');
+                });
+            }
+            
+            // Dropdown menus
+            const dropdowns = document.querySelectorAll('.dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector('.nav-link, .user-menu-toggle');
+                
+                if(toggle) {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        dropdown.classList.toggle('show');
+                        
+                        // Close other dropdowns
+                        dropdowns.forEach(other => {
+                            if(other !== dropdown && other.classList.contains('show')) {
+                                other.classList.remove('show');
+                            }
+                        });
+                    });
+                }
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                dropdowns.forEach(dropdown => {
+                    if(!dropdown.contains(e.target) && dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+            });
+            
+            // Alert close buttons
+            const alertCloseButtons = document.querySelectorAll('.alert-close');
+            
+            alertCloseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const alert = this.closest('.alert');
+                    if(alert) {
+                        alert.style.opacity = '0';
+                        setTimeout(() => {
+                            alert.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+            
+            // Sticky header on scroll
+            const header = document.querySelector('.header');
+            
+            if(header) {
+                window.addEventListener('scroll', function() {
+                    if(window.scrollY > 30) {
+                        header.classList.add('header-scrolled');
+                    } else {
+                        header.classList.remove('header-scrolled');
+                    }
+                });
+            }
+        });
+    </script>
+    
+    <!-- Additional scripts -->
+    {% block scripts %}{% endblock %}
+</body>
+</html> 

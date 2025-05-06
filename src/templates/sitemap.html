@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}Sitemap | TeleAI Hub{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-gradient">
+    <div class="container">
+        <div class="hero-content text-center">
+            <h1>Sitemap</h1>
+            <p class="hero-subtitle">Find your way around our website</p>
+        </div>
+    </div>
+    <div class="hero-pattern"></div>
+</section>
+
+<!-- Sitemap Section -->
+<section class="section-padding">
+    <div class="container">
+        <div class="sitemap-grid">
+            <!-- Main Pages -->
+            <div class="sitemap-column">
+                <div class="sitemap-section">
+                    <h2 class="sitemap-title">Main Pages</h2>
+                    <ul class="sitemap-list">
+                        <li><a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="{{ url_for('about') }}"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="{{ url_for('contact') }}"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                        <li><a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li><a href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Register</a></li>
+                    </ul>
+                </div>
+                
+                <div class="sitemap-section">
+                    <h2 class="sitemap-title">User Account</h2>
+                    <ul class="sitemap-list">
+                        <li><a href="{{ url_for('settings') }}"><i class="fas fa-cog"></i> Account Settings</a></li>
+                        <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+                        <li><a href="#"><i class="fas fa-history"></i> Activity</a></li>
+                        <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Solutions -->
+            <div class="sitemap-column">
+                <div class="sitemap-section">
+                    <h2 class="sitemap-title">Solutions</h2>
+                    <ul class="sitemap-list">
+                        <li><a href="{{ url_for('telecom_agents') }}"><i class="fas fa-robot"></i> AI Agents</a></li>
+                        <li><a href="{{ url_for('dataset_generation') }}"><i class="fas fa-database"></i> Dataset Generation</a></li>
+                        <li><a href="{{ url_for('finetune') }}"><i class="fas fa-brain"></i> Model Finetuning</a></li>
+                        <li><a href="#"><i class="fas fa-network-wired"></i> NOMA Optimization</a></li>
+                        <li><a href="#"><i class="fas fa-building"></i> Enterprise Integration</a></li>
+                    </ul>
+                </div>
+                
+                <div class="sitemap-section">
+                    <h2 class="sitemap-title">Company</h2>
+                    <ul class="sitemap-list">
+                        <li><a href="{{ url_for('team') }}"><i class="fas fa-users"></i> Our Team</a></li>
+                        <li><a href="{{ url_for('careers') }}"><i class="fas fa-briefcase"></i> Careers</a></li>
+                        <li><a href="{{ url_for('partners') }}"><i class="fas fa-handshake"></i> Partners</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Resources -->
+            <div class="sitemap-column">
+                <div class="sitemap-section">
+                    <h2 class="sitemap-title">Resources</h2>
+                    <ul class="sitemap-list">
+                        <li><a href="{{ url_for('blog') }}"><i class="fas fa-rss"></i> Blog</a></li>
+                        <li><a href="{{ url_for('case_studies') }}"><i class="fas fa-file-alt"></i> Case Studies</a></li>
+                        <li><a href="{{ url_for('documentation') }}"><i class="fas fa-book"></i> Documentation</a></li>
+                        <li><a href="{{ url_for('research') }}"><i class="fas fa-flask"></i> Research Papers</a></li>
+                        <li><a href="{{ url_for('webinars') }}"><i class="fas fa-video"></i> Webinars</a></li>
+                    </ul>
+                </div>
+                
+                <div class="sitemap-section">
+                    <h2 class="sitemap-title">Legal</h2>
+                    <ul class="sitemap-list">
+                        <li><a href="{{ url_for('privacy') }}"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                        <li><a href="{{ url_for('terms') }}"><i class="fas fa-gavel"></i> Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block head %}
+<style>
+    /* Hero Section */
+    .hero-section {
+        padding: 6rem 0 4rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .bg-gradient {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .hero-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(rgba(0, 212, 255, 0.1) 2px, transparent 2px);
+        background-size: 30px 30px;
+        opacity: 0.5;
+        z-index: 1;
+    }
+    
+    /* Sitemap Styles */
+    .section-padding {
+        padding: 5rem 0;
+    }
+    
+    .sitemap-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+    
+    .sitemap-section {
+        margin-bottom: 3rem;
+    }
+    
+    .sitemap-title {
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 0.75rem;
+    }
+    
+    .sitemap-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .sitemap-list li {
+        margin-bottom: 0.75rem;
+    }
+    
+    .sitemap-list a {
+        display: block;
+        padding: 0.75rem 1rem;
+        background: rgba(255, 255, 255, 0.025);
+        border-radius: var(--radius);
+        color: var(--text-primary);
+        transition: var(--transition-fast);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+    }
+    
+    .sitemap-list a:hover {
+        background: rgba(0, 212, 255, 0.05);
+        color: var(--accent);
+        transform: translateX(5px);
+    }
+    
+    .sitemap-list i {
+        margin-right: 0.75rem;
+        color: var(--accent);
+        width: 20px;
+        text-align: center;
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+        .sitemap-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .sitemap-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %} 

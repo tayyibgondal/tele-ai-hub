@@ -1,145 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Telecom Chat Agents</title>
-  
-  <!-- Embedded Styles -->
-  <style>
-    /* General Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+{% extends "base.html" %}
 
-    /* Body */
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f3f3f3;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
+{% block title %}Telecom Agents | TeleAI Hub{% endblock %}
 
-    /* Top Bar */
-    .top-bar {
-      background-color: #2c3e50;
-      width: 100%;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
-    .top-bar h2 {
-      color: #fff;
-      font-weight: 500;
-      font-size: 1.3rem;
-      max-width: 70%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+{% block content %}
+<div class="text-center mb-4">
+    <h1>Telecom AI Agents</h1>
+    <p class="mb-4">Choose an AI agent to discuss telecommunications concepts, problems, and solutions</p>
+</div>
 
-    /* Button Styling */
-    .back-button {
-      background-color: #e74c3c;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    }
-    .back-button:hover {
-      background-color: #c0392b;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-    .back-button:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+<div class="d-flex flex-wrap justify-center gap-3">
+    <!-- OpenAI Agent -->
+    <div style="max-width: 350px; width: 100%;">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-robot text-accent"></i> OpenAI Models
+                </h3>
+            </div>
+            <p>Interact with OpenAI's powerful models specialized in telecommunications.</p>
+            <div class="mt-3">
+                <a href="{{ url_for('chat_openai') }}" class="btn btn-primary btn-block">
+                    <i class="fas fa-comments"></i> Chat with OpenAI
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hugging Face Agent -->
+    <div style="max-width: 350px; width: 100%;">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-robot text-accent"></i> Hugging Face Models
+                </h3>
+            </div>
+            <p>Access open-source models from Hugging Face optimized for telecom tasks.</p>
+            <div class="mt-3">
+                <a href="{{ url_for('chat_hf') }}" class="btn btn-primary btn-block">
+                    <i class="fas fa-comments"></i> Chat with HF Models
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Ollama Agent -->
+    <div style="max-width: 350px; width: 100%;">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-robot text-accent"></i> Ollama Models
+                </h3>
+            </div>
+            <p>Use locally-running Ollama models specialized in telecommunications.</p>
+            <div class="mt-3">
+                <a href="{{ url_for('chat_ollama') }}" class="btn btn-primary btn-block">
+                    <i class="fas fa-comments"></i> Chat with Ollama
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
-    /* Main Container */
-    .container {
-      text-align: center;
-      max-width: 600px;
-      width: 90%;
-      margin-top: 90px; /* Provide space for the fixed top bar */
-      padding: 2rem 1rem;
-    }
-    .container h1 {
-      color: #1a3d61;
-      font-size: 2.8rem;
-      margin-bottom: 2rem;
-      font-weight: 500;
-    }
+<!-- Gradio Interface -->
+<div style="max-width: 1100px; margin: 1.5rem auto 0;">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-rocket text-accent"></i> Advanced Interface
+            </h3>
+        </div>
+        <p>Access a more advanced interface with our Gradio-powered telecom agent.</p>
+        <div class="mt-3">
+            <a href="{{ url_for('chat_gradio') }}" class="btn btn-primary btn-block">
+                <i class="fas fa-external-link-alt"></i> Open Gradio Interface
+            </a>
+        </div>
+    </div>
+</div>
 
-    /* App List */
-    .app-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .app-list li {
-      margin: 1.2rem 0;
-    }
-    .app-list li a {
-      text-decoration: none;
-      color: #2980b9;
-      font-size: 1.2rem;
-      transition: color 0.3s ease;
-      padding: 10px 20px;
-      border: 2px solid #2980b9;
-      border-radius: 6px;
-      display: inline-block;
-    }
-    .app-list li a:hover {
-      color: #fff;
-      background-color: #2980b9;
-      border-color: #2980b9;
-    }
-  </style>
-  
-  <!-- Inter Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-</head>
-<body>
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <h2>Telecom Chat Agents</h2>
-    <a href="{{ url_for('logout') }}">
-      <button class="back-button">Logout</button>
-    </a>
-  </div>
-
-  <!-- Main Content -->
-  <div class="container">
-    <h1>Choose a Chat Agent</h1>
-    <ul class="app-list">
-      <li>
-        <a href="{{ url_for('chat_hf') }}">Future Telecom Specific Agents</a>
-      </li>
-      <li>
-        <a href="{{ url_for('chat_ollama') }}">Thinking Telecom Agents (Ollama)</a>
-      </li>
-      <li>
-        <a href="{{ url_for('chat_gradio') }}">Resource Allocation Agents</a>
-      </li>
-      <li>
-        <a href="{{ url_for('chat_openai') }}">TelecomGPT</a>
-      </li>
-    </ul>
-  </div>
-</body>
-</html>
+<!-- Feature Highlights -->
+<div class="card mt-4" style="max-width: 1100px; margin-left: auto; margin-right: auto;">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-lightbulb text-accent"></i> Agent Features
+        </h3>
+    </div>
+    <div class="grid p-3">
+        <div class="col-6 col-md-6 col-sm-12">
+            <div class="d-flex gap-2 mb-3">
+                <i class="fas fa-check-circle text-accent mt-1"></i>
+                <div>
+                    <h4>Domain Expertise</h4>
+                    <p class="text-muted">Agents are trained on telecommunications-specific datasets</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-6 col-sm-12">
+            <div class="d-flex gap-2 mb-3">
+                <i class="fas fa-check-circle text-accent mt-1"></i>
+                <div>
+                    <h4>Multiple Model Support</h4>
+                    <p class="text-muted">Choose from various providers and model types</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-6 col-sm-12">
+            <div class="d-flex gap-2 mb-3">
+                <i class="fas fa-check-circle text-accent mt-1"></i>
+                <div>
+                    <h4>Contextual Memory</h4>
+                    <p class="text-muted">Agents remember your conversation history for better assistance</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-6 col-sm-12">
+            <div class="d-flex gap-2 mb-3">
+                <i class="fas fa-check-circle text-accent mt-1"></i>
+                <div>
+                    <h4>Technical Support</h4>
+                    <p class="text-muted">Get help with complex telecom problems and calculations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,675 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us | TeleAI Hub{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-gradient">
+    <div class="container">
+        <div class="hero-content text-center">
+            <h1>Contact Us</h1>
+            <p class="hero-subtitle">Get in touch with our team for inquiries, support, or partnership opportunities</p>
+        </div>
+    </div>
+    <div class="hero-pattern"></div>
+</section>
+
+<!-- Contact Section -->
+<section class="section-padding">
+    <div class="container">
+        <div class="grid">
+            <!-- Contact Information -->
+            <div class="col-12 col-md-5">
+                <div class="contact-info-card">
+                    <h2 class="contact-title">How to Reach Us</h2>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Visit Our Office</h3>
+                            <p>Sector H-12, NUST, Islamabad</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Call Us</h3>
+                            <p>+923414455966</p>
+                            <p class="text-muted">Monday-Friday, 9am-6pm</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email Us</h3>
+                            <p>info@teleaihub.com</p>
+                            <p class="text-muted">We'll respond within 24 hours</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-social">
+                        <h3>Connect With Us</h3>
+                        <div class="social-links">
+                            <a href="#" class="social-link" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="social-link" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-link" aria-label="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-link" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="col-12 col-md-7">
+                <div class="contact-form-card">
+                    <h2 class="contact-title">Send Us a Message</h2>
+                    
+                    {% if success_message %}
+                    <div class="alert alert-success">
+                        {{ success_message }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if error_message %}
+                    <div class="alert alert-danger">
+                        {{ error_message }}
+                    </div>
+                    {% endif %}
+                    
+                    <form method="POST" action="{{ url_for('contact') }}" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="name" class="form-label">Your Name</label>
+                                <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="company" class="form-label">Company (Optional)</label>
+                            <input type="text" id="company" name="company" class="form-control" placeholder="Your Company">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" id="subject" name="subject" class="form-control" placeholder="How can we help you?" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea id="message" name="message" class="form-control" rows="5" placeholder="Please include any relevant details..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="privacy-check" required>
+                            <label class="form-check-label" for="privacy-check">
+                                I agree to the <a href="{{ url_for('privacy') }}">privacy policy</a> and consent to being contacted regarding my inquiry.
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="map-section">
+    <div class="container">
+        <div class="map-container">
+            <h2 class="section-title text-center mb-4">Find Us</h2>
+            <div id="map" class="map-interactive"></div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="section-padding section-alt">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Frequently Asked Questions</h2>
+        
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question" id="faq1">
+                    <h3>How quickly can you implement an AI solution for our telecommunications network?</h3>
+                    <button class="faq-toggle" aria-expanded="false" aria-controls="faq1-answer">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="faq-answer" id="faq1-answer" aria-hidden="true">
+                    <p>Our implementation timeline varies based on your specific requirements and the complexity of your network infrastructure. Typically, we can deploy initial solutions within 2-3 months after the assessment phase. We follow an agile approach, delivering incremental improvements while continuously optimizing performance.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" id="faq2">
+                    <h3>What kind of data do you need to train your AI models?</h3>
+                    <button class="faq-toggle" aria-expanded="false" aria-controls="faq2-answer">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="faq-answer" id="faq2-answer" aria-hidden="true">
+                    <p>We typically require historical network performance data, user interaction logs, and system diagnostics. However, our solutions are designed to work with whatever data you have available. We can begin with minimal data and continuously improve as more information becomes available. All data handling complies with relevant privacy regulations.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" id="faq3">
+                    <h3>Do you offer ongoing support and maintenance?</h3>
+                    <button class="faq-toggle" aria-expanded="false" aria-controls="faq3-answer">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="faq-answer" id="faq3-answer" aria-hidden="true">
+                    <p>Yes, we offer comprehensive support packages tailored to your needs. This includes 24/7 monitoring, regular performance updates, model retraining as new data becomes available, and dedicated technical support. Our team works closely with yours to ensure the ongoing success of our solutions.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" id="faq4">
+                    <h3>How do you measure the success of your AI implementations?</h3>
+                    <button class="faq-toggle" aria-expanded="false" aria-controls="faq4-answer">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="faq-answer" id="faq4-answer" aria-hidden="true">
+                    <p>We establish clear KPIs at the beginning of each project, which might include metrics like network efficiency improvements, reduction in downtime, cost savings, or customer satisfaction scores. We provide regular reports on these metrics and work with you to continuously refine our solutions based on real-world performance.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" id="faq5">
+                    <h3>Can your solutions integrate with our existing systems?</h3>
+                    <button class="faq-toggle" aria-expanded="false" aria-controls="faq5-answer">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="faq-answer" id="faq5-answer" aria-hidden="true">
+                    <p>Absolutely. Our solutions are designed with integration in mind. We support most standard telecommunications protocols and can develop custom connectors for proprietary systems. Our team includes integration specialists who ensure seamless operation with your existing infrastructure with minimal disruption to your operations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block head %}
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+<style>
+    /* Hero Section */
+    .hero-section {
+        padding: 6rem 0 4rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .bg-gradient {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .hero-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(rgba(0, 212, 255, 0.1) 2px, transparent 2px);
+        background-size: 30px 30px;
+        opacity: 0.5;
+        z-index: 1;
+    }
+    
+    /* Section Styles */
+    .section-padding {
+        padding: 5rem 0;
+    }
+    
+    .section-alt {
+        background-color: rgba(0, 212, 255, 0.05);
+    }
+    
+    .contact-title {
+        color: var(--accent);
+        margin-bottom: 2rem;
+        font-weight: 700;
+    }
+    
+    /* Contact Info Card */
+    .contact-info-card {
+        background: rgba(255, 255, 255, 0.025);
+        border-radius: var(--radius);
+        padding: 2.5rem;
+        height: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .contact-method {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+    }
+    
+    .contact-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        background: rgba(0, 212, 255, 0.1);
+        border-radius: 50%;
+        margin-right: 1.5rem;
+        flex-shrink: 0;
+    }
+    
+    .contact-icon i {
+        font-size: 1.25rem;
+        color: var(--accent);
+    }
+    
+    .contact-details h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+    
+    .contact-details p {
+        margin-bottom: 0.25rem;
+    }
+    
+    .text-muted {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+    
+    .contact-social {
+        margin-top: 3rem;
+    }
+    
+    .contact-social h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    
+    .social-links {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+        color: var(--text-primary);
+        transition: var(--transition-fast);
+    }
+    
+    .social-link:hover {
+        background: var(--accent);
+        color: var(--dark);
+        transform: translateY(-3px);
+    }
+    
+    /* Contact Form Card */
+    .contact-form-card {
+        background: rgba(255, 255, 255, 0.025);
+        border-radius: var(--radius);
+        padding: 2.5rem;
+        height: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: var(--text-primary);
+        background-color: rgba(0, 0, 0, 0.1);
+        background-clip: padding-box;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--radius);
+        transition: var(--transition-fast);
+    }
+    
+    .form-control:focus {
+        border-color: var(--accent);
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 212, 255, 0.2);
+    }
+    
+    .form-control::placeholder {
+        color: var(--text-secondary);
+        opacity: 0.7;
+    }
+    
+    .form-check {
+        position: relative;
+        display: block;
+        padding-left: 1.25rem;
+    }
+    
+    .form-check-input {
+        position: absolute;
+        margin-top: 0.3rem;
+        margin-left: -1.25rem;
+    }
+    
+    .form-check-label {
+        margin-bottom: 0;
+    }
+    
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+    
+    .alert {
+        position: relative;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid transparent;
+        border-radius: var(--radius);
+    }
+    
+    .alert-success {
+        color: #d4edda;
+        background-color: rgba(40, 167, 69, 0.2);
+        border-color: rgba(40, 167, 69, 0.3);
+    }
+    
+    .alert-danger {
+        color: #f8d7da;
+        background-color: rgba(220, 53, 69, 0.2);
+        border-color: rgba(220, 53, 69, 0.3);
+    }
+    
+    /* Map Section */
+    .map-section {
+        padding: 0 0 5rem 0;
+    }
+    
+    .map-container {
+        margin-top: -3rem;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .map-interactive {
+        height: 450px;
+        border-radius: var(--radius);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        overflow: hidden;
+    }
+    
+    /* FAQ Section */
+    .section-title {
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+    }
+    
+    .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .faq-item {
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: var(--radius);
+        overflow: hidden;
+    }
+    
+    .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem;
+        background: rgba(255, 255, 255, 0.025);
+        cursor: pointer;
+    }
+    
+    .faq-question h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+    
+    .faq-toggle {
+        background: none;
+        border: none;
+        color: var(--accent);
+        cursor: pointer;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: rgba(0, 212, 255, 0.1);
+        transition: var(--transition-fast);
+    }
+    
+    .faq-toggle:hover {
+        background: rgba(0, 212, 255, 0.2);
+    }
+    
+    .faq-answer {
+        padding: 0 1.25rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    
+    .faq-answer.active {
+        padding: 1.25rem;
+        max-height: 300px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .col-md-6 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+        
+        .contact-info-card,
+        .contact-form-card {
+            margin-bottom: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Map
+        const map = L.map('map').setView([33.6572333, 73.0350425], 14);
+        
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
+        }).addTo(map);
+        
+        // Add custom marker
+        const customIcon = L.icon({
+            iconUrl: 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/images/marker-icon.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34]
+        });
+        
+        // Add marker for NUST
+        const marker = L.marker([33.6572333, 73.0350425], {icon: customIcon}).addTo(map);
+        marker.bindPopup("<b>TeleAI Hub</b><br>Sector H-12, NUST<br>Islamabad, Pakistan").openPopup();
+        
+        // Dark mode for map
+        document.querySelectorAll('.leaflet-tile-pane img').forEach(img => {
+            img.style.filter = 'brightness(0.8) invert(1) contrast(1.5) hue-rotate(200deg) saturate(0.7)';
+        });
+        
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', function() {
+                const answer = this.nextElementSibling;
+                const toggle = this.querySelector('.faq-toggle');
+                const isActive = answer.classList.contains('active');
+                
+                // Close all other FAQs
+                document.querySelectorAll('.faq-answer').forEach(item => {
+                    if (item !== answer) {
+                        item.classList.remove('active');
+                        item.previousElementSibling.querySelector('.faq-toggle').innerHTML = '<i class="fas fa-plus"></i>';
+                        item.previousElementSibling.querySelector('.faq-toggle').setAttribute('aria-expanded', 'false');
+                        item.setAttribute('aria-hidden', 'true');
+                    }
+                });
+                
+                // Toggle current FAQ
+                if (isActive) {
+                    answer.classList.remove('active');
+                    toggle.innerHTML = '<i class="fas fa-plus"></i>';
+                    toggle.setAttribute('aria-expanded', 'false');
+                    answer.setAttribute('aria-hidden', 'true');
+                } else {
+                    answer.classList.add('active');
+                    toggle.innerHTML = '<i class="fas fa-minus"></i>';
+                    toggle.setAttribute('aria-expanded', 'true');
+                    answer.setAttribute('aria-hidden', 'false');
+                }
+            });
+        });
+        
+        // Form Validation
+        const contactForm = document.querySelector('.contact-form');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                let valid = true;
+                const name = document.getElementById('name');
+                const email = document.getElementById('email');
+                const subject = document.getElementById('subject');
+                const message = document.getElementById('message');
+                const privacyCheck = document.getElementById('privacy-check');
+                
+                // Simple validation
+                if (!name.value.trim()) {
+                    name.classList.add('is-invalid');
+                    valid = false;
+                } else {
+                    name.classList.remove('is-invalid');
+                }
+                
+                if (!email.value.trim() || !email.value.includes('@')) {
+                    email.classList.add('is-invalid');
+                    valid = false;
+                } else {
+                    email.classList.remove('is-invalid');
+                }
+                
+                if (!subject.value.trim()) {
+                    subject.classList.add('is-invalid');
+                    valid = false;
+                } else {
+                    subject.classList.remove('is-invalid');
+                }
+                
+                if (!message.value.trim()) {
+                    message.classList.add('is-invalid');
+                    valid = false;
+                } else {
+                    message.classList.remove('is-invalid');
+                }
+                
+                if (!privacyCheck.checked) {
+                    privacyCheck.classList.add('is-invalid');
+                    valid = false;
+                } else {
+                    privacyCheck.classList.remove('is-invalid');
+                }
+                
+                if (!valid) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+</script>
+{% endblock %} 

@@ -1,262 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Finetune an LLM</title>
-  <style>
-    /* Global Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    /* Body & Container */
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f3f3f3;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-    
-    /* Top Bar */
-    .top-bar {
-      background-color: #2c3e50;
-      width: 100%;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
-    .top-bar h2 {
-      color: #fff;
-      font-weight: 500;
-      font-size: 1.3rem;
-    }
-    .back-button {
-      background-color: #e74c3c;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    }
-    .back-button:hover {
-      background-color: #c0392b;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-    .back-button:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    /* Main Content */
-    .container {
-      text-align: center;
-      max-width: 600px;
-      width: 90%;
-      margin-top: 90px;
-      padding: 2rem 1rem;
-    }
-    .container h1 {
-      color: #1a3d61;
-      font-size: 2.8rem;
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-    }
-    
-    /* Form Styling */
-    .auth-container {
-      background-color: #fff;
-      padding: 1.75rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      margin-bottom: 2rem;
-      text-align: left;
-    }
-    .auth-container label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-size: 1rem;
-      color: #555;
-    }
-    
-    /* Custom Select & Textarea Styles */
-    .auth-container select,
-    .auth-container textarea {
-      width: 100%;
-      padding: 12px 15px;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      background-color: #fff;
-      /* Remove default arrow and add custom one */
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20"><polygon points="0,0 20,0 10,10" fill="%23333"/></svg>');
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      background-size: 12px;
-    }
-    .auth-container textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-    .auth-container select:focus,
-    .auth-container textarea:focus {
-      outline: none;
-      border-color: #2980b9;
-      box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
-    }
-    
-    /* Button */
-    .auth-container button {
-      background-color: #2980b9;
-      color: #fff;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-      width: 100%;
-    }
-    .auth-container button:hover {
-      background-color: #21618c;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-    .auth-container button:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    /* Confirmation Text */
-    #confirmationText {
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 1rem;
-      margin-top: 1rem;
-      font-size: 0.95rem;
-      color: #1a3d61;
-    }
-    
-    /* Back Link */
-    .back-link a {
-      color: #2980b9;
-      text-decoration: none;
-      font-size: 1rem;
-      transition: color 0.3s ease;
-    }
-    .back-link a:hover {
-      color: #21618c;
-      text-decoration: underline;
-    }
-    
-    /* Footer */
-    .footer {
-      margin-top: auto;
-      padding: 1rem;
-      background-color: #2c3e50;
-      width: 100%;
-      text-align: center;
-    }
-    .footer p {
-      color: #fff;
-      font-size: 0.9rem;
-    }
-  </style>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-</head>
-<body>
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <h2>Finetune an LLM</h2>
-    <button class="back-button" onclick="window.history.back();">Back</button>
-  </div>
-  
-  <!-- Main Content -->
-  <div class="container">
+{% extends "base.html" %}
+
+{% block title %}Finetune an LLM | TeleAI Hub{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
     <h1>Finetune an LLM for Optimal Resource Allocation</h1>
-    <form class="auth-container" method="POST" action="{{ url_for('finetune') }}">
-      <label for="model">Select Model:</label>
-      <select name="model" id="model">
-        {% for model in models %}
-          <option value="{{ model }}">{{ model }}</option>
-        {% endfor %}
-      </select>
-      
-      <label for="batch_size">Batch Size:</label>
-      <select name="batch_size" id="batch_size">
-        {% for size in batch_sizes %}
-          <option value="{{ size }}">{{ size }}</option>
-        {% endfor %}
-      </select>
-      
-      <label for="grad_step">Gradient Accumulation Steps:</label>
-      <select name="grad_step" id="grad_step">
-        {% for step in grad_steps %}
-          <option value="{{ step }}">{{ step }}</option>
-        {% endfor %}
-      </select>
-      
-      <label for="metric">Dataset:</label>
-      <select name="metric" id="metric">
-        {% for metric in datasets %}
-          <option value="{{ metric }}">{{ metric }}</option>
-        {% endfor %}
-      </select>
-      
-      <label for="learning_rate">Learning Rate:</label>
-      <select name="learning_rate" id="learning_rate">
-        {% for lr in learning_rates %}
-          <option value="{{ lr }}">{{ lr }}</option>
-        {% endfor %}
-      </select>
-      
-      <label for="epochs">Number of Epochs:</label>
-      <select name="epochs" id="epochs">
-        {% for epoch in epochs %}
-          <option value="{{ epoch }}">{{ epoch }}</option>
-        {% endfor %}
-      </select>
-      
-      <button onclick="showConfirmation()" type="submit">Fine-tune</button>
-    </form>
-    
-    <div id="confirmationText" style="display: none;"></div>
-    
-    <p class="back-link"><a href="{{ url_for('home') }}">Back to Home</a></p>
-  </div>
-  
-  <footer class="footer">
-    <p>&copy; 2024 Chat App</p>
-  </footer>
-  
-  <script>
-    function showConfirmation() {
-      var modelName = document.getElementById("model").value;
-      var metric = document.getElementById("metric").value;
-      var text = document.getElementById("confirmationText");
-      text.innerHTML = `Finetuning of <strong>${modelName}</strong> on <strong>${metric}</strong> has begun and may take several minutes. You will be redirected when finetuning is complete.`;
-      text.style.display = "block";  
-    }
-  </script>
-</body>
-</html>
+    <p class="mb-4">Customize language models for telecommunications-specific tasks with your selected parameters</p>
+</div>
+
+<div class="card" style="max-width: 800px; margin: 0 auto;">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-brain text-accent"></i> Finetuning Parameters
+        </h3>
+    </div>
+    <div class="p-3">
+        <form method="POST" action="{{ url_for('finetune') }}">
+            <div class="grid">
+                <div class="col-6 col-sm-12">
+                    <div class="form-group mb-3">
+                        <label for="model" class="form-label">Select Model</label>
+                        <select name="model" id="model" class="form-control">
+                            {% for model in models %}
+                                <option value="{{ model }}">{{ model }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-6 col-sm-12">
+                    <div class="form-group mb-3">
+                        <label for="batch_size" class="form-label">Batch Size</label>
+                        <select name="batch_size" id="batch_size" class="form-control">
+                            {% for size in batch_sizes %}
+                                <option value="{{ size }}">{{ size }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-6 col-sm-12">
+                    <div class="form-group mb-3">
+                        <label for="grad_step" class="form-label">Gradient Accumulation Steps</label>
+                        <select name="grad_step" id="grad_step" class="form-control">
+                            {% for step in grad_steps %}
+                                <option value="{{ step }}">{{ step }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-6 col-sm-12">
+                    <div class="form-group mb-3">
+                        <label for="metric" class="form-label">Dataset</label>
+                        <select name="metric" id="metric" class="form-control">
+                            {% for metric in datasets %}
+                                <option value="{{ metric }}">{{ metric }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-6 col-sm-12">
+                    <div class="form-group mb-3">
+                        <label for="learning_rate" class="form-label">Learning Rate</label>
+                        <select name="learning_rate" id="learning_rate" class="form-control">
+                            {% for lr in learning_rates %}
+                                <option value="{{ lr }}">{{ lr }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-6 col-sm-12">
+                    <div class="form-group mb-3">
+                        <label for="epochs" class="form-label">Number of Epochs</label>
+                        <select name="epochs" id="epochs" class="form-control">
+                            {% for epoch in epochs %}
+                                <option value="{{ epoch }}">{{ epoch }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-sync-alt"></i> Start Finetuning
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Information Card -->
+<div class="card mt-4" style="max-width: 800px; margin: 0 auto;">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-info-circle text-accent"></i> About Finetuning
+        </h3>
+    </div>
+    <div class="p-3">
+        <p>Finetuning a language model allows you to customize its capabilities for telecommunications-specific tasks:</p>
+        
+        <div class="grid mt-3">
+            <div class="col-6 col-sm-12">
+                <div class="d-flex gap-2 mb-2">
+                    <i class="fas fa-check-circle text-accent mt-1"></i>
+                    <p class="text-muted">Optimize models for telecom domain knowledge</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-12">
+                <div class="d-flex gap-2 mb-2">
+                    <i class="fas fa-check-circle text-accent mt-1"></i>
+                    <p class="text-muted">Improve accuracy for resource allocation tasks</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-12">
+                <div class="d-flex gap-2 mb-2">
+                    <i class="fas fa-check-circle text-accent mt-1"></i>
+                    <p class="text-muted">Create specialized models for NOMA optimization</p>
+                </div>
+            </div>
+            <div class="col-6 col-sm-12">
+                <div class="d-flex gap-2 mb-2">
+                    <i class="fas fa-check-circle text-accent mt-1"></i>
+                    <p class="text-muted">Develop AI assistants with telecommunications expertise</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="alert alert-info mt-3">
+            <i class="fas fa-clock"></i>
+            <strong>Note:</strong> Finetuning may take 15-30 minutes depending on the selected parameters and model size.
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block head %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add any JavaScript needed for the finetune page
+    });
+</script>
+{% endblock %}

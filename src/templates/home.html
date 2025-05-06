@@ -1,160 +1,139 @@
 <!-- templates/home.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home</title>
+{% extends "base.html" %}
 
-  <!-- Embedded Styles -->
-  <style>
-    /* General Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+{% block title %}Home | TeleAI Hub{% endblock %}
 
-    /* Body */
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f3f3f3; /* Matches the other pages */
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
+{% block content %}
+<div class="text-center mb-4">
+    <h1>Welcome to TeleAI Hub</h1>
+    <p class="mb-4">Advanced AI solutions for telecommunications research and optimization</p>
+</div>
 
-    /* Top Bar */
-    .top-bar {
-      background-color: #2c3e50;
-      width: 100%;
-      padding: 15px 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
-    .top-bar h2 {
-      color: #fff;
-      font-weight: 400;
-      margin: 0;
-      font-size: 1.2rem;
-      max-width: 70%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .top-bar .logout-button {
-      background-color: #e74c3c;
-      color: #fff;
-      padding: 8px 15px;
-      border: none;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      margin-right: 20px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      white-space: nowrap;
-    }
-    .top-bar .logout-button:hover {
-      background-color: #c0392b;
-      transform: translateY(-1px);
-    }
-    .top-bar .logout-button:active {
-      transform: translateY(0);
-    }
-
-    /* Main Container */
-    .container {
-      text-align: center;
-      max-width: 600px;
-      width: 90%;
-      margin-top: 80px; /* Space for the fixed top bar */
-      padding: 2rem 1rem;
-    }
-
-    /* Heading */
-    h1 {
-      color: #1a3d61;
-      font-size: 3rem;
-      margin-bottom: 2rem;
-    }
-
-    /* Button Container */
-    .button-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    /* Buttons */
-    .button-container a {
-      width: 100%;
-      text-decoration: none;
-    }
-    .button {
-      background-color: #2980b9;
-      color: #fff;
-      padding: 15px 25px;
-      border: none;
-      border-radius: 6px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition:
-        background-color 0.3s ease,
-        transform 0.2s ease,
-        box-shadow 0.3s ease;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .button:hover {
-      background-color: #21618c;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    }
-    .button:active {
-      transform: translateY(0);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-  </style>
-
-  <!-- Inter Font -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  />
-</head>
-<body>
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <h2>Welcome, {{ current_user.username }}! You are logged in.</h2>
-    <a href="{{ url_for('logout') }}">
-      <button class="logout-button">Logout</button>
-    </a>
-  </div>
-
-  <!-- Main Content -->
-  <div class="container">
-    <h1>Home Page</h1>
-    <div class="button-container">
-      <a href="{{ url_for('telecom_agents') }}">
-        <div class="button">Go to Telecom Chat Agents</div>
-      </a>
-      <a href="{{ url_for('finetune') }}">
-        <div class="button">Finetune an LLM</div>
-      </a>
-      <a href="{{ url_for('dataset_generation') }}">
-        <div class="button">Dataset Generation</div>
-      </a>
+<div class="d-flex flex-wrap justify-center gap-3">
+    <!-- Telecom Chat Agents -->
+    <div style="max-width: 350px; width: 100%;">
+        <div class="card home-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-robot"></i> Telecom Chat Agents
+                </h3>
+            </div>
+            <div class="card-body">
+                <p class="card-description">Interact with specialized AI agents trained on telecommunications concepts and technology.</p>
+                <div class="card-action">
+                    <a href="{{ url_for('telecom_agents') }}" class="btn btn-primary btn-block">
+                        <i class="fas fa-comments"></i> Access Agents
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</body>
-</html>
+    
+    <!-- Finetune LLM -->
+    <div style="max-width: 350px; width: 100%;">
+        <div class="card home-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-brain"></i> Finetune an LLM
+                </h3>
+            </div>
+            <div class="card-body">
+                <p class="card-description">Customize language models for specific telecommunications tasks and domains.</p>
+                <div class="card-action">
+                    <a href="{{ url_for('finetune') }}" class="btn btn-primary btn-block">
+                        <i class="fas fa-sliders-h"></i> Start Finetuning
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Dataset Generation -->
+    <div style="max-width: 350px; width: 100%;">
+        <div class="card home-card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-database"></i> Dataset Generation
+                </h3>
+            </div>
+            <div class="card-body">
+                <p class="card-description">Generate synthetic telecommunications datasets for research, testing, and model training.</p>
+                <div class="card-action">
+                    <a href="{{ url_for('dataset_generation') }}" class="btn btn-primary btn-block">
+                        <i class="fas fa-table"></i> Generate Datasets
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Widget -->
+<div class="card mt-4" style="max-width: 1100px; margin-left: auto; margin-right: auto;">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-chart-line"></i> Platform Stats
+        </h3>
+    </div>
+    <div class="grid p-2">
+        <div class="col-3 col-md-6 col-sm-12 text-center">
+            <div class="p-3">
+                <i class="fas fa-users text-accent" style="font-size: 2rem;"></i>
+                <h4 class="mt-2">Users</h4>
+                <p class="text-muted" style="font-size: 1.5rem;">{{ user_count|default('15+') }}</p>
+            </div>
+        </div>
+        <div class="col-3 col-md-6 col-sm-12 text-center">
+            <div class="p-3">
+                <i class="fas fa-robot text-accent" style="font-size: 2rem;"></i>
+                <h4 class="mt-2">AI Agents</h4>
+                <p class="text-muted" style="font-size: 1.5rem;">{{ agent_count|default('5+') }}</p>
+            </div>
+        </div>
+        <div class="col-3 col-md-6 col-sm-12 text-center">
+            <div class="p-3">
+                <i class="fas fa-database text-accent" style="font-size: 2rem;"></i>
+                <h4 class="mt-2">Datasets</h4>
+                <p class="text-muted" style="font-size: 1.5rem;">{{ dataset_count|default('8+') }}</p>
+            </div>
+        </div>
+        <div class="col-3 col-md-6 col-sm-12 text-center">
+            <div class="p-3">
+                <i class="fas fa-brain text-accent" style="font-size: 2rem;"></i>
+                <h4 class="mt-2">Models</h4>
+                <p class="text-muted" style="font-size: 1.5rem;">{{ model_count|default('12+') }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block head %}
+<style>
+    .home-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .card-header {
+        flex-shrink: 0;
+    }
+    
+    .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+    }
+    
+    .card-description {
+        flex: 1;
+        margin-bottom: 1rem;
+    }
+    
+    .card-action {
+        margin-top: auto;
+    }
+</style>
+{% endblock %}
