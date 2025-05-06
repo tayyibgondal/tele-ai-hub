@@ -287,7 +287,7 @@ def about():
             "name": "Tayyib Ul Hassan",
             "position": "Chief Executive Officer",
             "bio": "Former research scientist with over 15 years of experience in telecommunications and AI systems. Led multiple R&D teams developing cutting-edge wireless communication solutions.",
-            "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=687&ixlib=rb-4.0.3",
+            "image": "/static/images/team/member1.jpg",
             "linkedin": "https://linkedin.com/",
             "twitter": "https://twitter.com/",
             "github": "https://github.com/"
@@ -296,7 +296,7 @@ def about():
             "name": "Attiya Waqar",
             "position": "Chief Technology Officer",
             "bio": "PhD in Wireless Communications with expertise in NOMA and resource allocation algorithms. Published over 30 research papers in top telecommunications journals.",
-            "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=688&ixlib=rb-4.0.3",
+            "image": "/static/images/team/member2.jpg",
             "linkedin": "https://linkedin.com/",
             "twitter": "https://twitter.com/"
         },
@@ -304,33 +304,11 @@ def about():
             "name": "Aamina Binte Khurram",
             "position": "Head of AI Research",
             "bio": "Leading our research initiatives in applying machine learning to complex network optimization. Previously developed AI systems for predictive network maintenance.",
-            "image": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=687&ixlib=rb-4.0.3",
+            "image": "/static/images/team/member3.jpg",
             "linkedin": "https://linkedin.com/",
             "github": "https://github.com/"
         },
-        {
-            "name": "Zeeshan Ahmad",
-            "position": "Solution Architect",
-            "bio": "Telecom engineer with 8+ years experience in designing and implementing enterprise-scale telecommunication systems and network infrastructure.",
-            "image": "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&q=80&w=870&ixlib=rb-4.0.3",
-            "linkedin": "https://linkedin.com/",
-            "github": "https://github.com/"
-        },
-        {
-            "name": "Saira Khan",
-            "position": "Product Manager",
-            "bio": "Experienced in bringing AI products to market with a focus on telecommunications applications. Expert in translating technical capabilities into business value.",
-            "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=761&ixlib=rb-4.0.3",
-            "twitter": "https://twitter.com/"
-        },
-        {
-            "name": "Ibrahim Malik",
-            "position": "Data Science Lead",
-            "bio": "Specializes in applying deep learning to analyze and optimize complex network data for improved performance and reliability.",
-            "image": "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?auto=format&fit=crop&q=80&w=876&ixlib=rb-4.0.3",
-            "linkedin": "https://linkedin.com/",
-            "github": "https://github.com/"
-        }
+
     ]
     return render_template('about.html', team=team)
 
@@ -381,6 +359,12 @@ def settings():
                     current_user.email = new_email
                     db.session.commit()
                     flash("Profile updated successfully!", "success")
+            
+            # Update company and position
+            current_user.company = request.form.get('company', '')
+            current_user.position = request.form.get('position', '')
+            db.session.commit()
+            flash("Profile updated successfully!", "success")
         
         elif action == "change_password":
             current_password = request.form.get('current_password')
@@ -396,6 +380,24 @@ def settings():
                 current_user.password = generate_password_hash(new_password, method='pbkdf2:sha256')
                 db.session.commit()
                 flash("Password changed successfully!", "success")
+        
+        # Handle notification and privacy settings
+        elif action == "update_notifications":
+            # Save notification preferences to database
+            current_user.email_notifications = 'email_notifications' in request.form
+            current_user.product_updates = 'product_updates' in request.form
+            current_user.security_alerts = 'security_alerts' in request.form
+            current_user.marketing_comms = 'marketing_comms' in request.form
+            db.session.commit()
+            flash("Notification preferences updated!", "success")
+        
+        elif action == "update_privacy":
+            # Save privacy settings to database
+            current_user.allow_analytics = 'allow_analytics' in request.form
+            current_user.show_profile = 'show_profile' in request.form
+            current_user.two_factor_auth = 'two_factor_auth' in request.form
+            db.session.commit()
+            flash("Privacy settings updated!", "success")
     
     return render_template('settings.html')
 
@@ -659,4 +661,4 @@ with app.app_context():
 #   Run the app
 # -----------------------------
 if __name__ == "__main__":
-    app.run(port=8001, debug=True)
+    app.run(port=8002, debug=True)

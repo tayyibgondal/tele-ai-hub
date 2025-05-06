@@ -55,16 +55,9 @@
             gap: 0.75rem;
         }
         
-        .logo-container i {
-            font-size: 1.6rem;
-            color: var(--accent);
-            background: rgba(0, 212, 255, 0.1);
-            width: 36px;
+        .logo-img {
             height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
+            width: auto;
         }
         
         .logo-text {
@@ -354,10 +347,9 @@
                 <div class="navbar-primary d-flex justify-between align-center">
                     <a href="{{ url_for('home') if current_user.is_authenticated else url_for('login') }}" class="navbar-brand">
                         <div class="logo-container">
-                            <i class="fas fa-network-wired"></i>
+                            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="TeleAI Hub Logo" class="logo-img">
                             <div class="logo-text">
                                 Tele<span class="text-accent">AI</span> Hub
-                                <span class="tagline">Enterprise Telecommunications AI</span>
                             </div>
                         </div>
                     </a>
@@ -403,7 +395,6 @@
                                         <i class="fas fa-user-circle"></i> {{ current_user.username }} <i class="fas fa-chevron-down"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
                                         <li><a href="{{ url_for('settings') }}"><i class="fas fa-cog"></i> Settings</a></li>
                                         <li><a href="#"><i class="fas fa-history"></i> Activity</a></li>
                                         <li class="dropdown-divider"></li>

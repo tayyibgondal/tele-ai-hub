@@ -29,7 +29,6 @@
             <div class="col-12 col-md-6">
                 <div class="about-image-wrapper">
                     <img src="{{ url_for('static', filename='img/about-team.jpg') }}" alt="TeleAI Hub Team" class="about-image">
-                    <div class="about-image-pattern"></div>
                 </div>
             </div>
         </div>
@@ -80,9 +79,9 @@
     <div class="container">
         <h2 class="section-title text-center mb-5">Meet Our Team</h2>
         
-        <div class="grid">
+        <div class="d-flex flex-wrap justify-center gap-3">
             {% for member in team %}
-            <div class="col-12 col-md-6 col-lg-4">
+            <div style="max-width: 350px; width: 100%;">
                 <div class="team-card">
                     <div class="team-image-wrapper">
                         <img src="{{ member.image }}" alt="{{ member.name }}" class="team-image">
@@ -264,27 +263,18 @@
         position: relative;
         padding: 1rem;
         z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
     }
     
     .about-image {
         width: 100%;
+        max-height: 500px;
         border-radius: var(--radius);
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        position: relative;
-        z-index: 2;
-    }
-    
-    .about-image-pattern {
-        position: absolute;
-        top: -1rem;
-        right: -1rem;
-        bottom: 1rem;
-        left: 1rem;
-        background-image: linear-gradient(45deg, var(--accent) 25%, transparent 25%, transparent 50%, var(--accent) 50%, var(--accent) 75%, transparent 75%, transparent);
-        background-size: 20px 20px;
-        border-radius: var(--radius);
-        opacity: 0.2;
-        z-index: 1;
+        object-fit: cover;
     }
     
     /* Value Cards */
@@ -324,6 +314,7 @@
         margin-bottom: 2rem;
         border: 1px solid rgba(255, 255, 255, 0.05);
         transition: var(--transition);
+        height: 100%;
     }
     
     .team-card:hover {
@@ -333,13 +324,18 @@
     
     .team-image-wrapper {
         overflow: hidden;
-        height: 220px;
+        height: 350px;
+        background-color: #1a2430;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .team-image {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center;
         transition: transform 0.5s ease;
     }
     

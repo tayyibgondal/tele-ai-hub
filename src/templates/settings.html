@@ -56,12 +56,12 @@
                             
                             <div class="form-group">
                                 <label for="company" class="form-label">Company (Optional)</label>
-                                <input type="text" id="company" name="company" class="form-control" placeholder="Enter your company name">
+                                <input type="text" id="company" name="company" class="form-control" value="{{ current_user.company or '' }}" placeholder="Enter your company name">
                             </div>
                             
                             <div class="form-group">
                                 <label for="position" class="form-label">Position (Optional)</label>
-                                <input type="text" id="position" name="position" class="form-control" placeholder="Enter your job title">
+                                <input type="text" id="position" name="position" class="form-control" value="{{ current_user.position or '' }}" placeholder="Enter your job title">
                             </div>
                             
                             <button type="submit" class="btn btn-primary">
@@ -115,43 +115,47 @@
                     <div class="card-body">
                         <p class="text-muted mb-4">Choose which notifications you'd like to receive</p>
                         
-                        <div class="settings-toggle-group">
-                            <div class="settings-toggle">
-                                <label class="toggle-label">Email Notifications</label>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
+                        <form method="POST" action="{{ url_for('settings') }}">
+                            <input type="hidden" name="action" value="update_notifications">
+                            
+                            <div class="settings-toggle-group">
+                                <div class="settings-toggle">
+                                    <label class="toggle-label">Email Notifications</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="email_notifications" {% if current_user.email_notifications %}checked{% endif %}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="settings-toggle">
+                                    <label class="toggle-label">Product Updates</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="product_updates" {% if current_user.product_updates %}checked{% endif %}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="settings-toggle">
+                                    <label class="toggle-label">Security Alerts</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="security_alerts" {% if current_user.security_alerts %}checked{% endif %}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="settings-toggle">
+                                    <label class="toggle-label">Marketing Communications</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="marketing_comms" {% if current_user.marketing_comms %}checked{% endif %}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
                             </div>
                             
-                            <div class="settings-toggle">
-                                <label class="toggle-label">Product Updates</label>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            
-                            <div class="settings-toggle">
-                                <label class="toggle-label">Security Alerts</label>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                            
-                            <div class="settings-toggle">
-                                <label class="toggle-label">Marketing Communications</label>
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <button type="button" class="btn btn-primary mt-4">
-                            <i class="fas fa-save"></i> Save Preferences
-                        </button>
+                            <button type="submit" class="btn btn-primary mt-4">
+                                <i class="fas fa-save"></i> Save Preferences
+                            </button>
+                        </form>
                     </div>
                 </div>
                 
@@ -165,41 +169,45 @@
                     <div class="card-body">
                         <p class="text-muted mb-4">Manage your data and privacy preferences</p>
                         
-                        <div class="settings-toggle-group">
-                            <div class="settings-toggle">
-                                <label class="toggle-label">Allow Data Analytics</label>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
+                        <form method="POST" action="{{ url_for('settings') }}">
+                            <input type="hidden" name="action" value="update_privacy">
+                            
+                            <div class="settings-toggle-group">
+                                <div class="settings-toggle">
+                                    <label class="toggle-label">Allow Data Analytics</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="allow_analytics" {% if current_user.allow_analytics %}checked{% endif %}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="settings-toggle">
+                                    <label class="toggle-label">Show Profile to Other Users</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="show_profile" {% if current_user.show_profile %}checked{% endif %}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="settings-toggle">
+                                    <label class="toggle-label">Two-Factor Authentication</label>
+                                    <label class="switch">
+                                        <input type="checkbox" name="two_factor_auth" {% if current_user.two_factor_auth %}checked{% endif %}>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
                             </div>
                             
-                            <div class="settings-toggle">
-                                <label class="toggle-label">Show Profile to Other Users</label>
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Save Settings
+                                </button>
+                                
+                                <button type="button" class="btn btn-danger ml-2">
+                                    <i class="fas fa-trash"></i> Delete Account
+                                </button>
                             </div>
-                            
-                            <div class="settings-toggle">
-                                <label class="toggle-label">Two-Factor Authentication</label>
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-4">
-                            <button type="button" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Save Settings
-                            </button>
-                            
-                            <button type="button" class="btn btn-danger ml-2">
-                                <i class="fas fa-trash"></i> Delete Account
-                            </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

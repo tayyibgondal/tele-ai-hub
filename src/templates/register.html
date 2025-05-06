@@ -3,43 +3,190 @@
 {% block title %}Register | TeleAI Hub{% endblock %}
 
 {% block content %}
-<div class="grid">
-    <div class="col-12 col-md-6" style="margin: 0 auto;">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title text-center">
-                    <i class="fas fa-user-plus"></i> Create Account
-                </h3>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h2>Create Account</h2>
+            <p>Join TeleAI Hub and explore our solutions</p>
+        </div>
+        
+        <form method="POST" action="{{ url_for('register') }}">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                </div>
             </div>
             
-            <form method="POST" action="{{ url_for('register') }}">
-                <div class="form-group">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Choose a username" required>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
                 </div>
-                
-                <div class="form-group">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Create a password" required>
                 </div>
-                
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Create a password" required>
-                </div>
-                
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fas fa-user-plus"></i> Register
-                </button>
-                
-                <div class="text-center mt-3">
-                    <p class="text-muted">
-                        Already have an account? 
-                        <a href="{{ url_for('login') }}">Login here</a>
-                    </p>
-                </div>
-            </form>
-        </div>
+            </div>
+            
+            <button type="submit" class="auth-button">
+                Register
+            </button>
+            
+            <div class="auth-footer">
+                <p>
+                    Already have an account? 
+                    <a href="{{ url_for('login') }}">Login here</a>
+                </p>
+            </div>
+        </form>
     </div>
 </div>
+{% endblock %}
+
+{% block head %}
+<style>
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+    }
+    
+    .auth-card {
+        width: 100%;
+        max-width: 360px;
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(99, 102, 241, 0.1);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+    }
+    
+    .auth-header {
+        text-align: center;
+        padding: 28px 0;
+        position: relative;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+    
+    .auth-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+    }
+    
+    .auth-icon i {
+        font-size: 22px;
+        color: white;
+    }
+    
+    .auth-header h2 {
+        font-size: 24px;
+        color: white;
+        margin: 0 0 6px;
+        font-weight: 600;
+    }
+    
+    .auth-header p {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+        margin: 0;
+    }
+    
+    form {
+        padding: 24px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 500;
+    }
+    
+    .input-with-icon {
+        position: relative;
+    }
+    
+    .input-with-icon input {
+        width: 100%;
+        padding: 12px 12px 12px 40px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.2);
+        color: white;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+    
+    .input-with-icon input:focus {
+        outline: none;
+        border-color: rgba(99, 102, 241, 0.5);
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+    }
+    
+    .input-with-icon i {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(99, 102, 241, 0.8);
+    }
+    
+    .auth-button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        color: white;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .auth-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+    
+    .auth-footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .auth-footer a {
+        color: #3b82f6;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+</style>
 {% endblock %}

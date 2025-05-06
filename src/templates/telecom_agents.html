@@ -8,9 +8,9 @@
     <p class="mb-4">Choose an AI agent to discuss telecommunications concepts, problems, and solutions</p>
 </div>
 
-<div class="grid">
+<div class="d-flex flex-wrap justify-center gap-3">
     <!-- OpenAI Agent -->
-    <div class="col-12 col-md-4 col-sm-12">
+    <div style="max-width: 350px; width: 100%;">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
@@ -27,7 +27,7 @@
     </div>
     
     <!-- Hugging Face Agent -->
-    <div class="col-12 col-md-4 col-sm-12">
+    <div style="max-width: 350px; width: 100%;">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
@@ -44,7 +44,7 @@
     </div>
     
     <!-- Ollama Agent -->
-    <div class="col-12 col-md-4 col-sm-12">
+    <div style="max-width: 350px; width: 100%;">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
@@ -59,27 +59,27 @@
             </div>
         </div>
     </div>
-    
-    <!-- Gradio Interface -->
-    <div class="col-12">
-        <div class="card mt-3">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-rocket text-accent"></i> Advanced Interface
-                </h3>
-            </div>
-            <p>Access a more advanced interface with our Gradio-powered telecom agent.</p>
-            <div class="mt-3">
-                <a href="{{ url_for('chat_gradio') }}" class="btn btn-primary btn-block">
-                    <i class="fas fa-external-link-alt"></i> Open Gradio Interface
-                </a>
-            </div>
+</div>
+
+<!-- Gradio Interface -->
+<div style="max-width: 1100px; margin: 1.5rem auto 0;">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-rocket text-accent"></i> Advanced Interface
+            </h3>
+        </div>
+        <p>Access a more advanced interface with our Gradio-powered telecom agent.</p>
+        <div class="mt-3">
+            <a href="{{ url_for('chat_gradio') }}" class="btn btn-primary btn-block">
+                <i class="fas fa-external-link-alt"></i> Open Gradio Interface
+            </a>
         </div>
     </div>
 </div>
 
 <!-- Feature Highlights -->
-<div class="card mt-4">
+<div class="card mt-4" style="max-width: 1100px; margin-left: auto; margin-right: auto;">
     <div class="card-header">
         <h3 class="card-title">
             <i class="fas fa-lightbulb text-accent"></i> Agent Features
