@@ -9,18 +9,18 @@
 </div>
 
 <!-- Model Selection -->
-<div class="card mb-4">
+<div class="card mb-4" style="max-width: 800px; margin: 0 auto;">
     <div class="card-header">
         <h3 class="card-title">
             <i class="fas fa-cog text-accent"></i> Model Configuration
         </h3>
     </div>
     
-    <form method="POST" class="p-3">
+    <form method="POST" id="modelForm" class="p-3">
         <input type="hidden" name="action" value="chat">
         <div class="form-group">
             <label for="model" class="form-label">Select OpenAI Model:</label>
-            <select name="model" id="model" class="form-control">
+            <select name="model" id="model" class="form-control" onchange="this.form.submit()">
                 {% for model in models %}
                     <option value="{{ model }}" {% if model == selected_model %}selected{% endif %}>{{ model }}</option>
                 {% endfor %}
@@ -70,7 +70,7 @@
 </div>
 
 <!-- Sample Questions -->
-<div class="card mt-4">
+<div class="card mt-4" style="max-width: 800px; margin: 0 auto;">
     <div class="card-header">
         <h3 class="card-title">
             <i class="fas fa-lightbulb text-accent"></i> Sample Questions
@@ -109,6 +109,69 @@
 
 {% block head %}
 <style>
+    .chat-container {
+        max-width: 800px;
+        margin: 1.5rem auto;
+        background: var(--bg-light);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+    }
+    
+    .chat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-color);
+        background: var(--bg-darker);
+    }
+    
+    .chat-messages {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+        max-height: 500px;
+        overflow-y: auto;
+    }
+    
+    .chat-input {
+        display: flex;
+        padding: 0.75rem;
+        border-top: 1px solid var(--border-color);
+        background: var(--bg-darker);
+    }
+    
+    .chat-input input {
+        flex-grow: 1;
+        margin-right: 0.5rem;
+    }
+    
+    .message {
+        padding: 0.75rem 1rem;
+        border-radius: var(--radius);
+        max-width: 90%;
+    }
+    
+    .message-user {
+        align-self: flex-end;
+        background-color: rgba(0, 212, 255, 0.1);
+        border-bottom-right-radius: 0;
+    }
+    
+    .message-bot {
+        align-self: flex-start;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-bottom-left-radius: 0;
+    }
+    
+    .message strong {
+        display: block;
+        margin-bottom: 0.25rem;
+        color: var(--accent);
+    }
+    
     .sample-question {
         background: var(--bg-light);
         padding: 0.8rem 1rem;
@@ -140,7 +203,7 @@
         // Clear chat button
         document.getElementById('clearChat').addEventListener('click', function() {
             if (confirm('Are you sure you want to clear the conversation?')) {
-                window.location.href = "{{ url_for('chat_openai') }}";
+                window.location.href = "{{ url_for('clear_chat_openai') }}";
             }
         });
     });

@@ -30,7 +30,9 @@ class OllamaLLMClass(BaseLLM):
 
 class OpenAILLM(BaseLLM):
     def __init__(self, model_name):
-        super().__init__(model_name)
+        # Strip " Telecom Agent" suffix for actual API calls
+        clean_model_name = model_name.replace(" Telecom Agent", "")
+        super().__init__(clean_model_name)
         openai.api_key = OPENAI_API_KEY
         if not openai.api_key:
             raise ValueError("OPENAI_API_KEY environment variable not set.")
@@ -47,7 +49,7 @@ class OpenAILLM(BaseLLM):
                 "content": prompt,
             }
         ],
-        model="gpt-4o",
+        model=self.model_name,
     )
         return chat_completion.choices[0].message.content
 

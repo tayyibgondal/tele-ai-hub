@@ -38,53 +38,51 @@
     <strong>Model Loaded:</strong> {{ selected_model }}
 </div>
 
-<!-- Chat Interface -->
-<div class="card mt-4" style="max-width: 800px; margin: 0 auto;">
-    <div class="card-header">
-        <h3 class="card-title">
-            <i class="fas fa-comment-alt text-accent"></i> Chat Interface
+<!-- Chat Container -->
+<div class="chat-container">
+    <div class="chat-header">
+        <h3 class="mb-0">
+            <i class="fas fa-comments text-accent"></i> 
+            Conversation with {{ selected_model }}
         </h3>
+        <button id="clearChat" class="btn btn-secondary">
+            <i class="fas fa-trash"></i> Clear Chat
+        </button>
     </div>
-    <div class="p-3">
-        <form method="POST" class="chat-form">
-            <div class="form-group mb-3">
-                <label for="message" class="form-label">Your Message</label>
-                <textarea name="message" id="message" rows="4" class="form-control" placeholder="Type your message here..."></textarea>
+    
+    <!-- Conversation History -->
+    <div class="chat-messages" id="chatMessages">
+        {% if conversation_history %}
+            {% for message in conversation_history %}
+                <div class="message message-user">
+                    <strong>You:</strong> {{ message.user }}
+                </div>
+                <div class="message message-bot">
+                    <strong>Model:</strong> {{ message.model }}
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="text-center p-4 text-muted">
+                <i class="fas fa-robot" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>Start a conversation by typing a message below.</p>
+                <p class="small">Try asking about telecommunications concepts, NOMA, or resource allocation!</p>
             </div>
-            <input type="hidden" name="action" value="chat">
-            <button type="submit" class="btn btn-primary btn-block">
-                <i class="fas fa-paper-plane"></i> Send Message
-            </button>
-        </form>
+        {% endif %}
     </div>
+    
+    <!-- Chat Input Form -->
+    <form method="POST" class="chat-input">
+        <input type="hidden" name="action" value="chat">
+        <input type="text" name="message" id="messageInput" class="form-control" placeholder="Type your message here..." required>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane"></i> Send
+        </button>
+    </form>
 </div>
 {% else %}
 <div class="alert alert-info mt-4" style="max-width: 800px; margin: 1rem auto;">
     <i class="fas fa-info-circle"></i>
     <strong>No Model Loaded:</strong> Please load a model before chatting.
-</div>
-{% endif %}
-
-<!-- Conversation History -->
-{% if conversation_history %}
-<div class="card mt-4" style="max-width: 800px; margin: 0 auto;">
-    <div class="card-header">
-        <h3 class="card-title">
-            <i class="fas fa-history text-accent"></i> Conversation History
-        </h3>
-    </div>
-    <div class="p-3">
-        <div class="chat-messages">
-            {% for message in conversation_history %}
-            <div class="message message-user">
-                <strong>You:</strong> {{ message.user }}
-            </div>
-            <div class="message message-bot">
-                <strong>Model:</strong> {{ message.model }}
-            </div>
-            {% endfor %}
-        </div>
-    </div>
 </div>
 {% endif %}
 
@@ -130,18 +128,49 @@
 
 {% block head %}
 <style>
+    .chat-container {
+        max-width: 800px;
+        margin: 1.5rem auto;
+        background: var(--bg-light);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+    }
+    
+    .chat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-color);
+        background: var(--bg-darker);
+    }
+    
     .chat-messages {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
+        padding: 1rem;
         max-height: 500px;
         overflow-y: auto;
+    }
+    
+    .chat-input {
+        display: flex;
+        padding: 0.75rem;
+        border-top: 1px solid var(--border-color);
+        background: var(--bg-darker);
+    }
+    
+    .chat-input input {
+        flex-grow: 1;
+        margin-right: 0.5rem;
     }
     
     .message {
         padding: 0.75rem 1rem;
         border-radius: var(--radius);
-        max-width: 95%;
+        max-width: 90%;
     }
     
     .message-user {
@@ -162,4 +191,26 @@
         color: var(--accent);
     }
 </style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-scroll to bottom of chat
+        const chatMessages = document.getElementById('chatMessages');
+        if (chatMessages) {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Clear chat button
+        const clearChatBtn = document.getElementById('clearChat');
+        if (clearChatBtn) {
+            clearChatBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to clear the conversation?')) {
+                    window.location.href = "{{ url_for('clear_chat_hf') }}";
+                }
+            });
+        }
+    });
+</script>
 {% endblock %}

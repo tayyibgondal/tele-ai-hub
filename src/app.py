@@ -528,6 +528,14 @@ def chat_hf():
         conversation_history=conversation_history
     )
 
+@app.route("/chat_hf/clear", methods=["GET"])
+@login_required
+def clear_chat_hf():
+    """
+    Clear the Hugging Face chat history
+    """
+    session['conversation_history_hf'] = []
+    return redirect(url_for('chat_hf'))
 
 def load_hf_model(model_name):
     """
@@ -565,29 +573,32 @@ def chat_ollama():
     Optionally let user select from a list of local models, 
     or just use a single default. 
     """
-    ollama_models = ["deepseek-r1:7b"]
+    ollama_models = ["deepseek-r1:7b", "llama3.2:1b"]
     selected_model = session.get('selected_model_ollama', ollama_models[0])  
     conversation_history = session.get('conversation_history_ollama', [])
 
     response_text = None
     if request.method == "POST":
-        # On POST, user might pick a model from dropdown (optional)
+        # On POST, user might pick a model from dropdown or submit a message
         user_input = request.form.get('message', '')
         model_choice = request.form.get('model', selected_model)
 
-        # Save model choice in the session
-        session['selected_model_ollama'] = model_choice
-        selected_model = model_choice
+        # Save model choice in the session if it changed
+        if model_choice != selected_model:
+            session['selected_model_ollama'] = model_choice
+            selected_model = model_choice
 
-        # Invoke the Ollama LLM with user's input
-        ollama_llm = get_llm_instance(selected_model, service='ollama')
-        system_prompt = "Imagine you are a specialist in telecommunications, wireless communications, NOMA and resource allocation. Answer the following user querry: \n\n" 
-        prompt = system_prompt + user_input
-        response_text = ollama_llm.invoke(prompt)
+        # Only process if there's an actual message to respond to
+        if user_input:
+            # Invoke the Ollama LLM with user's input
+            ollama_llm = get_llm_instance(selected_model, service='ollama')
+            system_prompt = "Imagine you are a specialist in telecommunications, wireless communications, NOMA and resource allocation. Answer the following user querry: \n\n" 
+            prompt = system_prompt + user_input
+            response_text = ollama_llm.invoke(prompt)
 
-        # Store conversation
-        conversation_history.append({"user": user_input, "model": response_text})
-        session['conversation_history_ollama'] = conversation_history
+            # Store conversation
+            conversation_history.append({"user": user_input, "model": response_text})
+            session['conversation_history_ollama'] = conversation_history
 
     return render_template(
         "chat_ollama.html",
@@ -596,6 +607,15 @@ def chat_ollama():
         selected_model=selected_model,
         conversation_history=conversation_history
     )
+
+@app.route("/chat_ollama/clear", methods=["GET"])
+@login_required
+def clear_chat_ollama():
+    """
+    Clear the Ollama chat history
+    """
+    session['conversation_history_ollama'] = []
+    return redirect(url_for('chat_ollama'))
 
 # -----------------------------
 #   Chat with OpenAI (No Load)
@@ -608,7 +628,14 @@ def chat_openai():
     Optionally let user select from a list of OpenAI models,
     or just use a single default.
     """
-    openai_models = ["gpt-3.5-turbo", "gpt-4o", "gpt-4.5-preview"]
+    openai_models = [
+        "gpt-3.5-turbo Telecom Agent", 
+        "gpt-4o Telecom Agent", 
+        "gpt-4.5-preview Telecom Agent",
+        "gpt-4-turbo Telecom Agent",
+        "gpt-4 Telecom Agent",
+        "gpt-3.5-turbo-16k Telecom Agent"
+    ]
     selected_model = session.get('selected_model_openai', openai_models[0])
     conversation_history = session.get('conversation_history_openai', [])
 
@@ -618,17 +645,20 @@ def chat_openai():
         model_choice = request.form.get('model', selected_model)
 
         # Save model choice to session
-        session['selected_model_openai'] = model_choice
-        selected_model = model_choice
+        if model_choice != selected_model:
+            session['selected_model_openai'] = model_choice
+            selected_model = model_choice
 
-        # Call the OpenAILLM from llm_providers
-        openai_llm = get_llm_instance(selected_model, service='openai')
-        system_prompt = "Imagine you are a specialist in telecommunications, wireless communications, NOMA and resource allocation. Answer the following user querry: \n\n" 
-        prompt = system_prompt + user_input
-        response_text = openai_llm.invoke(prompt)
+        # Only process if there's an actual message to respond to
+        if user_input:
+            # Call the OpenAILLM from llm_providers
+            openai_llm = get_llm_instance(selected_model, service='openai')
+            system_prompt = "Imagine you are a specialist in telecommunications, wireless communications, NOMA and resource allocation. Answer the following user querry: \n\n" 
+            prompt = system_prompt + user_input
+            response_text = openai_llm.invoke(prompt)
 
-        conversation_history.append({"user": user_input, "model": response_text})
-        session['conversation_history_openai'] = conversation_history
+            conversation_history.append({"user": user_input, "model": response_text})
+            session['conversation_history_openai'] = conversation_history
 
     return render_template(
         "chat_openai.html",
@@ -637,6 +667,15 @@ def chat_openai():
         selected_model=selected_model,
         conversation_history=conversation_history
     )
+
+@app.route("/chat_openai/clear", methods=["GET"])
+@login_required
+def clear_chat_openai():
+    """
+    Clear the OpenAI chat history
+    """
+    session['conversation_history_openai'] = []
+    return redirect(url_for('chat_openai'))
 
 # -----------------------------
 #   Chat with Gradio (No Load)

@@ -1,0 +1,22 @@
+# Dependencies and environment
+telecom_env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+node_modules/
+.pytest_cache/
+
+# Large data files and versions
+*.pkl
+*.h5
+*.model
+*.bin
+.git/
+
+# MacOS
+.DS_Store
+
+# Environment variables
+.env
+.env.local 
